@@ -27,7 +27,4 @@ cd /<%= app_dir %>
 export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
 find /<%= app_dir %>/usr/lib/ -name '*.la' | xargs -i rm {}
 
-mv ./usr/share/tcltk/tcl8.6 ./usr/lib/tcl8.6
-mv ./usr/share/tcltk/tk8.6 ./usr/lib/tk8.6
-
 ./AppImageAssistant <%= app_dir %> "/out/$APP-$VERSION-$ARCH.AppImage"

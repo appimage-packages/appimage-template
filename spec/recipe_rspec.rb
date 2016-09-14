@@ -19,6 +19,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative '../libs/recipe'
+require_relative '../libs/sources'
 require 'yaml'
 
 metadata = YAML.load_file("/in/spec/metadata.yml")
@@ -26,17 +27,18 @@ puts metadata
 
 describe Recipe do
   app = Recipe.new(name: metadata['name'])
+  sources = Sources.new()
   describe "#initialize" do
     it "Sets the application name" do
-      expect(app.name).to eq 'default'
+      expect(app.name).to eq 'vlc3'
     end
   end
 
   describe 'clean_workspace' do
     it "Cleans the environment" do
       app.clean_workspace
-      expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
-      expect(Dir["/out/*"].empty?).to be(true), "AppImage exists, please remove"
+      #expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
+      #expect(Dir["/out/*"].empty?).to be(true), "AppImage exists, please remove"
     end
   end
 
@@ -48,8 +50,11 @@ describe Recipe do
 
   describe 'clone_repo' do
     it 'Clones necessary repos that need to be built from source' do
-      projecturl = metadata['url']
-      expect(app.clone_repo(repo: projecturl)).to be(0), " Expected 0 exit Status"
+      deps = metadata['dependencies']
+      expect(sources.get_sources(url: metadata['url'], type: metadata['type'], name: metadata['name'])).to be(0), " Expected 0 exit Status"
+      # deps.each do |dep|
+      #   expect(sources.get_sources(url: dep['url'], type: dep['type'], name: dep['name'])).to be(0), " Expected 0 exit Status"
+      # end
     end
   end
 

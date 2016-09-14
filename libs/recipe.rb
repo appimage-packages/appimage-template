@@ -39,6 +39,7 @@ class Recipe
   attr_accessor :configure_options
 
   def initialize(args = {})
+    Dir.chdir('/')
     self.name = args[:name]
     self.arch = `arch`
     self.install_path = '/app/usr'
@@ -48,34 +49,15 @@ class Recipe
 
   def clean_workspace(args = {})
     system('rm -rv /app/*')
-    system('rm -rv /out/*')
+    #system('rm -rv /out/*')
   end
 
   def install_packages(args = {})
     self.packages = args[:packages].to_s.gsub(/\,|\[|\]/, '')
     system("sudo apt-get -y install git wget #{packages}")
+    system('pwd')
     $?.exitstatus
   end
-
-  def clone_repo(args = {})
-    Dir.mkdir("/app/src")
-    self.repo = args[:repo]
-    p "#{repo}"
-    Dir.chdir('/app/src/') do
-      system("git clone #{repo}")
-    end
-    $?.exitstatus
-  end
-
-  def get_archives(args = {})
-      self.archives = args[:archives]
-      self.sum = args[:md5sum]
-      Dir.chdir('/app/src/')
-      archives.each do |arch|
-        system("wget #{arch}")
-        end
-      $?.exitstatus
-    end
 
   def get_git_version(args = {})
     Dir.chdir("/app/src/#{name}") do

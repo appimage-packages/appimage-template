@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 #
 # Copyright (C) 2016 Scarlett Clark <sgclark@kde.org>
-# Copyright (C) 2015-2016 Harald Sitter <sitter@kde.org>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -15,17 +14,41 @@
 # This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License fo-r more details.
+# Lesser General Public License for more details.
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'libs/builddocker.rb'
-require 'fileutils'
+class Sources
+  attr_accessor :type
+  attr_accessor :url
+  attr_accessor :name
 
-system('bundle install')
+  def initialize()
+    Dir.chdir('/')
+    if Dir.exist?("/app/src") == false
+      Dir.mkdir("/app/src")
+    end
+    Dir.chdir('/app/src/')
+  end
 
-builder = CI.new
-builder.run = [CI::Build.new('vlc3')]
-builder.cmd = %w[rspec /in/spec/recipe_rspec.rb --fail-fast]
-builder.create_container
+  def get_sources(args = {})
+    self.type = args[:type]
+    self.url = args[:url]
+    self.name = args[:name]
+    system('pwd')
+    case "#{type}"
+    when 'git'
+      system( "git clone #{url} #{name}")
+    when 'tar'
+      system("wget #{url}")
+      system("tar -xvf #{name}")
+    when 'bz2'
+      system("wget #{url}")
+      system("tar -jxvf #{name}")
+    else
+    "You gave me #{type} -- I have no idea what to do with that."
+     $?.exitstatus
+   end
+ end
+ end

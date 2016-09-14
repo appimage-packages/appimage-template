@@ -46,8 +46,8 @@ class CI
   attr_accessor :run
   attr_accessor :cmd
 
-  Docker.options[:read_timeout] = 1 * 120 * 120 # 1 hour
-  Docker.options[:write_timeout] = 1 * 120 * 60 # 1 hour
+  Docker.options[:read_timeout] = 1 * 160 * 160 # 1 hour
+  Docker.options[:write_timeout] = 1 * 160 * 160 # 1 hour
 
   def create_container
     init_logging
