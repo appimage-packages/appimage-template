@@ -1,103 +1,46 @@
-name: vlc3
-url: git://git.videolan.org/vlc.git
-type: git
+name: skanlite
 packages:
-  - autoconf
-  - cvs
-  - libopenvg1-mesa-dev
+  - git
+  - g++
+  - libgl1-mesa-dev
   - software-properties-common
-  - libgtk-3-dev
-  - libdbus-1-dev
-  - libgtk2.0-dev
-  - libsystemd-daemon-dev
-  - liblivemedia-dev
-  - libdc-dev
-  - libraw-dev
-  - libgdk-pixbuf2.0-dev
-  - shared-mime-info
-  - libsmbclient-dev
-  - libfreerdp-dev
-  - libshine-dev
-  - libgstreamer1.0-dev
-  - libva-x11-1
-  - libva-drm1
-  - python3-dev
-  - libprojectm-dev
-  - libavahi-client-dev
-  - libncurses5-dev
-  - libmtp-dev
-  - libudev-dev
-  - libva-dev
-  - libsecret-1-dev
-  - libxt-dev
-  - libfontenc-dev
-  - curl
-  - gstreamer1.0-plugins-base
-  - mercurial
-  - libpulse-dev
-  - libsoxr-dev
-  - libx11-dev
-  - libfontconfig1-dev
-  - libfreetype6-dev
-  - libxext-dev
-  - libxfixes-dev
-  - libxi-dev
-  - libxrender-dev
-  - libxcb1-dev
-  - libx11-xcb-dev
-  - libxcb-glx0-dev
-  - libxcb-keysyms1-dev
-  - libxcb-image0-dev
-  - libxcb-shm0-dev
-  - libxcb-icccm4-dev
-  - libxcb-sync0-dev
-  - libxcb-xfixes0-dev
-  - libxcb-shape0-dev
-  - libxcb-randr0-dev
-  - libxcb-render-util0-dev
-  - libxcb-xinerama0-dev
-  - libxcb-composite0-dev
-  - libxcb-xv0-dev
-  - libsoxr-dev
-  - libupnp6-dev
-  - libxfont-dev
-  - libfs-dev
-  - libxss-dev
-  - libxmu-dev
-  - libxpm-dev
-  - libxaw7-dev
-  - libxres-dev
-  - libxtst-dev
-  - libxv-dev
-  - libxvmc-dev
-  - libxxf86dga-dev
-  - libdmx-dev
-  - libpciaccess-dev
-  - libxkbfile-dev
-  - libvorbis-dev
-  - libogg-dev
-  - liblua5.2-dev
-  - libmpg123-dev
-  - liba52-0.7.4-dev
-  - libgsm1-dev
-  - libmp3lame-dev
-  - libopenjpeg-dev
-  - libpng-dev
-  - libcap-dev
-  - libjson-c-dev
-  - libsndfile1-dev
-dependencies:
-  - appimage:
-     - type: git
-     - name: AppImageKit
-     - url: https://github.com/probonopd/AppImageKit
-  - util-macros:
-    - type: bz2
-    - name: util-macros-1.19.0.tar.bz2
-    - url: http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
-    - sum: 1cf984125e75f8204938d998a8b6c1e1
+type: git
+url: "http://anongit.kde.org/skanlite"
+buildsystem: cmake
+cmake_options: "-DCMAKE_INSTALL_PREFIX=/app/usr"
 dep_path:
   - /usr/lib/python2*
   - /usr/bin/python*
-  - /usr/share/tcltk
-  - /usr/lib/tcl*
+dependencies:
+  - appimage:
+      build:
+        buildsystem: custom
+        buildoptions: ./build.sh
+      depname: AppImageKit
+      source:
+        type: git
+        url: https://github.com/probonopd/AppImageKit
+  - qt5:
+      build:
+        build-system: make
+        buildoptions: -v -release -opensource -confirm-license -no-sql-sqlite -no-gif -qt-libjpeg -skip qt3d -no-qml-debug -no-sql-odbc -qt-xcb -no-compile-examples -nomake examples -prefix /app/usr
+      depname: qt-everywhere-opensource-src-5.7.0
+      source:
+        type: xz
+        url: http://download.qt.io/archive/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.tar.xz
+  - linuxdeployqt:
+      build:
+        buildsystem: qmake
+        buildoptions: linuxdeployqt.pro
+      depname: linuxdeployqt
+      source:
+        type: git
+        url: https://github.com/probonopd/linuxdeployqt.git
+  - cmake:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: CMake
+      source:
+        type: git
+        url: https://github.com/Kitware/CMake

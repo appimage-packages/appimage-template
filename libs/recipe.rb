@@ -48,14 +48,15 @@ class Recipe
   end
 
   def clean_workspace(args = {})
-    system('rm -rv /app/*')
-    #system('rm -rv /out/*')
+    return if Dir['/app/'].empty?
+    FileUtils.rm_rf Dir.glob('/app/*')
+    return if Dir['/out/'].empty?
+    FileUtils.rm_rf("/out/.", secure: true)
   end
 
   def install_packages(args = {})
     self.packages = args[:packages].to_s.gsub(/\,|\[|\]/, '')
     system("sudo apt-get -y install git wget #{packages}")
-    system('pwd')
     $?.exitstatus
   end
 
@@ -66,18 +67,7 @@ class Recipe
     end
   end
 
-  def build_make(args = {})
-    self.configure_options = args[:configure_options]
-    Dir.chdir("/app/src/#{name}") do
-      File.exist?("configure") do
-        system("./configure --prefix=/app/usr' #{configure_options}")
-      end
-      system('make -j 8 && sudo make install prefix=/app/usr')
-    end
-    $?.exitstatus
-  end
-
-  def gather_integration(args = {})
+    def gather_integration(args = {})
     self.desktop = args[:desktop]
     Dir.chdir('/app') do
       system("cp ./usr/share/applications/#{desktop}.desktop .")

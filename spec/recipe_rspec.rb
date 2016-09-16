@@ -23,56 +23,43 @@ require_relative '../libs/sources'
 require 'yaml'
 
 metadata = YAML.load_file("/in/spec/metadata.yml")
+deps = metadata['dependencies']
 puts metadata
 
 describe Recipe do
   app = Recipe.new(name: metadata['name'])
-  sources = Sources.new()
   describe "#initialize" do
     it "Sets the application name" do
-      expect(app.name).to eq 'vlc3'
+      expect(app.name).to eq metadata['name']
+      expect(metadata['dependencies'][0].key?('appimage')).to be(true), "The first must be appiage and it cannot be ommited"
     end
   end
 
   describe 'clean_workspace' do
     it "Cleans the environment" do
       app.clean_workspace
-      #expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
-      #expect(Dir["/out/*"].empty?).to be(true), "AppImage exists, please remove"
+      expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
+      expect(Dir["/out/*"].empty?).to be(true), "AppImage exists, please remove"
     end
   end
 
-  describe 'install_packages' do
-    it 'Installs distribution packages' do
-      expect(app.install_packages(packages: metadata['packages'])).to be(0), " Expected 0 exit Status"
+  describe 'build_sources' do
+    it 'Retrieves sources that need to be built from source' do
+      sources = Sources.new()
+      expect(sources.get_sources()).to be(0), " Expected 0 exit Status"
+      expect(Dir.exist?("/app/src/AppImageKit")).to be(true), "AppimageKit directory does not exist, things will fail"
     end
   end
 
-  describe 'clone_repo' do
-    it 'Clones necessary repos that need to be built from source' do
-      deps = metadata['dependencies']
-      expect(sources.get_sources(url: metadata['url'], type: metadata['type'], name: metadata['name'])).to be(0), " Expected 0 exit Status"
-      # deps.each do |dep|
-      #   expect(sources.get_sources(url: dep['url'], type: dep['type'], name: dep['name'])).to be(0), " Expected 0 exit Status"
-      # end
+    describe 'install_packages' do
+      it 'Installs distribution packages' do
+        expect(app.install_packages(packages: metadata['packages'])).to be(0), " Expected 0 exit Status"
+      end
     end
-  end
-
-  # describe 'get_archives' do
-  #   it 'Uses wget to retrieve archives from the interwebz' do
-  #     expect(app.get_archives(archives: metadata['archives']['loc'])).to be(0), "Expected 0 status"
-  #   end
-  # end
 
   describe 'get_git_version' do
     it 'Retrieves the version number from the git repo' do
       expect(app.get_git_version()).not_to be_nil, "Expected the version not to be nil"
-    end
-  end
-
-  describe 'build_make' do
-    it 'Builds makefile source' do
-      expect(app.build_make()).to be(0), " Expected 0 exit Status"
     end
   end
 
