@@ -22,16 +22,16 @@ dependencies:
         url: https://github.com/probonopd/AppImageKit
   - qt5:
       build:
-        build-system: make
-        buildoptions: -v -release -opensource -confirm-license -no-sql-sqlite -no-gif -qt-libjpeg -skip qt3d -no-qml-debug -no-sql-odbc -qt-xcb -no-compile-examples -nomake examples -prefix /app/usr
+        buildsystem: custom
+        buildoptions: ./configure -v -release -opensource -confirm-license -no-sql-sqlite -no-gif -qt-libjpeg -skip qt3d -no-qml-debug -no-sql-odbc -qt-xcb -no-compile-examples -nomake examples -prefix /app/usr && make
       depname: qt-everywhere-opensource-src-5.7.0
       source:
         type: xz
         url: http://download.qt.io/archive/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.tar.xz
   - linuxdeployqt:
       build:
-        buildsystem: qmake
-        buildoptions: linuxdeployqt.pro
+        buildsystem: custom
+        buildoptions: qmake linuxdeployqt.pro && make
       depname: linuxdeployqt
       source:
         type: git

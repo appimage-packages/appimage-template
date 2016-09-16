@@ -31,7 +31,7 @@ describe Recipe do
   describe "#initialize" do
     it "Sets the application name" do
       expect(app.name).to eq metadata['name']
-      expect(metadata['dependencies'][0].key?('appimage')).to be(true), "The first must be appiage and it cannot be ommited"
+      #expect(metadata['dependencies'][0].key?('appimage')).to be(true), "The first must be appimage and it cannot be ommited"
     end
   end
 
@@ -46,8 +46,27 @@ describe Recipe do
   describe 'build_sources' do
     it 'Retrieves sources that need to be built from source' do
       sources = Sources.new()
-      expect(sources.get_sources()).to be(0), " Expected 0 exit Status"
-      expect(Dir.exist?("/app/src/AppImageKit")).to be(true), "AppimageKit directory does not exist, things will fail"
+      #Dependencies First
+      deps = metadata['dependencies']
+      deps.each do |dep|
+        name =  dep.values[0]['depname']
+        type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
+        url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
+        buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
+        options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
+        expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
+        expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wront with source retrieval"
+        expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
+      end
+      #Main project
+      name = metadata['name']
+      type = metadata['type']
+      url = metadata['url']
+      buildsystem = metadata['buildsystem']
+      options = metadata['buildoptions']
+      expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
+      expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, things will fail"
+      expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
     end
   end
 

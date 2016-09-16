@@ -34,77 +34,57 @@ class Sources
     Dir.chdir('/app/src/')
   end
 
-  def get_sources()
-    metadata = YAML.load_file("/in/spec/metadata.yml")
-    deps = metadata['dependencies']
-    deps.each do |dep|
-      name =  dep.values[0]['depname']
-      p name
-      system('ls -l')
-      type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
-      url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
-      buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
-      options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
-      run_case(name, type, url)
-      run_build(name, buildsystem, options)
-    end
-    name = metadata['name']
-    type = metadata['type']
-    url = metadata['url']
-    buildsystem = metadata['buildsystem']
-    options = metadata['buildoptions']
-    run_case(name, type, url)
-    run_build(name, buildsystem, options)
-    $?.exitstatus
-  end
-
-  def run_case(name, type, url)
+  def get_source(name, type, url)
     case "#{type}"
     when 'git'
       Dir.chdir('/app/src/')
       system( "git clone #{url}")
-    when 'tar'
+    when 'xz'
       Dir.chdir('/app/src/')
-      system('ls')
       system("wget #{url}")
-      system("tar -xvf #{name}")
+      system("tar -xvf #{name}.tar.xz")
     when 'bz2'
       Dir.chdir('/app/src/')
-      system('ls')
       system("wget #{url}")
-      system("tar -jxvf #{name}")
+      system("tar -jxvf #{name}.bz2")
     else
       "You gave me #{type} -- I have no idea what to do with that."
     end
+    $?.exitstatus
   end
 
   def run_build(name, buildsystem, options)
+    system('export PATH=/app/usr/bin:$PATH \
+    export LD_LIBRARY_PATH=/usr/lib64/:/usr/lib:/app/usr/lib:$QTDIR/lib/:$LD_LIBRARY_PATH)
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("/app/src/#{name}") do
-        system('ls')
+        p "running ./configure --prefix=/app/usr #{options}"
         system("./configure --prefix=/app/usr #{options}")
         system('make -j 8 && sudo make install prefix=/app/usr')
       end
     when 'cmake'
       Dir.chdir("/app/src/#{name}") do
-        system('ls')
+        p "running cmake -DCMAKE_INSTALL_PREFIX:PATH=/app/usr #{options}"
         system("cmake -DCMAKE_INSTALL_PREFIX:PATH=/app/usr #{options}")
         system('make -j 8 && sudo make install')
       end
     when 'custom'
       Dir.chdir("/app/src/#{name}") do
-        system('ls')
+        system("pwd && ls")
+        p "running #{options}"
         system("#{options}")
       end
     when 'qmake'
       Dir.chdir("/app/src/#{name}") do
-        system('ls')
-        system("qmake #{options}")
+        p "running qmake #{options}"
+        system("pwd && ls")
+        system("qmake linuxdeployqt.pro")
+        #system('make -j 8 && sudo make install')
       end
     when 'bootstrap'
       Dir.chdir("/app/src/#{name}") do
-        system('ls')
+        p "running ./bootstrap #{options}"
         system("./bootstrap #{options}")
         system('make -j 8 && sudo make install')
       end
