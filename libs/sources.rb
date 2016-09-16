@@ -55,7 +55,7 @@ class Sources
 
   def run_build(name, buildsystem, options)
     system('export PATH=/app/usr/bin:$PATH \
-    export LD_LIBRARY_PATH=/usr/lib64/:/usr/lib:/app/usr/lib:$QTDIR/lib/:$LD_LIBRARY_PATH)
+    export LD_LIBRARY_PATH=/usr/lib64/:/usr/lib:/app/usr/lib:$QTDIR/lib/:$LD_LIBRARY_PATH')
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("/app/src/#{name}") do
@@ -71,16 +71,14 @@ class Sources
       end
     when 'custom'
       Dir.chdir("/app/src/#{name}") do
-        system("pwd && ls")
         p "running #{options}"
         system("#{options}")
       end
     when 'qmake'
       Dir.chdir("/app/src/#{name}") do
         p "running qmake #{options}"
-        system("pwd && ls")
         system("qmake linuxdeployqt.pro")
-        #system('make -j 8 && sudo make install')
+        system('make -j 8 && sudo make install')
       end
     when 'bootstrap'
       Dir.chdir("/app/src/#{name}") do

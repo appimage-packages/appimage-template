@@ -31,7 +31,7 @@ describe Recipe do
   describe "#initialize" do
     it "Sets the application name" do
       expect(app.name).to eq metadata['name']
-      #expect(metadata['dependencies'][0].key?('appimage')).to be(true), "The first must be appimage and it cannot be ommited"
+      expect(metadata['dependencies'][0].key?('appimage')).to be(true), "The first must be appimage and it cannot be ommited"
     end
   end
 
@@ -40,6 +40,12 @@ describe Recipe do
       app.clean_workspace
       expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
       expect(Dir["/out/*"].empty?).to be(true), "AppImage exists, please remove"
+    end
+  end
+
+  describe 'install_packages' do
+    it 'Installs distribution packages' do
+      expect(app.install_packages(packages: metadata['packages'])).to be(0), " Expected 0 exit Status"
     end
   end
 
@@ -69,12 +75,6 @@ describe Recipe do
       expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
     end
   end
-
-    describe 'install_packages' do
-      it 'Installs distribution packages' do
-        expect(app.install_packages(packages: metadata['packages'])).to be(0), " Expected 0 exit Status"
-      end
-    end
 
   describe 'get_git_version' do
     it 'Retrieves the version number from the git repo' do
