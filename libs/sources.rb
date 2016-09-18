@@ -68,8 +68,8 @@ class Sources
       end
     when 'cmake'
       Dir.chdir("/app/src/#{name}") do
-        p "running cmake -DCMAKE_INSTALL_PREFIX:PATH=/app/usr #{options}"
-        system("cmake -DCMAKE_INSTALL_PREFIX:PATH=/app/usr #{options}")
+        p "running cmake #{options}"
+        system("cmake #{options}")
         system('make -j 8 && sudo make install')
       end
     when 'custom'

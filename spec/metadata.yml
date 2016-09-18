@@ -71,10 +71,24 @@ packages:
   - libpq-dev
   - libsystemd-journal-dev
   - libxcb-xinerama0-dev
+frameworks:
+  build_kf5: true
+  frameworks:
+    - extra-cmake-modules
+    - kcoreaddons
+    - ki18n
+    - kitemviews
+    - kconfig
+    - kconfigwidgets
+    - kxmlgui
+    - kio
+    - kdoctools
+    - libksane
+    - ktextwidgets
 type: git
 url: "http://anongit.kde.org/skanlite"
 buildsystem: cmake
-cmake_options: "-DCMAKE_INSTALL_PREFIX=/app/usr"
+buildoptions: "-DCMAKE_INSTALL_PREFIX=/app/usr"
 dep_path:
   - /usr/lib/python2*
   - /usr/bin/python*

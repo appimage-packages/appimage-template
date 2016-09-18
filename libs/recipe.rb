@@ -49,7 +49,7 @@ class Recipe
 
   def clean_workspace(args = {})
     return if Dir['/app/'].empty?
-    FileUtils.rm_rf Dir.glob('/app/*')
+    #FileUtils.rm_rf Dir.glob('/app/*')
     return if Dir['/out/'].empty?
     FileUtils.rm_rf("/out/.", secure: true)
   end

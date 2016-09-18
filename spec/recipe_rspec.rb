@@ -28,6 +28,7 @@ puts metadata
 
 describe Recipe do
   app = Recipe.new(name: metadata['name'])
+  sources = Sources.new
   describe "#initialize" do
     it "Sets the application name" do
       expect(app.name).to eq metadata['name']
@@ -38,7 +39,7 @@ describe Recipe do
   describe 'clean_workspace' do
     it "Cleans the environment" do
       app.clean_workspace
-      expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
+      #expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
       expect(Dir["/out/*"].empty?).to be(true), "AppImage exists, please remove"
     end
   end
@@ -49,10 +50,8 @@ describe Recipe do
     end
   end
 
-  describe 'build_sources' do
+  describe 'build_dep_sources' do
     it 'Retrieves sources that need to be built from source' do
-      sources = Sources.new()
-      #Dependencies First
       deps = metadata['dependencies']
       deps.each do |dep|
         name =  dep.values[0]['depname']
@@ -64,17 +63,43 @@ describe Recipe do
         expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wront with source retrieval"
         expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
       end
-      #Main project
-      name = metadata['name']
-      type = metadata['type']
-      url = metadata['url']
-      buildsystem = metadata['buildsystem']
-      options = metadata['buildoptions']
-      expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
-      expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, things will fail"
-      expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
     end
   end
+
+    describe 'build_kf5' do
+      it 'Builds KDE Frameworks from source' do
+        sources = Sources.new
+        system('pwd && ls')
+        kf5 = metadata['frameworks']
+        p kf5
+        need = kf5['build_kf5']
+        p need
+        frameworks = kf5['frameworks']
+        p frameworks
+        options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr'
+        if need == true
+          frameworks.each do |framework|
+            expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
+            expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
+            expect(sources.run_build(framework, 'cmake', options)).to be(0), " Expected 0 exit Status"
+          end
+        end
+      end
+    end
+
+    describe 'build_project' do
+        it 'Retrieves sources that need to be built from source' do
+          #Main project
+          name = metadata['name']
+          type = metadata['type']
+          url = metadata['url']
+          buildsystem = metadata['buildsystem']
+          options = metadata['buildoptions']
+          expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
+          expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, things will fail"
+          expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
+        end
+    end
 
   describe 'get_git_version' do
     it 'Retrieves the version number from the git repo' do
