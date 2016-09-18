@@ -32,21 +32,26 @@ class Sources
       Dir.mkdir("/app/src")
     end
     Dir.chdir('/app/src/')
+    system("export PATH=/app/usr/bin:$PATH")
+    system("export LD_LIBRARY_PATH=/app/usr/lib:/usr/lib64/:/usr/lib:/app/usr/lib/Qt-5.7.0:$LD_LIBRARY_PATH")
   end
 
   def get_source(name, type, url)
     case "#{type}"
     when 'git'
-      Dir.chdir('/app/src/')
-      system( "git clone #{url}")
+      unless Dir.exist?("/app/src/#{name}")
+        system( "git clone #{url}")
+      end
     when 'xz'
-      Dir.chdir('/app/src/')
-      system("wget #{url}")
-      system("tar -xvf #{name}.tar.xz")
+      unless Dir.exist?("/app/src/#{name}")
+        system("wget #{url}")
+        system("tar -xvf #{name}.tar.xz")
+      end
     when 'bz2'
-      Dir.chdir('/app/src/')
-      system("wget #{url}")
-      system("tar -jxvf #{name}.bz2")
+      unless Dir.exist?("/app/src/#{name}")
+        system("wget #{url}")
+        system("tar -jxvf #{name}.tar.bz2")
+      end
     else
       "You gave me #{type} -- I have no idea what to do with that."
     end
@@ -54,8 +59,6 @@ class Sources
   end
 
   def run_build(name, buildsystem, options)
-    system('export PATH=/app/usr/bin:$PATH \
-    export LD_LIBRARY_PATH=/usr/lib64/:/usr/lib:/app/usr/lib:$QTDIR/lib/:$LD_LIBRARY_PATH')
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("/app/src/#{name}") do
@@ -77,7 +80,8 @@ class Sources
     when 'qmake'
       Dir.chdir("/app/src/#{name}") do
         p "running qmake #{options}"
-        system("qmake linuxdeployqt.pro")
+        system('echo $PATH')
+        system("/app/usr/bin/qmake linuxdeployqt.pro")
         system('make -j 8 && sudo make install')
       end
     when 'bootstrap'
