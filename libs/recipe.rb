@@ -49,13 +49,18 @@ class Recipe
 
   def clean_workspace(args = {})
     return if Dir['/app/'].empty?
-    #FileUtils.rm_rf Dir.glob('/app/*')
+    FileUtils.rm_rf("/app/.", secure: true)
     return if Dir['/out/'].empty?
     FileUtils.rm_rf("/out/.", secure: true)
   end
 
   def install_packages(args = {})
     self.packages = args[:packages].to_s.gsub(/\,|\[|\]/, '')
+    # system('sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test')
+    # system('sudo apt-get update')
+    # system('sudo apt-get -y install  gcc-6 g++-6')
+    # system('sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6')
+    system('sudo apt-get update && sudo apt-get upgrade')
     system("sudo apt-get -y install git wget #{packages}")
     $?.exitstatus
   end

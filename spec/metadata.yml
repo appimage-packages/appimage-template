@@ -1,7 +1,6 @@
 name: skanlite
 packages:
-  - git
-  - g++
+  - build-essential
   - libgl1-mesa-dev
   - software-properties-common
   - libxcb-xfixes0-dev
@@ -71,6 +70,10 @@ packages:
   - libpq-dev
   - libsystemd-journal-dev
   - libxcb-xinerama0-dev
+  - docbook-xml
+  - docbook-xsl
+  - libappstream-dev
+  - libncurses5-dev
 frameworks:
   build_kf5: true
   frameworks:
@@ -79,10 +82,16 @@ frameworks:
     - ki18n
     - kitemviews
     - kconfig
+    - kauth
+    - kcodecs
+    - karchive
+    - kdoctools
+    - kguiaddons
+    - kwidgetsaddons
     - kconfigwidgets
+    - kiconthemes
     - kxmlgui
     - kio
-    - kdoctools
     - libksane
     - ktextwidgets
 type: git
@@ -101,6 +110,14 @@ dependencies:
       source:
         type: git
         url: https://github.com/probonopd/AppImageKit
+  - cmake:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: CMake
+      source:
+        type: git
+        url: https://github.com/Kitware/CMake
   - qt5:
       build:
         buildsystem: custom
@@ -125,11 +142,11 @@ dependencies:
       source:
         type: bz2
         url: https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2
-  - cmake:
+  - cpan:
       build:
-        buildsystem: make
-        buildoptions: ''
-      depname: CMake
+        buildsystem: custom
+        buildoptions: cpan URI::Escape
+      depname: cpan
       source:
-        type: git
-        url: https://github.com/Kitware/CMake
+        type: none
+        url: ''

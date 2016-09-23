@@ -32,26 +32,29 @@ class Sources
       Dir.mkdir("/app/src")
     end
     Dir.chdir('/app/src/')
-    system("export PATH=/app/usr/bin:$PATH")
-    system("export LD_LIBRARY_PATH=/app/usr/lib:/usr/lib64/:/usr/lib:/app/usr/lib/Qt-5.7.0:$LD_LIBRARY_PATH")
   end
 
   def get_source(name, type, url)
     case "#{type}"
     when 'git'
+      Dir.chdir('/app/src/')
       unless Dir.exist?("/app/src/#{name}")
         system( "git clone #{url}")
       end
     when 'xz'
+      Dir.chdir('/app/src/')
       unless Dir.exist?("/app/src/#{name}")
         system("wget #{url}")
         system("tar -xvf #{name}.tar.xz")
       end
     when 'bz2'
+      Dir.chdir('/app/src/')
       unless Dir.exist?("/app/src/#{name}")
         system("wget #{url}")
         system("tar -jxvf #{name}.tar.bz2")
       end
+    when 'none'
+      p "No sources configured"
     else
       "You gave me #{type} -- I have no idea what to do with that."
     end
@@ -59,6 +62,8 @@ class Sources
   end
 
   def run_build(name, buildsystem, options)
+    system("/bin/bash -xe /in/functions/env.sh")
+    system("echo $LD_LIBRARY_PATH")
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("/app/src/#{name}") do
@@ -73,7 +78,13 @@ class Sources
         system('make -j 8 && sudo make install')
       end
     when 'custom'
-      Dir.chdir("/app/src/#{name}") do
+      unless "#{name}" == 'cpan'
+        Dir.chdir("/app/src/#{name}") do
+          p "running #{options}"
+          system("#{options}")
+        end
+      end
+      if "#{name}" == 'cpan'
         p "running #{options}"
         system("#{options}")
       end
