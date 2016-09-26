@@ -78,7 +78,7 @@ describe Recipe do
         kf5 = metadata['frameworks']
         need = kf5['build_kf5']
         frameworks = kf5['frameworks']
-        options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr'
+        options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr -DBUILD_TESTING=OFF'
         if need == true
           frameworks.each do |framework|
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"

@@ -34,12 +34,16 @@ class Sources
     Dir.chdir('/app/src/')
   end
 
-  def get_source(name, type, url)
+  def get_source(name, type, url, branch='master')
     case "#{type}"
     when 'git'
       Dir.chdir('/app/src/')
       unless Dir.exist?("/app/src/#{name}")
         system( "git clone #{url}")
+        unless branch == 'master'
+          Dir.chdir("/app/src/#{name}")
+          system(" git checkout #{branch}")
+        end
       end
     when 'xz'
       Dir.chdir('/app/src/')
