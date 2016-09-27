@@ -76,6 +76,7 @@ packages:
   - libncurses5-dev
   - flex
   - bison
+  - libsane-dev
 frameworks:
   build_kf5: true
   frameworks:
@@ -102,7 +103,12 @@ frameworks:
     - kglobalaccel
     - kxmlgui
     - solid
+    - kbookmarks
+    - kjobwidgets
     - kio
+    - phonon
+    - knotifications
+    - kwallet
     - libksane
     - ktextwidgets
 type: git

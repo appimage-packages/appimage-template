@@ -78,12 +78,19 @@ describe Recipe do
         kf5 = metadata['frameworks']
         need = kf5['build_kf5']
         frameworks = kf5['frameworks']
-        options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr -DBUILD_TESTING=OFF'
         if need == true
           frameworks.each do |framework|
-            expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
-            expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
-            expect(sources.run_build(framework, 'cmake', options)).to be(0), " Expected 0 exit Status"
+            if framework == 'phonon'
+              options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON'
+              expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
+              expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
+              expect(sources.run_build(framework, 'cmake', options)).to be(0), " Expected 0 exit Status"
+            else
+              options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr -DBUILD_TESTING=OFF'
+              expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
+              expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
+              expect(sources.run_build(framework, 'cmake', options)).to be(0), " Expected 0 exit Status"
+            end
           end
         end
       end
@@ -92,6 +99,7 @@ describe Recipe do
     describe 'build_project' do
         it 'Retrieves sources that need to be built from source' do
           #Main project
+          sources = Sources.new
           name = metadata['name']
           type = metadata['type']
           url = metadata['url']

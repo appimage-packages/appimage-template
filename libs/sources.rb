@@ -78,7 +78,7 @@ class Sources
     when 'cmake'
       Dir.chdir("/app/src/#{name}") do
         p "running cmake #{options}"
-        system("cmake #{options}")
+        system("/app/usr/bin/cmake #{options}")
         system('make -j 8 && sudo make install')
       end
     when 'custom'
