@@ -97,20 +97,20 @@ class Sources
     when 'make'
       Dir.chdir("/app/src/#{name}") do
         unless "#{autoreconf}" == true
-          cmd = "mkdir #{name}-build && cd #{name}-build && ../configure prefix=/app/usr #{options} && make -j 8 && make install"
+          cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure prefix=/app/usr #{options} && make -j 8 && make install"
           p "Running " + cmd
           system(cmd)
         end
         if "#{autoreconf}" == true
           p "Running " + cmd
-          cmd = "autoreconf --force --install && mkdir #{name}-build && cd #{name}-build && ../configure --prefix=/app/usr #{options} &&  make -j 8 && make install prefix=/app/usr"
+          cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/app/usr #{options} &&  make -j 8 && make install prefix=/app/usr"
           system(cmd)
         end
       end
     when 'cmake'
       Dir.chdir("/app/src/#{name}") do
         p "running cmake #{options}"
-        system("mkdir #{name}-build  && cd #{name}-build  && cmake #{options} ../ && make -j 8 && make install")
+        system("mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make -j 8 && make install")
       end
     when 'custom'
       unless "#{name}" == 'cpan'
