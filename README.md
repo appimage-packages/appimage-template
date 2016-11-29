@@ -1,2 +1,2 @@
 # appimage-template
-Templates used to create non-KDE appimages
+Appimage template for creating appimages on aci.pangea.pub

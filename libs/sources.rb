@@ -20,14 +20,12 @@
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require 'yaml'
 
-
-
-
 class Sources
   attr_accessor :name
 
   def initialize()
     Dir.chdir('/')
+    system('ls -l')
     unless Dir.exist?("/app/src")
       Dir.mkdir("/app/src")
     end
@@ -49,13 +47,24 @@ class Sources
       Dir.chdir('/app/src/')
       unless Dir.exist?("/app/src/#{name}")
         system("wget #{url}")
-        system("tar -xvf #{name}.tar.xz")
+        system("tar -xvf #{name}*.tar.xz")
+      end
+    when 'gz'
+      Dir.chdir('/app/src/')
+      unless Dir.exist?("/app/src/#{name}")
+        system("wget #{url}")
+        system("tar -zxvf #{name}*.tar.gz")
       end
     when 'bz2'
       Dir.chdir('/app/src/')
       unless Dir.exist?("/app/src/#{name}")
         system("wget #{url}")
         system("tar -jxvf #{name}.tar.bz2")
+      end
+    when 'mercurial'
+      Dir.chdir('/app/src')
+      unless Dir.exist?("/app/src/#{name}")
+        system("hg clone #{url}")
       end
     when 'none'
       p "No sources configured"
@@ -65,21 +74,43 @@ class Sources
     $?.exitstatus
   end
 
-  def run_build(name, buildsystem, options)
-    system("/bin/bash -xe /in/functions/env.sh")
-    system("echo $LD_LIBRARY_PATH")
+  def run_build(name, buildsystem, options, autoreconf=false)
+    ENV['PATH']='/opt/usr/bin:/app/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib/Qt-5.7.0:/usr/lib64:/usr/lib:/lib:/lib64'
+    ENV['CPLUS_INCLUDE_PATH']='/app/usr/include:/opt/usr/include:/usr/include'
+    ENV['CFLAGS']="-g -O2 -fPIC"
+    ENV['PKG_CONFIG_PATH']='/app/usr/lib/x86_64-linux-gnu/pkgconfig:/app/usr/lib/pkgconfig:/app/usr/share/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
+    ENV['ACLOCAL_PATH']='/app/usr/share/aclocal:/usr/share/aclocal'
+    ENV.fetch('PATH')
+    ENV.fetch('LD_LIBRARY_PATH')
+    ENV.fetch('CFLAGS')
+    ENV.fetch('PKG_CONFIG_PATH')
+    ENV.fetch('ACLOCAL_PATH')
+    ENV.fetch('CPLUS_INCLUDE_PATH')
+    system( "echo $PATH" )
+    `echo LD_LIBRARY_PATH`
+    `echo CFLAGS`
+    `echo PKG_CONFIG_PATH`
+    `echo ACLOCAL_PATH`
+    `echo CPLUS_INCLUDE_PATH`
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("/app/src/#{name}") do
-        p "running ./configure --prefix=/app/usr #{options}"
-        system("./configure --prefix=/app/usr #{options}")
-        system('make -j 8 && sudo make install prefix=/app/usr')
+        unless "#{autoreconf}" == true
+          cmd = "mkdir #{name}-build && cd #{name}-build && ../configure prefix=/app/usr #{options} && make -j 8 && make install"
+          p "Running " + cmd
+          system(cmd)
+        end
+        if "#{autoreconf}" == true
+          p "Running " + cmd
+          cmd = "autoreconf --force --install && mkdir #{name}-build && cd #{name}-build && ../configure --prefix=/app/usr #{options} &&  make -j 8 && make install prefix=/app/usr"
+          system(cmd)
+        end
       end
     when 'cmake'
       Dir.chdir("/app/src/#{name}") do
         p "running cmake #{options}"
-        system("/app/usr/bin/cmake #{options}")
-        system('make -j 8 && sudo make install')
+        system("mkdir #{name}-build  && cd #{name}-build  && cmake #{options} ../ && make -j 8 && make install")
       end
     when 'custom'
       unless "#{name}" == 'cpan'
@@ -96,14 +127,14 @@ class Sources
       Dir.chdir("/app/src/#{name}") do
         p "running qmake #{options}"
         system('echo $PATH')
-        system("/app/usr/bin/qmake linuxdeployqt.pro")
-        system('make -j 8 && sudo make install')
+        system("#{options}")
+        system('make -j 8 && make install')
       end
     when 'bootstrap'
       Dir.chdir("/app/src/#{name}") do
         p "running ./bootstrap #{options}"
         system("./bootstrap #{options}")
-        system('make -j 8 && sudo make install')
+        system('make -j 8 && make install')
       end
     else
     "You gave me #{buildsystem} -- I have no idea what to do with that."

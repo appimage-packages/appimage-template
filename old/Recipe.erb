@@ -1,0 +1,40 @@
+#!/bin/bash
+#get deps
+yum -y install gnome-common wget git perl-URI.noarch gnome-icon-theme python33  python26 wxPython wxGTK
+
+yum install python-setuptools && easy_install argparse
+
+# Get helper functions
+wget -q https://github.com/appimage-packages/AppImages/raw/master/functions.sh -O ./functions.sh
+. ./functions.sh
+rm -f functions.sh
+
+function copy_desktop {
+  find . -name "$APP.desktop"  -exec cp {} . \;
+}
+
+git clone https://github.com/xdgurl/xdgurl
+cd xdgurl
+make -j 8
+make install
+cd ..
+#copy desktop in place
+copy_desktop
+VERSION=$(git describe | sed -e 's/^r.*// ; s/-g.*$// ')
+ARCH=$(arch)
+APP=<%= name %>
+
+cp /usr/share/icons/gnome/scalable/emblems/emblem-web.svg . || true
+
+# delete potentially harmful binaries
+delete_blacklisted
+
+#Copy deps over
+copy_deps
+
+
+echo Icon=emblem-web >>  /xdgurl.desktop
+# Add desktop integration
+get_desktopintegration <%= name %>
+
+generate_appimage

@@ -1,0 +1,24 @@
+name: xdgurl
+url: https://github.com/xdgurl/xdgurl
+type: git
+packages:
+  - python2.7
+  - gnome-icon-theme
+  - python-wxgtk2.8
+  - python-tk
+  - python-gtk2
+  - python-vte
+  - tcl8.4-dev
+dependencies:
+  - appimage:
+     type: git
+     url: https://github.com/probonopd/AppImageKit
+  - python3:
+    type: tar
+    url: https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tar.xz
+    sum: 8906efbacfcdc7c3c9198aeefafd159e
+dep_path:
+  - /usr/lib/python2*
+  - /usr/bin/python*
+  - /usr/share/tcltk
+  - /usr/lib/tcl*

@@ -24,19 +24,21 @@ require 'docker'
 require 'logger'
 require 'logger/colors'
 
+# Create and run a container on the CI build node.
 class CI
+  # Container creation and run
   class Build
     def initialize(name)
       @image = ''
       @c = ''
       @binds = ''
       @name = name
+      @home = '/home/jenkins/workspace'
     end
   end
   def init_logging
     @log = Logger.new(STDERR)
     raise 'Could not initialize logger' if @log.nil?
-
     Thread.new do
       # :nocov:
       Docker::Event.stream { |event| @log.debug event }
@@ -45,30 +47,38 @@ class CI
   end
   attr_accessor :run
   attr_accessor :cmd
+  Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
+  Docker.options[:write_timeout] = 2 * 60 * 60 # 2 hours
 
-  Docker.options[:read_timeout] = 1 * 160 * 160 # 1 hour
-  Docker.options[:write_timeout] = 1 * 160 * 160 # 1 hour
-
-  def create_container
+  def create_container(name, home = @home)
     init_logging
     @c = Docker::Container.create(
-      'Image' => 'sgclark/trusty-minimal',
+      'Image' => 'sgclark/trusty-qt57',
       'Cmd' => @cmd,
       'Volumes' => {
         '/in' => {},
         '/out' => {},
-        '/app' => {}
+        '/app' => {},
+        '/appimage' => {},
         '/lib/modules' => {},
         '/tmp' => {}
       },
       'HostConfig' => {
-        'CapAdd' => ["ALL"],
-        'Devices' => ['PathOnHost' => "/dev/fuse",
-                              'PathInContainer' => "/dev/fuse",
-                              'CgroupPermissions' => "mrw"]
+        'Binds' => [
+          "/home/jenkins/workspace/pipeline-xdgurl-appimage/out:/out",
+          "/home/jenkins/workspace/pipeline-xdgurl-appimage:/in",
+          "/home/jenkins/workspace/pipeline-xdgurl-appimage/app:/app",
+          "/home/jenkins/workspace/pipeline-xdgurl-appimage/appimage:/appimage"
+        ],
+        'UsernsMode' => 'host',
+        'Privileged' => true,
+        'Devices' => [
+          'PathOnHost' => '/dev/fuse',
+          'PathInContainer' => '/dev/fuse',
+          'CgroupPermissions' => 'mrw'
+        ]
       }
     )
-    p @c.info
     @log.info 'creating debug thread'
     Thread.new do
       @c.attach do |_stream, chunk|
@@ -76,27 +86,10 @@ class CI
         STDOUT.flush
       end
     end
-require 'socket'
-
-host = `hostname`
-
-if host == "scarlett-neon\n"
-  @c.start( 'Privileged' => true,
-                      'Binds' => ["/home/scarlett/appimage-packaging/appimage-template:/in",
-                               "/home/scarlett/appimage-packaging/appimage-template/out:/out",
-                               "/tmp:/tmp",
-                               "/home/scarlett/appimage-packaging/appimage-template/app:/app"])
-
-else
-  @c.start( 'Privileged' => true,
-                    'Binds' => ["/home/jenkins/workspace/appimage-${name}/:/in",
-                             "/home/jenkins/workspace/appimage-${name}/out:/out",
-                             "/tmp:/tmp",
-                              "/home/jenkins/workspace/appimage-${name}/app:/app"])
-end
+    @c.start()
     ret = @c.wait
     status_code = ret.fetch('StatusCode', 1)
-    raise "Bad return #{ret}" if status_code != 0
+    raise "Bad return #{ret}" if status_code.nonzero?
     @c.stop!
   end
 end
