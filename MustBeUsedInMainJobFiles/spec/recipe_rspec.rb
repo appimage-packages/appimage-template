@@ -18,8 +18,8 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-require_relative '../libs/recipe'
-require_relative '../libs/sources'
+require_relative '../appimage-template/libs/recipe'
+require_relative '../appimage-template/libs/sources'
 require 'yaml'
 require 'erb'
 
