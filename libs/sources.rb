@@ -74,7 +74,7 @@ class Sources
     $?.exitstatus
   end
 
-  def run_build(name, buildsystem, options, autoreconf=false)
+  def run_build(name, buildsystem, options, autoreconf=false, insource=false)
     ENV['PATH']='/opt/usr/bin:/app/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
     ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib/Qt-5.7.0:/usr/lib64:/usr/lib:/lib:/lib64'
     ENV['CPLUS_INCLUDE_PATH']='/app/usr/include:/opt/usr/include:/usr/include'
@@ -97,13 +97,23 @@ class Sources
     when 'make'
       Dir.chdir("/app/src/#{name}") do
         unless "#{autoreconf}" == true
-          cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/app/usr #{options} && make -j 8 && make install"
+          unless "#{insource}" == true
+            cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/app/usr #{options} && make -j 8 && make install"
+          end
+          if "#{insource}" == true
+            cmd = "cd #{name} && ../configure --prefix=/app/usr #{options} && make -j 8 && make install"
+          end
           p "Running " + cmd
           system(cmd)
         end
         if "#{autoreconf}" == true
           p "Running " + cmd
-          cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/app/usr #{options} &&  make -j 8 && make install prefix=/app/usr"
+          unless "#{insource}" == true
+            cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/app/usr #{options} &&  make -j 8 && make install prefix=/app/usr"
+          end
+          if "#{insource}" == true
+            cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/app/usr #{options} &&  make -j 8 && make install prefix=/app/usr"
+          end
           system(cmd)
         end
       end
