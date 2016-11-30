@@ -29,7 +29,9 @@ node('linux') {
 
         stage( 'Checkout' ) {
             checkout scm
-            checkout scm https://github.com/appimage-packages/appimage-template .
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, \
+            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'appimage-template']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/appimage-packages/appimage-template']]])
+
        }
         stage( 'Setup' ) {
             sh 'bundle install'

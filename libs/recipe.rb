@@ -61,7 +61,7 @@ class Recipe
     # system('sudo apt-get update')
     # system('sudo apt-get -y install  gcc-6 g++-6')
     # system('sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6')
-    system('apt-get update && sudo apt-get -y upgrade')
+    system('apt-get update && apt-get -y upgrade')
     system("apt-get -y install git wget #{packages}")
     $?.exitstatus
   end
