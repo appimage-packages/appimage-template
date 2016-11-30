@@ -85,7 +85,7 @@ class Recipe
 
   def generate_appimage(args = {})
     Dir.chdir("/") do
-      system('/bin/bash -xe /in/appimage-template/Recipe')
+      system('/bin/bash -xe /in/Recipe')
     end
     $?.exitstatus
   end
