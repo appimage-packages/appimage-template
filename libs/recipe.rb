@@ -80,12 +80,12 @@ class Recipe
   end
 
   def render
-    ERB.new(File.read('/in/libs/Recipe.erb')).result(binding)
+    ERB.new(File.read('/in/appimage-template/libs/Recipe.erb')).result(binding)
   end
 
   def generate_appimage(args = {})
     Dir.chdir("/") do
-      system('/bin/bash -xe /in/Recipe')
+      system('/bin/bash -xe /in/appimage-template/Recipe')
     end
     $?.exitstatus
   end
