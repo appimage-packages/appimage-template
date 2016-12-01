@@ -23,6 +23,7 @@
 require 'docker'
 require 'logger'
 require 'logger/colors'
+require 'fileutils'
 
 # Create and run a container on the CI build node.
 class CI
@@ -66,9 +67,9 @@ class CI
       },
       'HostConfig' => {
         'Binds' => [
-          "#{workspace}:/in",
-          "#{workspace}/app:/app",
-          "#{workspace}/appimage:/appimage"
+          Dir.pwd + ":/in",
+          Dir.pwd + "/app:/app",
+          Dir.pwd + "/appimage:/appimage"
         ],
         'UsernsMode' => 'host',
         'Privileged' => true,
