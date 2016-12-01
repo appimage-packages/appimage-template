@@ -33,7 +33,7 @@ class CI
       @c = ''
       @binds = ''
       @name = name
-      @workspace = system('pwd')
+      @home = ''
     end
   end
   def init_logging
@@ -50,8 +50,10 @@ class CI
   Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
   Docker.options[:write_timeout] = 2 * 60 * 60 # 2 hours
 
-  def create_container(name)
+  def create_container(name, home='/home/jenkins/workspace')
     init_logging
+    workspace = system('pwd')
+    p workspace
     @c = Docker::Container.create(
       'Image' => 'sgclark/trusty-qt57',
       'Cmd' => @cmd,
@@ -64,9 +66,9 @@ class CI
       },
       'HostConfig' => {
         'Binds' => [
-          "#{@workspace}:/in",
-          "#{@workspace}/app:/app",
-          "#{@workspace}/appimage:/appimage"
+          "#{workspace}:/in",
+          "#{workspace}/app:/app",
+          "#{workspace}/appimage:/appimage"
         ],
         'UsernsMode' => 'host',
         'Privileged' => true,
