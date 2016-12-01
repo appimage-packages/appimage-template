@@ -64,9 +64,9 @@ class CI
       },
       'HostConfig' => {
         'Binds' => [
-          "#{workspace}:/in",
-          "#{workspace}/app:/app",
-          "#{workspace}/appimage:/appimage"
+          "#{@workspace}:/in",
+          "#{@workspace}/app:/app",
+          "#{@workspace}/appimage:/appimage"
         ],
         'UsernsMode' => 'host',
         'Privileged' => true,
