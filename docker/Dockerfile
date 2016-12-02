@@ -12,7 +12,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  fuseiso \
  libfuse-dev \
  # QT deps
- firebird-dev \ 
+ firebird-dev \
  freetds-dev \
  gdb \
  libasound2-dev \
@@ -87,6 +87,8 @@ RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
 RUN wget http://download.qt.io/archive/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.tar.xz
 RUN tar -xvf qt-everywhere-opensource-src-5.7.0.tar.xz
 RUN cd qt-everywhere-opensource-src-5.7.0 && ./configure -v -release -opensource -confirm-license -no-sql-sqlite -no-gif -qt-libjpeg -skip qt3d -no-qml-debug -no-sql-odbc -qt-xcb -no-compile-examples -nomake examples -prefix /opt/usr && make && make install
+RUN git clone git://gitorious.org/qt/qtquick1.git
+RUN cd qtquick1 && qmake . && make
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install
 USER jenkins
