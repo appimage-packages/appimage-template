@@ -1,4 +1,5 @@
 name: changeme
+packages:
   - build-essential
   - libgl1-mesa-dev
   - software-properties-common
@@ -110,8 +111,10 @@ frameworks:
     - phonon
     - knotifications
     - kwallet
+    - kparts
+    - kpty
 type: git
-url: http://anongit.kde.org/kstars
+url: http://anongit.kde.org/changeme
 buildsystem: cmake
 buildoptions: "-DCMAKE_INSTALL_PREFIX=/app/usr -DBUILD_TESTING=OFF"
 dependencies:
