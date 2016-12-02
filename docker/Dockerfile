@@ -88,13 +88,13 @@ RUN wget http://download.qt.io/archive/qt/5.7/5.7.0/single/qt-everywhere-opensou
 RUN tar -xvf qt-everywhere-opensource-src-5.7.0.tar.xz
 RUN cd qt-everywhere-opensource-src-5.7.0 && ./configure -v -release -opensource -confirm-license -no-sql-sqlite -no-gif -qt-libjpeg -skip qt3d -no-qml-debug -no-sql-odbc -qt-xcb -no-compile-examples -nomake examples -prefix /opt/usr && make && make install
 RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
+ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 RUN cd qtquick1 && qmake PREFIX=/opt/usr . && make
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install
 USER jenkins
 # Install rbenv and ruby-build
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 RUN git clone https://github.com/sstephenson/rbenv.git /home/jenkins/.rbenv
 RUN git clone https://github.com/sstephenson/ruby-build.git /home/jenkins/.rbenv/plugins/ruby-build
 
