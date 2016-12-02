@@ -68,7 +68,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  unixodbc-dev \
  zlib1g-dev
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-36
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-51
 RUN groupadd -g 1000 jenkins
 RUN useradd -m -u 1000 -g 1000 -d /home/jenkins jenkins
 RUN mkdir -p /{appimage,app,out}
@@ -87,7 +87,7 @@ RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
 RUN wget http://download.qt.io/archive/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.tar.xz
 RUN tar -xvf qt-everywhere-opensource-src-5.7.0.tar.xz
 RUN cd qt-everywhere-opensource-src-5.7.0 && ./configure -v -release -opensource -confirm-license -no-sql-sqlite -no-gif -qt-libjpeg -skip qt3d -no-qml-debug -no-sql-odbc -qt-xcb -no-compile-examples -nomake examples -prefix /opt/usr && make && make install
-RUN git clone git://gitorious.org/qt/qtquick1.git
+RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
 RUN cd qtquick1 && qmake PREFIX=/opt/usr . && make
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install
