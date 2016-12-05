@@ -23,7 +23,7 @@ require_relative '../appimage-template/libs/sources'
 require 'yaml'
 require 'erb'
 
-metadata = YAML.load_file("/in/spec/metadata.yml")
+metadata = YAML.load_file("/in/data/metadata.yml")
 deps = metadata['dependencies']
 puts metadata
 
