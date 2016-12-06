@@ -8,7 +8,7 @@ import java.net.URL;
 import java.security.Provider.Service
 import com.google.common.io.ByteStreams
 
-def apps = new Yaml().load(new FileReader(new File('applications.yaml')))
+def apps = new Yaml().load(new FileReader(new File("${WORKSPACE}/seed/applications.yaml")))
 
 apps.each { name, config ->
   multibranchPipelineJob("pipeline-${name}-appimage") {
