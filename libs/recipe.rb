@@ -55,7 +55,7 @@ class Recipe
     return if Dir['/appimage/'].empty?
     FileUtils.rm_rf("/appimage/.", secure: true)
     return if Dir['/in/${name}'].empty?
-    FileUtils.rm_rf("/in/${name}/.", secure: true)
+    FileUtils.rm_rf("/in/${name}/${name}-builddir/.", secure: true)
   end
 
   def install_packages(args = {})
