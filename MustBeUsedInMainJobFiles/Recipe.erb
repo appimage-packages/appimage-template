@@ -31,7 +31,7 @@ wget https://github.com/probonopd/linuxdeployqt/releases/download/1/linuxdeployq
 chmod a+x linuxdeployqt-1-x86_64.AppImage
 
 cd /<%= name %>.AppDir
-mkdir -p ./usr/bin; mv /app/usr/bin/*<%= name %>* $_
+mkdir -p ./usr/bin; mv /app/usr/bin/* $_
 cp /app/usr/share/applications/*<%= name %>*.desktop <%= name %>.desktop
 mkdir -p ./usr/share/applications/; mv /app/usr/share/applications/*<%= name %>*.desktop $_
 cp /app/usr/share/icons/hicolor/scalable/apps/*<%= name %>* .
