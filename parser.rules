@@ -1,7 +1,7 @@
 # match line starting with 'error ', case-insensitive
 error /(?i)^error /
 
-warning /Could NOT find/
+warning /Could [Nn][Oo][Tt] find/
 
 # list of warnings here...
 #warning /[Ww]arning/
