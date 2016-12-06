@@ -2,7 +2,7 @@
 error /(?i)^error /
 
 warning /Could [Nn][Oo][Tt] find/
-
+warning /have not been found/
 # list of warnings here...
 #warning /[Ww]arning/
 #warning /WARNING/
