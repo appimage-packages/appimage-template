@@ -86,7 +86,7 @@ describe Recipe do
       kf5 = metadata['frameworks']
       need = kf5['build_kf5']
       frameworks = kf5['frameworks']
-      path = "/app/src/#{name}"
+      path = "/app/src/#{framework}"
       if need == true
         frameworks.each do |framework|
           if framework == 'phonon'
