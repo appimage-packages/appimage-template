@@ -85,7 +85,7 @@ describe Recipe do
       system('pwd && ls')
       kf5 = metadata['frameworks']
       need = kf5['build_kf5']
-      frameworks = kf5['frameworks']      
+      frameworks = kf5['frameworks']
       if need == true
         frameworks.each do |framework|
           path = "/app/src/#{framework}"
@@ -148,7 +148,6 @@ describe Recipe do
 
   describe 'generate_appimage' do
     it 'Generate the appimage' do
-      version = app.set_version()
       arch = `arch`
       appfullname = "#{app.name}-#{version}-#{arch}.AppImage"
       p appfullname
