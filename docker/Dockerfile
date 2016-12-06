@@ -14,8 +14,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  libreadline-dev \
  libmagickcore-dev \
  libmagickwand-dev \
- fuse \
- fuseiso \
+ fuse \ 
  libfuse-dev \
  # QT deps
  firebird-dev \
