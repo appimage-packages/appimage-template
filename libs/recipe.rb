@@ -49,10 +49,13 @@ class Recipe
   end
 
   def clean_workspace(args = {})
+    self.name = args[:name]
     return if Dir['/app/'].empty?
     FileUtils.rm_rf("/app/.", secure: true)
     return if Dir['/appimage/'].empty?
     FileUtils.rm_rf("/appimage/.", secure: true)
+    return if Dir['/in/${name}'].empty?
+    FileUtils.rm_rf("/in/${name}/.", secure: true)
   end
 
   def install_packages(args = {})
