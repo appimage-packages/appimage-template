@@ -137,7 +137,6 @@ describe Recipe do
           url = metadata['url']
           buildsystem = metadata['buildsystem']
           options = metadata['buildoptions']
-          expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
           expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, things will fail"
           expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
         end
