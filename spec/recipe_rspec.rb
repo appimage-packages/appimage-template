@@ -39,7 +39,7 @@ describe Recipe do
     it "Cleans the environment" do
       unless Dir["/out/*"].empty? && Dir["/app/*"].empty?
         Dir.chdir('/')
-        app.clean_workspace(app.name)
+        app.clean_workspace(name: app.name)
       end
       expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
     end
