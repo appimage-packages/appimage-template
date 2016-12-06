@@ -74,7 +74,7 @@ class Sources
     $?.exitstatus
   end
 
-  def run_build(name, buildsystem, options, autoreconf=false, insource=false)
+  def run_build(name, buildsystem, options, path, autoreconf=false, insource=false)
     ENV['PATH']='/opt/usr/bin:/app/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
     ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib/Qt-5.7.0:/usr/lib64:/usr/lib:/lib:/lib64'
     ENV['CPLUS_INCLUDE_PATH']='/app/usr/include:/opt/usr/include:/usr/include'
@@ -95,7 +95,7 @@ class Sources
     `echo CPLUS_INCLUDE_PATH`
     case "#{buildsystem}"
     when 'make'
-      Dir.chdir("/app/src/#{name}") do
+      Dir.chdir("#{path}") do
         unless "#{autoreconf}" == true
           unless "#{insource}" == true
             cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/app/usr #{options} && make -j 8 && make install"
@@ -118,7 +118,7 @@ class Sources
         end
       end
     when 'cmake'
-      Dir.chdir("/app/src/#{name}") do
+      Dir.chdir(path) do
         p "running cmake #{options}"
         system("mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make -j 8 && make install")
       end
@@ -134,14 +134,14 @@ class Sources
         system("#{options}")
       end
     when 'qmake'
-      Dir.chdir("/app/src/#{name}") do
+      Dir.chdir("#{path}") do
         p "running qmake #{options}"
         system('echo $PATH')
         system("#{options}")
         system('make -j 8 && make install')
       end
     when 'bootstrap'
-      Dir.chdir("/app/src/#{name}") do
+      Dir.chdir(path) do
         p "running ./bootstrap #{options}"
         system("./bootstrap #{options}")
         system('make -j 8 && make install')

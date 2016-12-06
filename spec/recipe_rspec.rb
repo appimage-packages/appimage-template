@@ -64,15 +64,16 @@ describe Recipe do
         options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
         autoreconf = dep.values[0]['build'].values_at('autoreconf').to_s.gsub(/\,|\[|\]|\"/, '')
         insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
+        path = "/app/src/#{name}"
         expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
         unless name == 'cpan'
           expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
         end
         unless buildsystem == 'make'
-          expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
+          expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
         end
         if buildsystem == 'make'
-          expect(sources.run_build(name, buildsystem, options, autoreconf, insource)).to be(0), " Expected 0 exit Status"
+          expect(sources.run_build(name, buildsystem, options, path, autoreconf, insource)).to be(0), " Expected 0 exit Status"
         end
       end
     end
@@ -85,18 +86,19 @@ describe Recipe do
       kf5 = metadata['frameworks']
       need = kf5['build_kf5']
       frameworks = kf5['frameworks']
+      path = "/app/src/#{name}"
       if need == true
         frameworks.each do |framework|
           if framework == 'phonon'
             options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr  -DSYSCONF_INSTALL_DIR=/app/etc -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
             expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
-            expect(sources.run_build(framework, 'cmake', options)).to be(0), " Expected 0 exit Status"
+            expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
           else
             options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr -DKDE_INSTALL_SYSCONFDIR=/app/etc -DBUILD_TESTING=OFF'
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
             expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
-            expect(sources.run_build(framework, 'cmake', options)).to be(0), " Expected 0 exit Status"
+            expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
           end
         end
       end
@@ -118,9 +120,10 @@ describe Recipe do
               url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
               buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
               options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
+              path = "/app/src/#{name}"
               expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
               expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
-              expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
+              expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
             end
           end
         end
@@ -135,10 +138,11 @@ describe Recipe do
           name = metadata['name']
           type = metadata['type']
           url = metadata['url']
+          path = "/in/#{name}"
           buildsystem = metadata['buildsystem']
           options = metadata['buildoptions']
-          expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, things will fail"
-          expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
+          expect(Dir.exist?("/in/#{name}")).to be(true), "#{name} directory does not exist, things will fail"
+          expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
         end
     end
 
