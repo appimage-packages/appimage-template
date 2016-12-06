@@ -35,16 +35,16 @@ describe Recipe do
     end
   end
 
-  describe 'clean_workspace' do
-    it "Cleans the environment" do
-      unless Dir["/out/*"].empty? && Dir["/app/*"].empty?
-        Dir.chdir('/')
-        app.clean_workspace
-      end
-      expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
-      expect(Dir["/out/*"].empty?).to be(true), "AppImage exists, please remove"
-    end
-  end
+  # describe 'clean_workspace' do
+  #   it "Cleans the environment" do
+  #     unless Dir["/out/*"].empty? && Dir["/app/*"].empty?
+  #       Dir.chdir('/')
+  #       app.clean_workspace
+  #     end
+  #     expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
+  #     expect(Dir["/out/*"].empty?).to be(true), "AppImage exists, please remove"
+  #   end
+  # end
 
   describe 'install_packages' do
     it 'Installs distribution packages' do
