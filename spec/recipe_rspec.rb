@@ -85,10 +85,10 @@ describe Recipe do
       system('pwd && ls')
       kf5 = metadata['frameworks']
       need = kf5['build_kf5']
-      frameworks = kf5['frameworks']
-      path = "/app/src/#{framework}"
+      frameworks = kf5['frameworks']      
       if need == true
         frameworks.each do |framework|
+          path = "/app/src/#{framework}"
           if framework == 'phonon'
             options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr  -DSYSCONF_INSTALL_DIR=/app/etc -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
