@@ -148,8 +148,6 @@ describe Recipe do
   describe 'generate_appimage' do
     it 'Generate the appimage' do
       arch = `arch`
-      appfullname = "#{app.name}-#{version}-#{arch}.AppImage"
-      p appfullname
       File.write('/in/Recipe', app.render)
       expect(app.generate_appimage()).to eq 0
       expect(Dir["/appimage/*"].empty?).to be(false), "No Appimage"
