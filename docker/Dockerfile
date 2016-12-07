@@ -7,26 +7,37 @@ RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restric
 RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get -y upgrade && apt-get -y install \
- software-properties-common \
- wget \
- git \
- build-essential \
- libreadline-dev \
- libmagickcore-dev \
- libmagickwand-dev \
- fuse \
- libfuse-dev \
  # QT deps
+ bison \
+ build-essential \
  firebird-dev \
+ flex \
  freetds-dev \
+ fuse \
  gdb \
+ git \
+ gperf \
+ gyp \
+ libasound2-dev \
  libasound2-dev \
  libatspi2.0-dev \
+ libavcodec-dev \
+ libavformat-dev \
+ libavutil-dev \
+ libbz2-dev \
+ libcap-dev \
+ libcups2-dev \
  libcups2-dev \
  libdbus-1-dev \
+ libdrm-dev \
+ libegl1-mesa-dev \
+ libevent-dev \
+ libfontconfig1-dev \
  libfontconfig1-dev \
  libfreetype6-dev \
+ libfuse-dev \
  libgbm-dev \
+ libgcrypt11-dev \
  libgl1-mesa-dev \
  libgles2-mesa-dev \
  libglib2.0-dev \
@@ -38,16 +49,29 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  libharfbuzz-dev \
  libicu-dev \
  libjpeg-dev \
+ libjsoncpp-dev \
+ libmagickcore-dev \
+ libmagickwand-dev \
+ libminizip-dev \
  libmtdev-dev \
  libmysqlclient-dev \
+ libnss3-dev \
+ libopus-dev \
+ libpci-dev \
  libpcre3-dev \
  libpng-dev \
  libpq-dev \
  libproxy-dev \
  libpulse-dev \
+ libpulse-dev \
+ libreadline-dev \
  libsqlite3-dev \
+ libsrtp0-dev \
+ libssl-dev \
  libssl-dev \
  libudev-dev \
+ libudev-dev \
+ libwebp-dev \
  libx11-dev \
  libx11-xcb-dev \
  libxcb-icccm4-dev \
@@ -63,14 +87,24 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  libxcb-xinerama0-dev \
  libxcb-xkb-dev \
  libxcb1-dev \
+ libxcomposite-dev \
+ libxcursor-dev \
+ libxdamage-dev \
  libxext-dev \
  libxi-dev \
  libxkbcommon-dev \
  libxkbcommon-x11-dev \
+ libxrandr-dev \
  libxrender-dev \
+ libxss-dev \
+ libxtst-dev \
+ ninja-build
  pkg-kde-tools \
  publicsuffix \
+ python \
+ software-properties-common \
  unixodbc-dev \
+ wget \
  zlib1g-dev
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-51
