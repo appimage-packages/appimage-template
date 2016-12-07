@@ -1,6 +1,6 @@
 # match line starting with 'error ', case-insensitive
 error /(?i)^error /
-
+error /ERROR: ldd outputLine/
 warning /Could [Nn][Oo][Tt] find/
 warning /have not been found/
 # list of warnings here...

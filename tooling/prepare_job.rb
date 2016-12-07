@@ -21,4 +21,6 @@
 
 name = ARGV[0]
 
-p name
+p "Updating #{name}"
+
+system("git clone ")

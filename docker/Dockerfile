@@ -52,7 +52,6 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  libjsoncpp-dev \
  libmagickcore-dev \
  libmagickwand-dev \
- libminizip-dev \
  libmtdev-dev \
  libmysqlclient-dev \
  libnss3-dev \
@@ -98,7 +97,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  libxrender-dev \
  libxss-dev \
  libxtst-dev \
- ninja-build
+ ninja-build \
  pkg-kde-tools \
  publicsuffix \
  python \
