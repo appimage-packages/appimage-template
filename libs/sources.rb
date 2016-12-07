@@ -105,6 +105,7 @@ class Sources
           end
           p "Running " + cmd
           system(cmd)
+          system("rm -rfv  #{name}-builddir")
         end
         if "#{autoreconf}" == true
           p "Running " + cmd
@@ -115,12 +116,14 @@ class Sources
             cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/app/usr #{options} &&  make -j 8 && make install prefix=/app/usr"
           end
           system(cmd)
+          system("rm -rfv  #{name}-builddir")
         end
       end
     when 'cmake'
       Dir.chdir(path) do
         p "running cmake #{options}"
         system("mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make -j 8 && make install")
+        system("rm -rfv  #{name}-builddir")
       end
     when 'custom'
       unless "#{name}" == 'cpan'
