@@ -95,7 +95,7 @@ RUN cd qt-everywhere-opensource-src-5.7.0 && ./configure -v -release -opensource
 RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
 ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 ENV LD_LIBRARY_PATH /app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib:/usr/lib64:/usr/lib
-RUN cd qtquick1 && qmake PREFIX=/opt/usr . && make
+RUN cd qtquick1 && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install
 USER jenkins
