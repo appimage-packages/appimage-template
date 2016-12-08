@@ -73,7 +73,7 @@ export APPIMAGE_STARTUP_PATH=\$PATH
 <%= name %> \$@
 EOF
 chmod +x AppRun
-
+cp /app/usr/bin/<%= name %> .
 cp /app/usr/share/applications/*<%= name %>*.desktop <%= name %>.desktop
 cp /app/usr/share/icons/hicolor/scalable/apps/*<%= name %>* .
 
