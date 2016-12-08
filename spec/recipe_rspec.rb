@@ -135,8 +135,6 @@ describe Recipe do
           #Main project
           sources = Sources.new
           name = metadata['name']
-          type = metadata['type']
-          url = metadata['url']
           path = "/in/#{name}"
           buildsystem = metadata['buildsystem']
           options = metadata['buildoptions']

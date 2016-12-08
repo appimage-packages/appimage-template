@@ -81,7 +81,7 @@ class Sources
 
   def run_build(name, buildsystem, options, path, autoreconf=false, insource=false)
     ENV['PATH']='/opt/usr/bin:/app/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-    ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib/Qt-5.7.0:/usr/lib64:/usr/lib:/lib:/lib64'
+    ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib/Qt-5.7.0:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
     ENV['CPLUS_INCLUDE_PATH']='/app/usr/include:/opt/usr/include:/usr/include'
     ENV['CFLAGS']="-g -O2 -fPIC"
     ENV['PKG_CONFIG_PATH']='/app/usr/lib/x86_64-linux-gnu/pkgconfig:/app/usr/lib/pkgconfig:/app/usr/share/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
