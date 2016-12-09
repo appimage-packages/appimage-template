@@ -122,6 +122,7 @@ RUN chgrp fuse /dev/fuse
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
 # Build Qt5.7 and install to /opt/qt5
+RUN rm -rfv /opt/usr
 RUN wget http://download.qt.io/snapshots/qt/5.7/5.7.1/latest_src/qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN tar -xvf qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -confirm-license -opensource -debug -dbus -xcb -no-rpath -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
