@@ -66,7 +66,7 @@ class Sources
       unless Dir.exist?("/app/src/#{name}")
         system("hg clone #{url}")
       end
-    when 'lp'
+    when 'bzr'
       Dir.chdir('/app/src')
       unless Dir.exist?("/app/src/#{name}")
         system("bzr branch #{url}")
