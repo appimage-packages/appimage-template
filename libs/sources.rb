@@ -129,6 +129,7 @@ class Sources
         p "running cmake #{options}"
         system("mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make -j 8 && make install")
         system("rm -rfv  #{name}-builddir")
+        $?.exitstatus
       end
     when 'custom'
       unless "#{name}" == 'cpan'

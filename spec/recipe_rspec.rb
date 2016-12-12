@@ -90,12 +90,12 @@ describe Recipe do
           path = "/app/src/#{framework}"
           if framework == 'phonon'
             options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr  -DSYSCONF_INSTALL_DIR=/app/etc -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON \
-            -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE -DCMAKE_SKIP_RPATH=TRUE'
+            -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
             expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
             expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
           else
-            options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr -DKDE_INSTALL_SYSCONFDIR=/app/etc -DBUILD_TESTING=OFF -DCMAKE_SKIP_RPATH=TRUE'
+            options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr -DKDE_INSTALL_SYSCONFDIR=/app/etc -DBUILD_TESTING=OFF'
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
             expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
             expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
