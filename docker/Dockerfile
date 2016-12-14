@@ -125,10 +125,10 @@ RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
 RUN rm -rfv /opt/usr
 RUN wget http://download.qt.io/snapshots/qt/5.7/5.7.1/latest_src/qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN tar -xvf qt-everywhere-opensource-src-5.7.1.tar.xz
-RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -confirm-license -opensource -debug -dbus -xcb -no-rpath -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -no-rpath -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
 RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
 ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
-ENV LD_LIBRARY_PATH /app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib:/usr/lib64:/usr/lib
+ENV LD_LIBRARY_PATH /app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib/opt/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib
 RUN cd qtquick1 && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://code.qt.io/qt/qtspeech.git
 RUN cd qtspeech && qmake PREFIX=/opt/usr . && make && make install
