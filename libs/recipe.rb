@@ -38,8 +38,7 @@ class Recipe
   attr_accessor :version
   attr_accessor :app_dir
   attr_accessor :configure_options
-  ENV['PATH']='/app/usr/bin:/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-  ENV['LD_LIBRARY_PATH']='/app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib/Qt-5.7.0:/usr/lib64:/usr/lib'
+
 
   def initialize(args = {})
     Dir.chdir('/')

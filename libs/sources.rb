@@ -102,10 +102,10 @@ class Sources
       Dir.chdir("#{path}") do
         unless "#{autoreconf}" == true
           unless "#{insource}" == true
-            cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/app/usr #{options} && make -j 8 && make install"
+            cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} && make -j 8 && make install"
           end
           if "#{insource}" == true
-            cmd = "cd #{name} && ../configure --prefix=/app/usr #{options} && make -j 8 && make install"
+            cmd = "cd #{name} && ../configure --prefix=/opt/usr #{options} && make -j 8 && make install"
           end
           p "Running " + cmd
           system(cmd)
@@ -114,10 +114,10 @@ class Sources
         if "#{autoreconf}" == true
           p "Running " + cmd
           unless "#{insource}" == true
-            cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/app/usr #{options} &&  make -j 8 && make install prefix=/app/usr"
+            cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} &&  make -j 8 && make install prefix=/opt/usr"
           end
           if "#{insource}" == true
-            cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/app/usr #{options} &&  make -j 8 && make install prefix=/app/usr"
+            cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/opt/usr #{options} &&  make -j 8 && make install prefix=/opt/usr"
           end
           system(cmd)
           system("rm -rfv  #{name}-builddir")
