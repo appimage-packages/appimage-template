@@ -79,12 +79,12 @@ class Sources
   end
 
   def run_build(name, buildsystem, options, path, autoreconf=false, insource=false)
-    ENV['PATH']='/opt/usr/bin:/app/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-    ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
-    ENV['CPLUS_INCLUDE_PATH']='/app/usr/include:/opt/usr/include:/usr/include'
+    ENV['PATH']='/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
+    ENV['CPLUS_INCLUDE_PATH']='/opt/usr:/opt/usr/include:/usr/include'
     ENV['CFLAGS']="-g -O2 -fPIC"
-    ENV['PKG_CONFIG_PATH']='/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/app/usr/lib/x86_64-linux-gnu/pkgconfig:/app/usr/lib/pkgconfig:/app/usr/share/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
-    ENV['ACLOCAL_PATH']='/opt/usr/share/aclocal:/app/usr/share/aclocal:/usr/share/aclocal'
+    ENV['PKG_CONFIG_PATH']='/opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig'
+    ENV['ACLOCAL_PATH']='/opt/usr/share/aclocal:/usr/share/aclocal'
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
     ENV.fetch('CFLAGS')
@@ -92,11 +92,11 @@ class Sources
     ENV.fetch('ACLOCAL_PATH')
     ENV.fetch('CPLUS_INCLUDE_PATH')
     system( "echo $PATH" )
-    `echo LD_LIBRARY_PATH`
-    `echo CFLAGS`
-    `echo PKG_CONFIG_PATH`
-    `echo ACLOCAL_PATH`
-    `echo CPLUS_INCLUDE_PATH`
+    system( "echo $LD_LIBRARY_PATH" )
+    system( "echo $CFLAGS" )
+    system( "echo $PKG_CONFIG_PATH" )
+    system( "echo $ACLOCAL_PATH" )
+    system( "echo $CPLUS_INCLUDE_PATH" ) 
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("#{path}") do
