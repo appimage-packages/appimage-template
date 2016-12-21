@@ -83,20 +83,23 @@ class Sources
     ENV['LD_LIBRARY_PATH']='/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib:/lib:/lib64'
     ENV['CPLUS_INCLUDE_PATH']='/opt/usr:/opt/usr/include:/usr/include'
     ENV['CFLAGS']="-g -O2 -fPIC"
+    ENV['CXXFLAGS']="-std=c++11"
     ENV['PKG_CONFIG_PATH']='/opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig'
     ENV['ACLOCAL_PATH']='/opt/usr/share/aclocal:/usr/share/aclocal'
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
     ENV.fetch('CFLAGS')
+    ENV.fetch('CXXFLAGS')
     ENV.fetch('PKG_CONFIG_PATH')
     ENV.fetch('ACLOCAL_PATH')
     ENV.fetch('CPLUS_INCLUDE_PATH')
     system( "echo $PATH" )
     system( "echo $LD_LIBRARY_PATH" )
     system( "echo $CFLAGS" )
+    system( "echo $CXXFLAGS" )
     system( "echo $PKG_CONFIG_PATH" )
     system( "echo $ACLOCAL_PATH" )
-    system( "echo $CPLUS_INCLUDE_PATH" ) 
+    system( "echo $CPLUS_INCLUDE_PATH" )
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("#{path}") do
