@@ -19,19 +19,26 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  gperf \
  graphviz \
  gyp \
- libtheora-dev \
+ libaa1-dev \
  libasound2-dev \
  libatspi2.0-dev \
+ libavc1394-dev \
  libavcodec-dev \
  libavformat-dev \
  libavutil-dev \
+ libboost-all-dev \
  libbz2-dev \
+ libcaca-dev \
  libcap-dev \
+ libcdparanoia-dev \
  libcups2-dev \
  libdbus-1-dev \
+ libdc1394-22-dev \
  libdrm-dev \
+ libdv4-dev \
  libegl1-mesa-dev \
  libevent-dev \
+ libflac-dev \
  libfontconfig1-dev \
  libfreetype6-dev \
  libfuse-dev \
@@ -61,14 +68,22 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  libpq-dev \
  libproxy-dev \
  libpulse-dev \
+ libraw1394-dev \
  libreadline-dev \
+ libshout3-dev \
  libsoup2.4-dev \
+ libspeex-dev \
  libsqlite3-dev \
  libsrtp0-dev \
  libssl-dev \
+ libtag1-dev \
+ libtheora-dev \
  libudev-dev \
  libvisual-0.4-dev  \
  libvorbis-dev \
+ libvorbisidec-dev \
+ libvpx-dev \
+ libwavpack-dev \
  libwebp-dev \
  libx11-dev \
  libx11-xcb-dev \
@@ -103,9 +118,10 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  software-properties-common \
  unixodbc-dev \
  wget \
+ yasm \
  zlib1g-dev
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-51
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-57
 RUN groupadd -g 1000 jenkins
 RUN useradd -m -u 1000 -g 1000 -d /home/jenkins jenkins
 RUN mkdir -p /{appimage,app}
@@ -119,36 +135,23 @@ RUN usermod -a -G fuse jenkins
 RUN chgrp fuse /dev/fuse
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
+ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib64
+ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
+ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 #Build newer gstreamer for sound stack
 RUN wget 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.10.2.tar.xz'
-RUN tar -xvf gstreamer-1.10.2.tar.xz'
-RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr && make && make install
+RUN tar -xvf gstreamer-1.10.2.tar.xz
+RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
 RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.10.2.tar.xz'
-RUN tar -xvf gst-plugins-base-1.10.2'
-RUN cd gst-plugins-base-1.10.2 && ./configure --prefix=/opt/usr && make && make install
+RUN tar -xvf gst-plugins-base-1.10.2.tar.xz
+RUN cd gst-plugins-base-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
 RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.10.2.tar.xz'
-RUN tar -xvf gst-plugins-good-1.10.2.tar.xz'
-RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr && make && make install
-RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.10.2.tar.xz'
-RUN tar -xvf gst-plugins-bad-1.10.2.tar.xz'
-RUN cd gst-plugins-bad-1.10.2 && ./configure --prefix=/opt/usr && make && make install
-RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.10.2.tar.xz'
-RUN tar -xvf gst-plugins-ugly-1.10.2.tar.xz'
-RUN cd gst-plugins-ugly-1.10.2 && ./configure --prefix=/opt/usr && make && make install
-RUN wget 'https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.10.2.tar.xz'
-RUN tar -xvf gst-libav-1.10.2.tar.xz'
-RUN cd gst-libav-1.10.2 && ./configure --prefix=/opt/usr && make && make install
-ENV LD_LIBRARY_PATH /app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib64:/usr/lib
-ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
-RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz'
-# Build Qt5.7 and install to /opt/usr
-RUN rm -rfv /opt/usr
+RUN tar -xvf gst-plugins-good-1.10.2.tar.xz
+RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
+# # Build Qt5.7 and install to /opt/usr
 RUN wget http://download.qt.io/snapshots/qt/5.7/5.7.1/latest_src/qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN tar -xvf qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
-RUN tar -xvf qt-gstreamer-1.2.0.tar.xz
-RUN cd qt-gstreamer-1.2.0 &&  '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ \
--DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF' && make && make install
 RUN git clone http://code.qt.io/qt/qtstyleplugins.git
 RUN cd qtstyleplugins && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
@@ -157,6 +160,9 @@ RUN git clone https://code.qt.io/qt/qtspeech.git
 RUN cd qtspeech && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install
+RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz'
+RUN tar -xvf qt-gstreamer-1.2.0.tar.xz
+RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ -DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF && make && make install
 USER jenkins
 # Install rbenv and ruby-build
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
