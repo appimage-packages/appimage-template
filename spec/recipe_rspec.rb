@@ -89,8 +89,7 @@ describe Recipe do
         frameworks.each do |framework|
           path = "/app/src/#{framework}"
           if framework == 'phonon' || framework == 'phonon-gstreamer'
-            options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DSYSCONF_INSTALL_DIR=/opt/etc -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON \
-            -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
+            options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DSYSCONF_INSTALL_DIR=/opt/etc -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=TRUE'
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
             expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
             expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
