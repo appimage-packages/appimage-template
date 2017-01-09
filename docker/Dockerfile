@@ -8,6 +8,8 @@ RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-backports main res
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  # QT stack deps
+ autoconf \
+ autogen \
  bison \
  build-essential \
  bzr \
