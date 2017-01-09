@@ -10,6 +10,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  # QT stack deps
  bison \
  build-essential \
+ bzr \
  firebird-dev \
  flex \
  freetds-dev \
@@ -65,6 +66,9 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  libpci-dev \
  libpcre3-dev \
  libpng-dev \
+ libpolkit-agent-1-dev \
+ libpolkit-backend-1-dev \
+ libpolkit-gobject-1-dev \
  libpq-dev \
  libproxy-dev \
  libpulse-dev \
@@ -84,6 +88,9 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  libvorbisidec-dev \
  libvpx-dev \
  libwavpack-dev \
+ libwayland-dev \
+ libwayland-egl1-mesa \
+ libwayland-server0 \
  libwebp-dev \
  libx11-dev \
  libx11-xcb-dev \
@@ -151,7 +158,7 @@ RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --disable-static
 # # Build Qt5.7 and install to /opt/usr
 RUN wget http://download.qt.io/snapshots/qt/5.7/5.7.1/latest_src/qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN tar -xvf qt-everywhere-opensource-src-5.7.1.tar.xz
-RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
 RUN git clone http://code.qt.io/qt/qtstyleplugins.git
 RUN cd qtstyleplugins && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
@@ -160,6 +167,13 @@ RUN git clone https://code.qt.io/qt/qtspeech.git
 RUN cd qtspeech && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install
+RUN git clone https://github.com/flavio/qjson
+RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr
+RUN bzr branch lp:libdbusmenu-qt
+RUN cd libdbusmenu-qt &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr
+RUN cpan URI::Escape
+RUN git clone git://git.gnupg.org/gpgme.git
+RUN cd gpgme && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr && make -j 8 && make install
 RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz'
 RUN tar -xvf qt-gstreamer-1.2.0.tar.xz
 RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ -DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF && make && make install
