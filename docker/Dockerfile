@@ -24,6 +24,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  gyp \
  libaa1-dev \
  libasound2-dev \
+ libassuan-dev \
  libatspi2.0-dev \
  libavc1394-dev \
  libavcodec-dev \
@@ -52,6 +53,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  libglib2.0-dev \
  libglu-dev \
  libglu1-mesa-dev \
+ libgpg-error-dev \
  libgtk-3-dev \
  libharfbuzz-dev \
  libicu-dev \
