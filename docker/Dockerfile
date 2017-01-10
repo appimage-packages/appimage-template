@@ -10,6 +10,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  # QT stack deps
  autoconf \
  autogen \
+ autopoint \
  bison \
  build-essential \
  bzr \
@@ -175,7 +176,12 @@ RUN git clone https://github.com/flavio/qjson
 RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr
 RUN bzr branch lp:libdbusmenu-qt
 RUN cd libdbusmenu-qt &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr
-RUN cpan URI::Escape
+RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.8.tar.xz
+RUN tar -xvf gettext-0.19.8.tar.xz
+RUN cd gettext-0.19.8 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
+RUN tar -jxvf libgpg-error-1.26.tar.bz2
+RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN git clone git://git.gnupg.org/gpgme.git
 RUN cd gpgme && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz'
