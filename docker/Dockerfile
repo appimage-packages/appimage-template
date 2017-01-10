@@ -182,9 +182,9 @@ RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install
 RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2
 RUN tar -jxvf m4-1.4.18.tar.bz2
 RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
-RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
-RUN tar -xzvf gettext-0.18.1.1.tar.gz
-RUN cd gettext-0.18.1.1 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
+RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.tar.gz
+RUN tar -xzvf gettext-0.19.tar.gz
+RUN cd gettext-0.19 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
 RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
 RUN tar -jxvf libgpg-error-1.26.tar.bz2
 RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
