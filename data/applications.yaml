@@ -2,3 +2,5 @@ kate:
   repo: https://github.com/appimage-packages/kate
 blinken:
   repo: https://github.com/appimage-packages/blinken
+kmymoney:
+  repo: https://github.com/appimage-packages/kmymoney
