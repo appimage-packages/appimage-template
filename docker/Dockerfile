@@ -8,9 +8,8 @@ RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-backports main res
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  # QT stack deps
- autoconf \
  autogen \
- autopoint \
+ automake \
  bison \
  build-essential \
  bzr \
@@ -128,6 +127,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get -y install \
  publicsuffix \
  python \
  software-properties-common \
+ texinfo \
  unixodbc-dev \
  wget \
  yasm \
@@ -150,6 +150,36 @@ RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
 ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib64
 ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
+#Build gpgme stack
+RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
+RUN tar -jxvf util-macros-1.19.0.tar.bz2
+RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install
+RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2
+RUN tar -jxvf m4-1.4.18.tar.bz2
+RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
+RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz
+RUN tar -xzvf gettext-0.19.3.tar.gz
+RUN cd gettext-0.19.3 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
+RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
+RUN tar -jxvf libgpg-error-1.26.tar.bz2
+RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --enable-static &&  make -j 8 && make install
+RUN wget https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.3.5.tar.bz2
+RUN tar -jxvf libksba-1.3.5.tar.bz2
+RUN cd libksba-1.3.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN wget https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.4.3.tar.bz2
+RUN tar -jxvf libassuan-2.4.3.tar.bz2
+RUN cd libassuan-2.4.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN wget https://www.gnupg.org/ftp/gcrypt/npth/npth-1.3.tar.bz2
+RUN tar -jxvf npth-1.3.tar.bz2
+RUN cd npth-1.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN git clone git://git.gnupg.org/gpgme.git
+RUN cd gpgme && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN wget https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2
+RUN tar -jxvf libgcrypt-1.7.5.tar.bz2
+RUN cd libgcrypt-1.7.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2
+RUN tar -jxvf gnupg-2.1.17.tar.bz2
+RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 #Build newer gstreamer for sound stack
 RUN wget 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.10.2.tar.xz'
 RUN tar -xvf gstreamer-1.10.2.tar.xz
@@ -176,20 +206,6 @@ RUN git clone https://github.com/flavio/qjson
 RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr
 RUN bzr branch lp:libdbusmenu-qt
 RUN cd libdbusmenu-qt &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr
-RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
-RUN tar -jxvf util-macros-1.19.0.tar.bz2
-RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install
-RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2
-RUN tar -jxvf m4-1.4.18.tar.bz2
-RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
-RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.tar.gz
-RUN tar -xzvf gettext-0.19.tar.gz
-RUN cd gettext-0.19 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
-RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
-RUN tar -jxvf libgpg-error-1.26.tar.bz2
-RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
-RUN git clone git://git.gnupg.org/gpgme.git
-RUN cd gpgme && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz'
 RUN tar -xvf qt-gstreamer-1.2.0.tar.xz
 RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ -DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF && make && make install
