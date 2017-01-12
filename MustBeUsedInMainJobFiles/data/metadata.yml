@@ -78,7 +78,6 @@ packages:
   - bison
   - libxslt1-dev
   #app specifc
-  - libindi-dev
 frameworks:
   build_kf5: true
   frameworks:
@@ -118,6 +117,7 @@ frameworks:
     - knewstuff
     - breeze-icons
     - kactivities
+    - kdeclarative
     - plasma-framework
 type: git
 url: http://anongit.kde.org/changeme

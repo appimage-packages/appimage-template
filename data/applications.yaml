@@ -8,3 +8,7 @@ skanlite:
   repo: https://github.com/appimage-packages/skanlite-packaging
 artikulate:
   repo: https://github.com/appimage-packages/artikulate
+kstars:
+  repo: https://github.com/appimage-packages/kstars
+okular:
+  repo: https://github.com/appimage-packages/okular
