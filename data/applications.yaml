@@ -12,3 +12,5 @@ kstars:
   repo: https://github.com/appimage-packages/kstars
 okular:
   repo: https://github.com/appimage-packages/okular
+ark:
+  repo: https://github.com/appimage-packages/ark

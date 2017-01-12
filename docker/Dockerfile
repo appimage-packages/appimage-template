@@ -176,6 +176,8 @@ RUN tar -xvf qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
 RUN git clone http://code.qt.io/qt/qtstyleplugins.git
 RUN cd qtstyleplugins && qmake PREFIX=/opt/usr . && make && make install
+RUN git clone http://code.qt.io/qt/qtwebkit.git
+RUN cd qtwebkit && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
 RUN cd qtquick1 && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://code.qt.io/qt/qtspeech.git
@@ -183,9 +185,9 @@ RUN cd qtspeech && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install
 RUN git clone https://github.com/flavio/qjson
-RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr
+RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install
 RUN bzr branch lp:libdbusmenu-qt
-RUN cd libdbusmenu-qt &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr
+RUN cd libdbusmenu-qt &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install
 RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
 RUN tar -jxvf libgpg-error-1.26.tar.bz2
 RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --enable-static &&  make -j 8 && make install
