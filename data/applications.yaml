@@ -4,3 +4,7 @@ blinken:
   repo: https://github.com/appimage-packages/blinken
 kmymoney:
   repo: https://github.com/appimage-packages/kmymoney
+skanlite:
+  repo: https://github.com/appimage-packages/skanlite-packaging
+artikulate:
+  repo: https://github.com/appimage-packages/artikulate
