@@ -7,131 +7,159 @@ RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restric
 RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get -y upgrade && apt-get -y install \
- # QT stack deps
- autogen \
- automake \
- bison \
- build-essential \
- bzr \
- firebird-dev \
- flex \
- freetds-dev \
- fuse \
- gdb \
- git \
- gperf \
- graphviz \
- gyp \
- libaa1-dev \
- libasound2-dev \
- libassuan-dev \
- libatspi2.0-dev \
- libavc1394-dev \
- libavcodec-dev \
- libavformat-dev \
- libavutil-dev \
- libboost-all-dev \
- libbz2-dev \
- libcaca-dev \
- libcap-dev \
- libcdparanoia-dev \
- libcups2-dev \
- libdbus-1-dev \
- libdc1394-22-dev \
- libdrm-dev \
- libdv4-dev \
- libegl1-mesa-dev \
- libevent-dev \
- libflac-dev \
- libfontconfig1-dev \
- libfreetype6-dev \
- libfuse-dev \
- libgbm-dev \
- libgcrypt11-dev \
- libgl1-mesa-dev \
- libgles2-mesa-dev \
- libglib2.0-dev \
- libglu-dev \
- libglu1-mesa-dev \
- libgpg-error-dev \
- libgtk-3-dev \
- libharfbuzz-dev \
- libicu-dev \
- libjack-dev \
- libjpeg-dev \
- libjsoncpp-dev \
- libmagickcore-dev \
- libmagickwand-dev \
- libmtdev-dev \
- libmysqlclient-dev \
- libnss3-dev \
- libogg-dev \
- libopus-dev \
- libpci-dev \
- libpcre3-dev \
- libpng-dev \
- libpolkit-agent-1-dev \
- libpolkit-backend-1-dev \
- libpolkit-gobject-1-dev \
- libpq-dev \
- libproxy-dev \
- libpulse-dev \
- libraw1394-dev \
- libreadline-dev \
- libshout3-dev \
- libsoup2.4-dev \
- libspeex-dev \
- libsqlite3-dev \
- libsrtp0-dev \
- libssl-dev \
- libtag1-dev \
- libtheora-dev \
- libudev-dev \
- libvisual-0.4-dev  \
- libvorbis-dev \
- libvorbisidec-dev \
- libvpx-dev \
- libwavpack-dev \
- libwayland-dev \
- libwayland-egl1-mesa \
- libwayland-server0 \
- libwebp-dev \
- libx11-dev \
- libx11-xcb-dev \
- libxcb-icccm4-dev \
- libxcb-image0-dev \
- libxcb-keysyms1-dev \
- libxcb-randr0-dev \
- libxcb-render-util0-dev \
- libxcb-render0-dev \
- libxcb-shape0-dev \
- libxcb-shm0-dev \
- libxcb-sync-dev \
- libxcb-xfixes0-dev \
- libxcb-xinerama0-dev \
- libxcb-xkb-dev \
- libxcb1-dev \
- libxcomposite-dev \
- libxcursor-dev \
- libxdamage-dev \
- libxext-dev \
- libxi-dev \
- libxkbcommon-dev \
- libxkbcommon-x11-dev \
- libxrandr-dev \
- libxrender-dev \
- libxss-dev \
- libxtst-dev \
- libxv-dev \
- ninja-build \
- publicsuffix \
- python \
- software-properties-common \
- texinfo \
- unixodbc-dev \
- wget \
- yasm \
- zlib1g-dev
+ # QT + addons and KF5 stack deps
+autogen \
+automake \
+autotools-dev \
+bison \
+build-essential \
+bzr \
+docbook-xml \
+docbook-xsl \
+doxygen \
+firebird-dev \
+flex \
+freetds-dev \
+fuse \
+gdb \
+git \
+gperf \
+graphviz \
+gyp \
+libaa1-dev \
+libappstream-dev \
+libasound2-dev \
+libassuan-dev \
+libatspi2.0-dev \
+libatspi2.0-dev \
+libavc1394-dev \
+libavcodec-dev \
+libavformat-dev \
+libavutil-dev \
+libboost-all-dev \
+libbz2-dev \
+libcaca-dev \
+libcap-dev \
+libcdparanoia-dev \
+libcups2-dev \
+libdbus-1-dev \
+libdc1394-22-dev \
+libdrm-dev \
+libdv4-dev \
+libegl1-mesa-dev \
+libevent-dev \
+libflac++-dev \
+libflac-dev \
+libfontconfig1-dev \
+libfreetype6-dev \
+libfuse-dev \
+libgbm-dev \
+libgcrypt11-dev \
+libgl1-mesa-dev \
+libgles2-mesa-dev \
+libglib2.0-dev \
+libglu-dev \
+libglu1-mesa-dev \
+libgpg-error-dev \
+libgstreamer-plugins-base1.0-dev \
+libgstreamer1.0-dev \
+libgtk-3-dev \
+libgtk2.0-dev \
+libharfbuzz-dev \
+libicu-dev \
+libjack-dev \
+libjpeg-dev \
+libjsoncpp-dev \
+libmagickcore-dev \
+libmagickwand-dev \
+libmtdev-dev \
+libmtdev-dev \
+libmysqlclient-dev \
+libncurses5-dev \
+libnss3-dev \
+libogg-dev \
+libopenal-dev \
+libopus-dev \
+libpci-dev \
+libpcre3-dev \
+libpng-dev \
+libpolkit-agent-1-dev \
+libpolkit-backend-1-dev \
+libpolkit-gobject-1-dev \
+libpq-dev \
+libproxy-dev \
+libpulse-dev \
+libraw1394-dev \
+libreadline-dev \
+libshout3-dev \
+libsnappy-dev \
+libsoup2.4-dev \
+libspeex-dev \
+libsqlite3-dev \
+libsrtp0-dev \
+libssl-dev \
+libsystemd-journal-dev \
+libtag1-dev \
+libtheora-dev \
+libts-dev \
+libudev-dev \
+libvisual-0.4-dev \
+libvorbis-dev \
+libvorbisidec-dev \
+libvpx-dev \
+libwavpack-dev \
+libwayland-dev \
+libwayland-egl1-mesa \
+libwayland-server0 \
+libwayland0 \
+libwebp-dev \
+libx11-dev \
+libx11-xcb-dev \
+libxcb-icccm4-dev \
+libxcb-image0-dev \
+libxcb-keysyms1-dev \
+libxcb-randr0-dev \
+libxcb-render-util0-dev \
+libxcb-render0-dev \
+libxcb-shape0-dev \
+libxcb-shm0-dev \
+libxcb-sync-dev \
+libxcb-sync-dev \
+libxcb-xfixes0-dev \
+libxcb-xinerama0-dev \
+libxcb-xkb-dev \
+libxcb1-dev \
+libxcb1-dev \
+libxcomposite-dev \
+libxcursor-dev \
+libxdamage-dev \
+libxext-dev \
+libxi-dev \
+libxkbcommon-dev \
+libxkbcommon-dev \
+libxkbcommon-x11-dev \
+libxkbcommon-x11-dev \
+libxkbfile-dev \
+libxrandr-dev \
+libxrender-dev \
+libxrender-dev \
+libxslt1-dev \
+libxss-dev \
+libxss-dev \
+libxtst-dev \
+libxv-dev \
+ninja-build \
+pkg-config \
+publicsuffix \
+python \
+re2c \
+ruby \
+software-properties-common \
+texinfo \
+unixodbc-dev \
+wget \
+yasm \
+zlib1g-dev
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-57
 RUN groupadd -g 1000 jenkins
@@ -154,6 +182,7 @@ ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconf
 RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
 RUN tar -jxvf util-macros-1.19.0.tar.bz2
 RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install
+RUN rm /util-macros-1.19.0.tar.bz2 && rm -rfv /util-macros-1.19.0
 RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2
 RUN tar -jxvf m4-1.4.18.tar.bz2
 RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
@@ -216,7 +245,6 @@ USER jenkins
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 RUN git clone https://github.com/sstephenson/rbenv.git /home/jenkins/.rbenv
 RUN git clone https://github.com/sstephenson/ruby-build.git /home/jenkins/.rbenv/plugins/ruby-build
-
 ENV CONFIGURE_OPTS --disable-install-doc
 ADD ./versions.txt /home/jenkins/versions.txt
 ADD ./Gemfile /home/jenkins/Gemfile
