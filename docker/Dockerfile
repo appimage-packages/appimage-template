@@ -129,7 +129,6 @@ libxcb-xfixes0-dev \
 libxcb-xinerama0-dev \
 libxcb-xkb-dev \
 libxcb1-dev \
-libxcb1-dev \
 libxcomposite-dev \
 libxcursor-dev \
 libxdamage-dev \
@@ -151,7 +150,10 @@ libxv-dev \
 ninja-build \
 pkg-config \
 publicsuffix \
-python \
+python2.7 \
+python2.7-dev \
+python3 \
+python3-dev \
 re2c \
 ruby \
 software-properties-common \
@@ -161,7 +163,7 @@ wget \
 yasm \
 zlib1g-dev
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-57
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
 RUN groupadd -g 1000 jenkins
 RUN useradd -m -u 1000 -g 1000 -d /home/jenkins jenkins
 RUN mkdir -p /{appimage,app}
@@ -205,8 +207,9 @@ RUN tar -xvf qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
 RUN git clone http://code.qt.io/qt/qtstyleplugins.git
 RUN cd qtstyleplugins && qmake PREFIX=/opt/usr . && make && make install
-RUN git clone http://code.qt.io/qt/qtwebkit.git
-RUN cd qtwebkit && qmake PREFIX=/opt/usr . && make && make install
+RUN wget http://download.qt.io/community_releases/5.7/5.7.1/qtwebkit-opensource-src-5.7.1.tar.xz
+RUN tar -xvf qtwebkit-opensource-src-5.7.1.tar.xz
+RUN cd qtwebkit-opensource-src-5.7.1 && Tools/Scripts/build-webkit --qt --qmakearg="PREFIX+=/opt/usr" && qmake WebKit.pro && make && make install
 RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
 RUN cd qtquick1 && qmake PREFIX=/opt/usr . && make && make install
 RUN git clone https://code.qt.io/qt/qtspeech.git

@@ -1,0 +1,160 @@
+Sending build context to Docker daemon 13.82 kB
+Step 1 : FROM ubuntu:14.04
+ ---> 0ccb13bf1954
+Step 2 : RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> b01512b6a305
+Step 3 : RUN echo "deb-src http://ca.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> 4c1be59f6ca9
+Step 4 : RUN echo "deb http://ca.archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> 391b4b93db16
+Step 5 : RUN echo "deb-src http://ca.archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> 4b74660317ed
+Step 6 : RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> a94b2e1518cf
+Step 7 : RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> 6e47895400af
+Step 8 : RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+ ---> Using cache
+ ---> d5328a335818
+Step 9 : RUN apt-get update && apt-get -y upgrade && apt-get -y install autogen automake autotools-dev bison build-essential bzr docbook-xml docbook-xsl doxygen firebird-dev flex freetds-dev fuse gdb git gperf graphviz gyp libaa1-dev libappstream-dev libasound2-dev libassuan-dev libatspi2.0-dev libatspi2.0-dev libavc1394-dev libavcodec-dev libavformat-dev libavutil-dev libboost-all-dev libbz2-dev libcaca-dev libcap-dev libcdparanoia-dev libcups2-dev libdbus-1-dev libdc1394-22-dev libdrm-dev libdv4-dev libegl1-mesa-dev libevent-dev libflac++-dev libflac-dev libfontconfig1-dev libfreetype6-dev libfuse-dev libgbm-dev libgcrypt11-dev libgl1-mesa-dev libgles2-mesa-dev libglib2.0-dev libglu-dev libglu1-mesa-dev libgpg-error-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libgtk-3-dev libgtk2.0-dev libharfbuzz-dev libicu-dev libjack-dev libjpeg-dev libjsoncpp-dev libmagickcore-dev libmagickwand-dev libmtdev-dev libmtdev-dev libmysqlclient-dev libncurses5-dev libnss3-dev libogg-dev libopenal-dev libopus-dev libpci-dev libpcre3-dev libpng-dev libpolkit-agent-1-dev libpolkit-backend-1-dev libpolkit-gobject-1-dev libpq-dev libproxy-dev libpulse-dev libraw1394-dev libreadline-dev libshout3-dev libsnappy-dev libsoup2.4-dev libspeex-dev libsqlite3-dev libsrtp0-dev libssl-dev libsystemd-journal-dev libtag1-dev libtheora-dev libts-dev libudev-dev libvisual-0.4-dev libvorbis-dev libvorbisidec-dev libvpx-dev libwavpack-dev libwayland-dev libwayland-egl1-mesa libwayland-server0 libwayland0 libwebp-dev libx11-dev libx11-xcb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-shape0-dev libxcb-shm0-dev libxcb-sync-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb1-dev libxcb1-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev libxi-dev libxkbcommon-dev libxkbcommon-dev libxkbcommon-x11-dev libxkbcommon-x11-dev libxkbfile-dev libxrandr-dev libxrender-dev libxrender-dev libxslt1-dev libxss-dev libxss-dev libxtst-dev libxv-dev ninja-build pkg-config publicsuffix python re2c ruby software-properties-common texinfo unixodbc-dev wget yasm zlib1g-dev
+ ---> Using cache
+ ---> e99d87a4576a
+Step 10 : RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
+ ---> Using cache
+ ---> bdbcb251d119
+Step 11 : RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
+ ---> Using cache
+ ---> 7200d2c55839
+Step 12 : RUN groupadd -g 1000 jenkins
+ ---> Using cache
+ ---> f1906a8277cb
+Step 13 : RUN useradd -m -u 1000 -g 1000 -d /home/jenkins jenkins
+ ---> Using cache
+ ---> a376e8a8cd9e
+Step 14 : RUN mkdir -p /{appimage,app}
+ ---> Using cache
+ ---> 0ea109bfa842
+Step 15 : RUN chown jenkins.jenkins /appimage
+ ---> Using cache
+ ---> f1cdd7ad4073
+Step 16 : RUN chown jenkins.jenkins /app
+ ---> Using cache
+ ---> c4936ec677ff
+Step 17 : RUN echo 'jenkins:1234' | chpasswd #changeme
+ ---> Using cache
+ ---> acdfc08c8aef
+Step 18 : RUN adduser jenkins sudo
+ ---> Using cache
+ ---> 58f02fab76aa
+Step 19 : RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+ ---> Using cache
+ ---> e349714392db
+Step 20 : RUN modprobe fuse
+ ---> Using cache
+ ---> 0028d40dd526
+Step 21 : RUN usermod -a -G fuse jenkins
+ ---> Using cache
+ ---> e7170610583c
+Step 22 : RUN chgrp fuse /dev/fuse
+ ---> Using cache
+ ---> 630670a4d2db
+Step 23 : RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
+ ---> Using cache
+ ---> 6ed54f3f41d4
+Step 24 : RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
+ ---> Using cache
+ ---> 92122fde5af0
+Step 25 : ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib64
+ ---> Using cache
+ ---> 48d76544d73a
+Step 26 : ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
+ ---> Using cache
+ ---> 0c951eaef387
+Step 27 : ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
+ ---> Using cache
+ ---> 66b2f374974d
+Step 28 : RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
+ ---> Using cache
+ ---> 0a59b96f2bf9
+Step 29 : RUN tar -jxvf util-macros-1.19.0.tar.bz2
+ ---> Using cache
+ ---> 1ec159badb0c
+Step 30 : RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install
+ ---> Using cache
+ ---> 861fe33c6dbc
+Step 31 : RUN rm /util-macros-1.19.0.tar.bz2 && rm -rfv /util-macros-1.19.0
+ ---> Using cache
+ ---> 0b13d4ce27f2
+Step 32 : RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2
+ ---> Using cache
+ ---> 44b8d235efa4
+Step 33 : RUN tar -jxvf m4-1.4.18.tar.bz2
+ ---> Using cache
+ ---> 87825e922d15
+Step 34 : RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
+ ---> Using cache
+ ---> 30c9397aef06
+Step 35 : RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz
+ ---> Using cache
+ ---> 86f5805d313f
+Step 36 : RUN tar -xzvf gettext-0.19.3.tar.gz
+ ---> Using cache
+ ---> c706d069ee5d
+Step 37 : RUN cd gettext-0.19.3 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
+ ---> Using cache
+ ---> e7fb106ed256
+Step 38 : RUN wget 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.10.2.tar.xz'
+ ---> Using cache
+ ---> ef6a30ef10e9
+Step 39 : RUN tar -xvf gstreamer-1.10.2.tar.xz
+ ---> Using cache
+ ---> d51c74480c4d
+Step 40 : RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
+ ---> Using cache
+ ---> 1fd79ec83caa
+Step 41 : RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.10.2.tar.xz'
+ ---> Using cache
+ ---> f2d3388d2693
+Step 42 : RUN tar -xvf gst-plugins-base-1.10.2.tar.xz
+ ---> Using cache
+ ---> d3042ddeda5f
+Step 43 : RUN cd gst-plugins-base-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
+ ---> Using cache
+ ---> 1e7b04f75b47
+Step 44 : RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.10.2.tar.xz'
+ ---> Using cache
+ ---> e1a4cb066816
+Step 45 : RUN tar -xvf gst-plugins-good-1.10.2.tar.xz
+ ---> Using cache
+ ---> e26dd86629c4
+Step 46 : RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
+ ---> Using cache
+ ---> 2c8f4f94730f
+Step 47 : RUN wget http://download.qt.io/snapshots/qt/5.7/5.7.1/latest_src/qt-everywhere-opensource-src-5.7.1.tar.xz
+ ---> Using cache
+ ---> 6ea11441b9ea
+Step 48 : RUN tar -xvf qt-everywhere-opensource-src-5.7.1.tar.xz
+ ---> Using cache
+ ---> 3123b2472964
+Step 49 : RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+ ---> Using cache
+ ---> 44771f94dbf5
+Step 50 : RUN git clone http://code.qt.io/qt/qtstyleplugins.git
+ ---> Using cache
+ ---> eacf893ea197
+Step 51 : RUN cd qtstyleplugins && qmake PREFIX=/opt/usr . && make && make install
+ ---> Using cache
+ ---> 0aa99a2989cf
+Step 52 : RUN git clone http://code.qt.io/qt/qtwebkit.git
+ ---> Using cache
+ ---> 8cfbc9a3087b
+Step 53 : RUN cd qtwebkit && perl WebKit/Tools/Scripts/build-webkit --qt
+ ---> Running in 0ae14b3da6dd
+[91mCan't open perl script "WebKit/Tools/Scripts/build-webkit": No such file or directory
+[0mThe command '/bin/sh -c cd qtwebkit && perl WebKit/Tools/Scripts/build-webkit --qt' returned a non-zero code: 2
