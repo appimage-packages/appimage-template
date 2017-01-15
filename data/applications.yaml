@@ -16,3 +16,5 @@ ark:
   repo: https://github.com/appimage-packages/ark
 marble:
   repo: https://github.com/appimage-packages/marble
+plasmazilla:
+  repo: https://github.com/appimage-packages/plasmazilla
