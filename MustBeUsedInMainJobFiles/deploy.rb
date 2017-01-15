@@ -30,16 +30,13 @@ if RUBY_VERSION =~ /1.9/ # assuming you're running Ruby ~1.9
 end
 setup_path = `pwd`
 p setup_path
-project = 'xdgurl'
+project = 'changeme'
 builder = CI.new
 unless Dir.exist?('app')
   Dir.mkdir('app')
 end
 unless Dir.exist?('appimage')
   Dir.mkdir('appimage')
-end
-unless Dir.exist?('out')
-  Dir.mkdir('out')
 end
 builder.run = [CI::Build.new(project)]
 builder.cmd = %w[bash -c /in/setup.sh]

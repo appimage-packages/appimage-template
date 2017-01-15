@@ -14,3 +14,5 @@ okular:
   repo: https://github.com/appimage-packages/okular
 ark:
   repo: https://github.com/appimage-packages/ark
+marble:
+  repo: https://github.com/appimage-packages/marble

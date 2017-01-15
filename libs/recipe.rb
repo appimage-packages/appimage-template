@@ -59,26 +59,9 @@ class Recipe
 
   def install_packages(args = {})
     self.packages = args[:packages].to_s.gsub(/\,|\[|\]/, '')
-    # system('sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test')
-    # system('sudo apt-get update')
-    # system('sudo apt-get -y install  gcc-6 g++-6')
-    # system('sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6')
     system('apt-get update && apt-get -y upgrade')
     system("apt-get -y install git wget #{packages}")
     $?.exitstatus
-  end
-
-  def set_version(args = {})
-    self.type = args[:type]
-    p "#{type}"
-    Dir.chdir("/app/src/#{name}") do
-      if  "#{type}" == 'git'
-        self.version = `git describe`.chomp.gsub("release-", "").gsub(/-g.*/, "")
-        p "#{version}"
-      else
-        self.version = '1.0'
-      end
-    end
   end
 
   def render

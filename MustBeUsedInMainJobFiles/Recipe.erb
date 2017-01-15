@@ -27,7 +27,8 @@ rm -f functions.sh
 
 mkdir /<%= name %>.AppDir/
 
-
+cd /in/<%= name %>
+qmlimportscanner -rootPath . | grep Qt | sed -e 's/"name": "//' | sed -e 's/",//'
 
 cd /
 wget https://github.com/probonopd/linuxdeployqt/releases/download/1/linuxdeployqt-1-x86_64.AppImage
@@ -70,6 +71,7 @@ mv /opt/usr/libexec/gstreamer-1.0/* ./usr/bin || true
 cp -rfv /opt/usr/lib/x86_64-linux-gnu/* /opt/usr/lib/
 unset LD_LIBRARY_PATH
 ../linuxdeployqt-1-x86_64.AppImage <%= name %> -verbose=3 -bundle-non-qt-libs -qmldir=/opt/usr/qml
+ls ./qml/
 patch_usr
 glibc_needed
 delete_blacklisted
@@ -133,7 +135,7 @@ wget "https://github.com/probonopd/AppImageKit/releases/download/knowngood/appim
 chmod a+x appimagetool-x86_64.AppImage
 
 ARCH=$(arch)
-DATE=$(date +"%m%d%Y")
+DATE=$(date +"%Y%m%d")
 
 APPIMAGEFILENAME="<%= name %>-git$DATE-$ARCH.AppImage"
 

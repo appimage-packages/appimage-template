@@ -188,61 +188,86 @@ RUN rm /util-macros-1.19.0.tar.bz2 && rm -rfv /util-macros-1.19.0
 RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2
 RUN tar -jxvf m4-1.4.18.tar.bz2
 RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
+RUN rm /m4-1.4.18.tar.bz2 && rm -rfv /m4-1.4.18
 RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz
 RUN tar -xzvf gettext-0.19.3.tar.gz
 RUN cd gettext-0.19.3 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install
+RUN rm /gettext-0.19.3.tar.gz && rm -rfv /gettext-0.19.3
 #Build newer gstreamer for sound stack
 RUN wget 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.10.2.tar.xz'
 RUN tar -xvf gstreamer-1.10.2.tar.xz
 RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
+RUN rm /gstreamer-1.10.2.tar.xz && rm -rfv /gstreamer-1.10.2
 RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.10.2.tar.xz'
 RUN tar -xvf gst-plugins-base-1.10.2.tar.xz
 RUN cd gst-plugins-base-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
+RUN rm /gst-plugins-base-1.10.2.tar.xz && rm -rfv /gst-plugins-base-1.10.2
 RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.10.2.tar.xz'
 RUN tar -xvf gst-plugins-good-1.10.2.tar.xz
 RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
+RUN rm /gst-plugins-good-1.10.2.tar.xz && rm -rfv /gst-plugins-good-1.10.2
 # # Build Qt5.7 and install to /opt/usr
 RUN wget http://download.qt.io/snapshots/qt/5.7/5.7.1/latest_src/qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN tar -xvf qt-everywhere-opensource-src-5.7.1.tar.xz
 RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+RUN rm /qt-everywhere-opensource-src-5.7.1.tar.xz && rm -rfv /qt-everywhere-opensource-src-5.7.1
 RUN git clone http://code.qt.io/qt/qtstyleplugins.git
 RUN cd qtstyleplugins && qmake PREFIX=/opt/usr . && make && make install
+RUN rm -rfv /qtstyleplugins
 RUN wget http://download.qt.io/community_releases/5.7/5.7.1/qtwebkit-opensource-src-5.7.1.tar.xz
 RUN tar -xvf qtwebkit-opensource-src-5.7.1.tar.xz
-RUN cd qtwebkit-opensource-src-5.7.1 && Tools/Scripts/build-webkit --qt --qmakearg="PREFIX+=/opt/usr" && qmake WebKit.pro && make && make install
+RUN cd qtwebkit-opensource-src-5.7.1 && Tools/Scripts/build-webkit --qt --qmakearg="PREFIX+=/opt/usr" && qmake PREFIX=/opt/usr WebKit.pro && make && make install
+RUN rm /qtwebkit-opensource-src-5.7.1.tar.xz && rm -rfv /qtwebkit-opensource-src-5.7.1
 RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
 RUN cd qtquick1 && qmake PREFIX=/opt/usr . && make && make install
+RUN rm -rfv /qtquick1
 RUN git clone https://code.qt.io/qt/qtspeech.git
 RUN cd qtspeech && qmake PREFIX=/opt/usr . && make && make install
+RUN rm -rfv /qtspeech
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install
+RUN rm -rfv /CMake
 RUN git clone https://github.com/flavio/qjson
 RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install
+RUN rm -rfv /qjson
 RUN bzr branch lp:libdbusmenu-qt
 RUN cd libdbusmenu-qt &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install
+RUN rm -rfv /libdbusmenu-qt
 RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
 RUN tar -jxvf libgpg-error-1.26.tar.bz2
 RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --enable-static &&  make -j 8 && make install
+RUN rm /libgpg-error-1.26.tar.bz2 && rm -rfv /libgpg-error-1.26
 RUN wget https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.3.5.tar.bz2
 RUN tar -jxvf libksba-1.3.5.tar.bz2
 RUN cd libksba-1.3.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm /libksba-1.3.5.tar.bz2 && rm -rfv /libksba-1.3.5
 RUN wget https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.4.3.tar.bz2
 RUN tar -jxvf libassuan-2.4.3.tar.bz2
 RUN cd libassuan-2.4.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm /libassuan-2.4.3.tar.bz2 && rm -rfv /libassuan-2.4.3
 RUN wget https://www.gnupg.org/ftp/gcrypt/npth/npth-1.3.tar.bz2
 RUN tar -jxvf npth-1.3.tar.bz2
 RUN cd npth-1.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm /npth-1.3.tar.bz2 && rm -rfv /npth-1.3
 RUN git clone git://git.gnupg.org/gpgme.git
 RUN cd gpgme && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm -rfv /gpgme
 RUN wget https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2
 RUN tar -jxvf libgcrypt-1.7.5.tar.bz2
 RUN cd libgcrypt-1.7.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm /libgcrypt-1.7.5.tar.bz2 && rm -rfv /libgcrypt-1.7.5
 RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2
 RUN tar -jxvf gnupg-2.1.17.tar.bz2
 RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
 RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz'
 RUN tar -xvf qt-gstreamer-1.2.0.tar.xz
-RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ -DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF && make && make install
+RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ \
+-DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF && make && make install
+RUN rm /qt-gstreamer-1.2.0.tar.xz && rm -rfv /qt-gstreamer-1.2.0
+RUN git clone https://github.com/steveire/grantlee
+RUN cd grantlee && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install
+RUN rm -rfv /grantlee
 USER jenkins
 # Install rbenv and ruby-build
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
