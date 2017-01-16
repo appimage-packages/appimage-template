@@ -130,7 +130,6 @@ class Sources
       Dir.chdir(path) do
         p "running cmake #{options}"
         system("mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make -j 8 && make install")
-        system("rm -rfv  #{name}-builddir")
       end
     when 'custom'
       unless "#{name}" == 'cpan'
