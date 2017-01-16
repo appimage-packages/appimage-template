@@ -60,9 +60,6 @@ libgles2-mesa-dev \
 libglib2.0-dev \
 libglu-dev \
 libglu1-mesa-dev \
-libgpg-error-dev \
-libgstreamer-plugins-base1.0-dev \
-libgstreamer1.0-dev \
 libgtk-3-dev \
 libgtk2.0-dev \
 libharfbuzz-dev \
@@ -72,7 +69,6 @@ libjpeg-dev \
 libjsoncpp-dev \
 libmagickcore-dev \
 libmagickwand-dev \
-libmtdev-dev \
 libmtdev-dev \
 libmysqlclient-dev \
 libncurses5-dev \
@@ -135,15 +131,11 @@ libxdamage-dev \
 libxext-dev \
 libxi-dev \
 libxkbcommon-dev \
-libxkbcommon-dev \
-libxkbcommon-x11-dev \
 libxkbcommon-x11-dev \
 libxkbfile-dev \
 libxrandr-dev \
 libxrender-dev \
-libxrender-dev \
 libxslt1-dev \
-libxss-dev \
 libxss-dev \
 libxtst-dev \
 libxv-dev \
