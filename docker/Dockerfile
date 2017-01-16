@@ -157,6 +157,7 @@ wget \
 yasm \
 zlib1g-dev
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test && apt-get update && apt-get install g++-4.9
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
 RUN groupadd -g 1000 jenkins
 RUN useradd -m -u 1000 -g 1000 -d /home/jenkins jenkins
@@ -201,8 +202,8 @@ RUN tar -xvf gst-plugins-good-1.10.2.tar.xz
 RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install
 RUN rm /gst-plugins-good-1.10.2.tar.xz && rm -rfv /gst-plugins-good-1.10.2
 # # Build Qt5.7 and install to /opt/usr
-RUN wget http://download.qt.io/snapshots/qt/5.7/5.7.1/latest_src/qt-everywhere-opensource-src-5.7.1.tar.xz
-RUN tar -xvf qt-everywhere-opensource-src-5.7.1.tar.xz
+RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.gz
+RUN tar -zxvf qt-everywhere-opensource-src-5.7.1.tar.gz
 RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
 RUN rm /qt-everywhere-opensource-src-5.7.1.tar.xz && rm -rfv /qt-everywhere-opensource-src-5.7.1
 RUN git clone http://code.qt.io/qt/qtstyleplugins.git
