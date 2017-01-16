@@ -27,11 +27,13 @@ gperf \
 graphviz \
 gyp \
 libaa1-dev \
+libacl1-dev \
 libappstream-dev \
 libasound2-dev \
 libassuan-dev \
 libatspi2.0-dev \
 libatspi2.0-dev \
+libattr1-dev \
 libavc1394-dev \
 libavcodec-dev \
 libavformat-dev \
