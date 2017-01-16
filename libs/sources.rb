@@ -86,6 +86,7 @@ class Sources
     ENV['CXXFLAGS']="-std=c++11"
     ENV['PKG_CONFIG_PATH']='/opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig'
     ENV['ACLOCAL_PATH']='/opt/usr/share/aclocal:/usr/share/aclocal'
+    ENV[' XDG_DATA_DIRS']="/opt/share:/usr/local/share/:/usr/share:$XDG_DATA_DIRS"
     ENV.fetch('PATH')
     ENV.fetch('LD_LIBRARY_PATH')
     ENV.fetch('CFLAGS')
@@ -93,6 +94,7 @@ class Sources
     ENV.fetch('PKG_CONFIG_PATH')
     ENV.fetch('ACLOCAL_PATH')
     ENV.fetch('CPLUS_INCLUDE_PATH')
+    ENV.fetch('XDG_DATA_DIRS')
     system( "echo $PATH" )
     system( "echo $LD_LIBRARY_PATH" )
     system( "echo $CFLAGS" )
@@ -100,6 +102,7 @@ class Sources
     system( "echo $PKG_CONFIG_PATH" )
     system( "echo $ACLOCAL_PATH" )
     system( "echo $CPLUS_INCLUDE_PATH" )
+    system( "echo $XDG_DATA_DIRS" )
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("#{path}") do
@@ -126,11 +129,13 @@ class Sources
           system("rm -rfv  #{name}-builddir")
         end
       end
+      $?.exitstatus
     when 'cmake'
       Dir.chdir(path) do
         p "running cmake #{options}"
         system("mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make -j 8 && make install")
       end
+      $?.exitstatus
     when 'custom'
       unless "#{name}" == 'cpan'
         Dir.chdir("/app/src/#{name}") do
@@ -142,6 +147,7 @@ class Sources
         p "running #{options}"
         system("#{options}")
       end
+      $?.exitstatus
     when 'qmake'
       Dir.chdir("#{path}") do
         p "running qmake #{options}"
@@ -149,15 +155,16 @@ class Sources
         system("#{options}")
         system('make -j 8 && make install')
       end
+      $?.exitstatus
     when 'bootstrap'
       Dir.chdir(path) do
         p "running ./bootstrap #{options}"
         system("./bootstrap #{options}")
         system('make -j 8 && make install')
       end
+      $?.exitstatus
     else
     "You gave me #{buildsystem} -- I have no idea what to do with that."
     end
-    $?.exitstatus
   end
 end

@@ -260,6 +260,7 @@ RUN rm /qt-gstreamer-1.2.0.tar.xz && rm -rfv /qt-gstreamer-1.2.0
 RUN git clone https://github.com/steveire/grantlee
 RUN cd grantlee && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install
 RUN rm -rfv /grantlee
+
 USER jenkins
 # Install rbenv and ruby-build
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
