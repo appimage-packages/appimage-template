@@ -20,3 +20,5 @@ plasmazilla:
   repo: https://github.com/appimage-packages/plasmazilla
 kmail:
   repo: https://github.com/appimage-packages/kmail
+kexi:
+  repo: https://github.com/appimage-packages/kexi
