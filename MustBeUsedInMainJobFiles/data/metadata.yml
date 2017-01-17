@@ -40,6 +40,7 @@ frameworks:
     - knewstuff
     - breeze-icons
     - kactivities
+    - kpackage
     - kdeclarative
     - plasma-framework
 type: git
@@ -55,11 +56,3 @@ dependencies:
       source:
         type: none
         url: ''
-  - polkit-qt:
-      build:
-        buildsystem: cmake
-        buildoptions: ''
-      depname: polkit-qt-1
-      source:
-        type: git
-        url: 'https://anongit.kde.org/polkit-qt-1.git'

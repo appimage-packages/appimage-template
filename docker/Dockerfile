@@ -155,6 +155,7 @@ software-properties-common \
 texinfo \
 unixodbc-dev \
 wget \
+xsltproc \
 yasm \
 zlib1g-dev
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
@@ -266,8 +267,8 @@ RUN cd grantlee && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=
 RUN rm -rfv /grantlee
 RUN wget https://poppler.freedesktop.org/poppler-0.51.0.tar.xz
 RUN tar -xvf poppler-0.51.0.tar.xz
-RUN cd poppler-0.51.0 && mkdir build && cd build %% ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
---enable-cmyk --enable-xpdf-headers && make && make install
+RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
+--enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install
 RUN rm poppler-0.51.0.tar.xz && rm -rfv poppler-0.51.0
 USER jenkins
 # Install rbenv and ruby-build
