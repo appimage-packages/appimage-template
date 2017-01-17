@@ -264,7 +264,11 @@ RUN rm /qt-gstreamer-1.2.0.tar.xz && rm -rfv /qt-gstreamer-1.2.0
 RUN git clone https://github.com/steveire/grantlee
 RUN cd grantlee && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install
 RUN rm -rfv /grantlee
-
+RUN wget https://poppler.freedesktop.org/poppler-0.51.0.tar.xz
+RUN tar -xvf poppler-0.51.0.tar.xz
+RUN cd poppler-0.51.0 && mkdir build && cd build %% ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
+--enable-cmyk --enable-xpdf-headers && make && make install
+RUN rm poppler-0.51.0.tar.xz && rm -rfv poppler-0.51.0
 USER jenkins
 # Install rbenv and ruby-build
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
