@@ -70,7 +70,7 @@ libglu1-mesa-dev \
 libgtk-3-dev \
 libgtk2.0-dev \
 libharfbuzz-dev \
-libhspell-dev \
+hspell \
 libhunspell-dev \
 libicu-dev \
 libjack-dev \
@@ -190,7 +190,7 @@ RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
 ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib64
 ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
-ENV CXXFLAGS -std=C++11
+ENV CXXFLAGS -std=c++11
 #Build gpgme stack
 RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
 RUN tar -jxvf util-macros-1.19.0.tar.bz2
