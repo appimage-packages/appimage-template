@@ -50,6 +50,7 @@ libdrm-dev \
 libdv4-dev \
 libegl1-mesa-dev \
 libevent-dev \
+libexiv2-dev \
 libflac++-dev \
 libflac-dev \
 libfontconfig1-dev \

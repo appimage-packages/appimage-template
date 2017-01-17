@@ -37,7 +37,7 @@ describe Recipe do
 
   describe 'clean_workspace' do
     it "Cleans the environment" do
-      unless Dir["/out/*"].empty? && Dir["/app/*"].empty?
+      unless Dir["/in/#{app.name}"].empty? && Dir["/app/*"].empty?
         Dir.chdir('/')
         app.clean_workspace(name: app.name)
       end
