@@ -42,7 +42,9 @@ frameworks:
     - kactivities
     - kpackage
     - kdeclarative
+    - kwayland
     - plasma-framework
+    - breeze
 type: git
 url: http://anongit.kde.org/changeme
 buildsystem: cmake

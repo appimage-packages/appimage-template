@@ -30,6 +30,7 @@ libaa1-dev \
 libacl1-dev \
 libappstream-dev \
 libasound2-dev \
+libaspell-dev \
 libassuan-dev \
 libatspi2.0-dev \
 libatspi2.0-dev \
@@ -49,8 +50,10 @@ libdc1394-22-dev \
 libdrm-dev \
 libdv4-dev \
 libegl1-mesa-dev \
+libepoxy-dev \
 libevent-dev \
 libexiv2-dev \
+libfam-dev \
 libflac++-dev \
 libflac-dev \
 libfontconfig1-dev \
@@ -67,6 +70,8 @@ libglu1-mesa-dev \
 libgtk-3-dev \
 libgtk2.0-dev \
 libharfbuzz-dev \
+libhspell-dev \
+libhunspell-dev \
 libicu-dev \
 libjack-dev \
 libjpeg-dev \
@@ -95,6 +100,7 @@ libshout3-dev \
 libsnappy-dev \
 libsoup2.4-dev \
 libspeex-dev \
+libsphinxbase-dev \
 libsqlite3-dev \
 libsrtp0-dev \
 libssl-dev \
@@ -104,6 +110,7 @@ libtheora-dev \
 libts-dev \
 libudev-dev \
 libvisual-0.4-dev \
+libvoikko-dev \
 libvorbis-dev \
 libvorbisidec-dev \
 libvpx-dev \
@@ -115,6 +122,8 @@ libwayland0 \
 libwebp-dev \
 libx11-dev \
 libx11-xcb-dev \
+libxcb-composite0-dev \
+libxcb-damage0-dev \
 libxcb-icccm4-dev \
 libxcb-image0-dev \
 libxcb-keysyms1-dev \
@@ -128,6 +137,7 @@ libxcb-sync-dev \
 libxcb-xfixes0-dev \
 libxcb-xinerama0-dev \
 libxcb-xkb-dev \
+libxcb-xtest0-dev \
 libxcb1-dev \
 libxcomposite-dev \
 libxcursor-dev \
@@ -143,6 +153,8 @@ libxslt1-dev \
 libxss-dev \
 libxtst-dev \
 libxv-dev \
+libutempter-dev \
+media-player-info \
 ninja-build \
 pkg-config \
 publicsuffix \
@@ -178,6 +190,7 @@ RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
 ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib64
 ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
+ENV CXXFLAGS -std=C++11
 #Build gpgme stack
 RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
 RUN tar -jxvf util-macros-1.19.0.tar.bz2
@@ -271,6 +284,9 @@ RUN tar -xvf poppler-0.51.0.tar.xz
 RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install
 RUN rm poppler-0.51.0.tar.xz && rm -rfv poppler-0.51.0
+RUN git clone git clone https://github.com/pyqt/python-qt5.git
+RUN cd python-qt5 &&  mkdir build && cd build && ../configure --prefix=/opt/usr && make && make install
+RUN rm -rfv python-qt5
 USER jenkins
 # Install rbenv and ruby-build
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
