@@ -67,6 +67,7 @@ libgles2-mesa-dev \
 libglib2.0-dev \
 libglu-dev \
 libglu1-mesa-dev \
+libgmp-dev \
 libgtk-3-dev \
 libgtk2.0-dev \
 libharfbuzz-dev \
