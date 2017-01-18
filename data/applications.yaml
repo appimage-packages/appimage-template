@@ -26,3 +26,5 @@ choqok:
   repo: https://github.com/appimage-packages/choqok
 akregator:
   repo: https://github.com/appimage-packages/akregator
+calligra:
+  repo: https://github.com/appimage-packages/calligra
