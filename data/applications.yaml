@@ -24,3 +24,5 @@ kexi:
   repo: https://github.com/appimage-packages/kexi
 choqok:
   repo: https://github.com/appimage-packages/choqok
+akregator:
+  repo: https://github.com/appimage-packages/akregator
