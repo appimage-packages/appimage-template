@@ -22,3 +22,5 @@ kmail:
   repo: https://github.com/appimage-packages/kmail
 kexi:
   repo: https://github.com/appimage-packages/kexi
+choqok:
+  repo: https://github.com/appimage-packages/choqok

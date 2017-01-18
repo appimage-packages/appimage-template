@@ -285,9 +285,13 @@ RUN tar -xvf poppler-0.51.0.tar.xz
 RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install
 RUN rm poppler-0.51.0.tar.xz && rm -rfv poppler-0.51.0
-RUN git clone git clone https://github.com/pyqt/python-qt5.git
-RUN cd python-qt5 &&  mkdir build && cd build && ../configure --prefix=/opt/usr && make && make install
-RUN rm -rfv python-qt5
+RUN wget http://sourceforge.net/projects/pyqt/files/sip/sip-4.16.5/sip-4.16.5.tar.gz
+RUN tar -jxvf sip-4.16.5.tar.gz
+RUN cd sip-4.16.5 && python configure.py --prefix=/opt/usr && make && make install
+RUN git clone https://github.com/pyqt/python-qt5.git
+RUN cd python-qt5 &&  python configure.py --prefix=/opt/usr --sip-incdir ../sip-4.16.5/siplib
+&& make && make install
+RUN rm -rfv python-qt5 && rm sip-4.16.5.tar.gz && rm -rfv sip-4.16.5
 USER jenkins
 # Install rbenv and ruby-build
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
