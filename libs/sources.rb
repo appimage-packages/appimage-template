@@ -70,6 +70,12 @@ class Sources
       unless Dir.exist?("/app/src/#{name}")
         system("bzr branch #{url}")
       end
+    when 'zip'
+      Dir.chdir('/app/src')
+      unless Dir.exist?("/app/src/#{name}")
+        system("wget #{url}")
+        system("unzip #{name}.zip")
+      end
     when 'none'
       p "No sources configured"
     else
