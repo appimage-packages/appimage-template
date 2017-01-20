@@ -60,7 +60,7 @@ class Recipe
   def install_packages(args = {})
     self.packages = args[:packages].to_s.gsub(/\,|\[|\]/, '')
     system('apt-get update && apt-get -y upgrade')
-    system("apt-get -y install git wget #{packages}")
+    system("DEBIAN_FRONTEND=noninteractive apt-get -y install git wget #{packages}")
     $?.exitstatus
   end
 
