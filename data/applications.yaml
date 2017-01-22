@@ -30,3 +30,5 @@ calligra:
   repo: https://github.com/appimage-packages/calligra
 kcalc:
   repo: https://github.com/appimage-packages/kcalc
+blogilo:
+  repo: https://github.com/appimage-packages/blogilo
