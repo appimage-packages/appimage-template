@@ -24,8 +24,8 @@ node('linux') {
 
 
     currentBuild.result = "SUCCESS"
-    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '2')), disableConcurrentBuilds(), pipelineTriggers([[$class: 'GitHubPushTrigger'], pollSCM('H/15 * * * *')])])
-
+    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '6', daysToKeepStr: '', numToKeepStr: '5')), disableConcurrentBuilds(), \
+    [$class: 'GithubProjectProperty', displayName: '', projectUrlStr: 'https://github.com/appimage-packages/changeme/'], pipelineTriggers([[$class: 'GitHubPushTrigger'], pollSCM('H/5 * * * *')])])
     try {
 
         stage( 'Checkout' ) {
@@ -35,7 +35,7 @@ node('linux') {
             extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'appimage-template']], submoduleCfg: [], \
             userRemoteConfigs: [[url: 'https://github.com/appimage-packages/appimage-template']]]
             checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, \
-            extensions: [[$class: 'CleanBeforeCheckout'],[$class: 'RelativeTargetDirectory', relativeTargetDir: 'changeme']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://anongit.kde.org/changeme']]]
+            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'changeme']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://anongit.kde.org/changeme']]]
        }
         stage( 'Setup' ) {
             sh 'bundle install'
@@ -45,8 +45,8 @@ node('linux') {
             sh 'bundle exec deploy.rb'
        }
        stage('Copy Artifacts') {
-          step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'ds9-apps', excludedFile: '', flatten: true, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: true, \
-          selectedRegion: 'eu-central-1', showDirectlyInBrowser: true, sourceFile: 'appimage/*', storageClass: 'STANDARD', uploadFromSlave: true, useServerSideEncryption: false]], profileName: 'ds9-apps', userMetadata: []])
+            step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'ds9-apps', excludedFile: '', flatten: true, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: true, \
+            selectedRegion: 'eu-central-1', showDirectlyInBrowser: true, sourceFile: 'appimage/*', storageClass: 'STANDARD', uploadFromSlave: true, useServerSideEncryption: false]], profileName: 'ds9-apps', userMetadata: []])
        }
        stage('Tests') {
             step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'appimage-template/parser.rules', showGraphs: true, unstableOnWarning: true, useProjectRule: true])
