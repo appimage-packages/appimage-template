@@ -191,7 +191,6 @@ RUN modprobe fuse
 RUN usermod -a -G fuse jenkins
 RUN chgrp fuse /dev/fuse
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
-RUN echo 'eval "$(rbenv init -)"' >> /etc/profile # or /etc/profile
 ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib64
 ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
@@ -275,13 +274,19 @@ RUN rm /libgcrypt-1.7.5.tar.bz2 && rm -rfv /libgcrypt-1.7.5
 RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2 && tar -jxvf gnupg-2.1.17.tar.bz2
 RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
+RUN echo 'eval "$(rbenv init -)"' >> /etc/profile
 USER jenkins
-# Install rbenv and ruby-build
-RUN git clone https://github.com/sstephenson/rbenv.git /home/jenkins/.rbenv && git clone https://github.com/sstephenson/ruby-build.git /home/jenkins/.rbenv/plugins/ruby-build
+ # Install rbenv and ruby-build
+RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+RUN git clone https://github.com/sstephenson/rbenv.git /home/jenkins/.rbenv
+RUN git clone https://github.com/sstephenson/ruby-build.git /home/jenkins/.rbenv/plugins/ruby-build
+ENV CONFIGURE_OPTS --disable-install-doc
 ADD ./versions.txt /home/jenkins/versions.txt
 ADD ./Gemfile /home/jenkins/Gemfile
-# Install Bundler for each version of ruby
-RUN echo 'gem: --no-rdoc --no-ri' >> /home/jenkins/.gemrc &&  xargs -L 1 rbenv install < /home/jenkins/versions.txt && echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+RUN xargs -L 1 rbenv install < /home/jenkins/versions.txt
+ # Install Bundler for each version of ruby
+RUN echo 'gem: --no-rdoc --no-ri' >> /home/jenkins/.gemrc
 RUN bash -l -c 'for v in $(cat /home/jenkins/versions.txt); do rbenv global $v; gem install bundler; done' && eval "$(rbenv init -)" && cd /home/jenkins && bundle install && rbenv local 2.3.1
+
 
 USER root
