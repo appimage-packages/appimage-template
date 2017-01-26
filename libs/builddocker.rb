@@ -91,6 +91,6 @@ class CI
     ret = @c.wait
     status_code = ret.fetch('StatusCode', 1)
     raise "Bad return #{ret}" if status_code.nonzero?
-    @c.stop!
+    @c.stop
   end
 end
