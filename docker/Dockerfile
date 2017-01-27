@@ -277,16 +277,11 @@ RUN rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile
 ENV PATH /opt/usr/bin:/root/.rbenv/bin:/root/.rbenv/shims:$PATH
  # Install rbenv and ruby-build
+ ADD ./Gemfile /Gemfile
+ RUN echo 'gem: --no-rdoc --no-ri' >> /home/jenkins/.gemrc
 RUN git clone https://github.com/sstephenson/rbenv.git /root/.rbenv
 RUN git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build
-RUN echo 'eval "$(rbenv init -)"' >> /.bashrc && rbenv init -
-ENV CONFIGURE_OPTS --disable-install-doc
-ADD ./versions.txt /home/jenkins/versions.txt
-ADD ./Gemfile /Gemfile
-RUN xargs -L 1 rbenv install < /home/jenkins/versions.txt
- # Install Bundler for each version of ruby
-RUN echo 'gem: --no-rdoc --no-ri' >> /home/jenkins/.gemrc
-RUN bash -l -c 'for v in $(cat /home/jenkins/versions.txt); do rbenv global $v; gem install bundler; done' && eval "$(rbenv init -)" && cd / && bundle install && rbenv local 2.3.1
-
-
-USER root
+RUN rbenv install 2.3.1
+RUN echo 'eval "$(rbenv init -)"' >> /root/.bashrc && rbenv init -
+RUN rbenv local 2.3.1 && gem install bundler && gem install logger -v '1.2.8' && bundle install --binstubs && bundle show rspec
+RUN rspec
