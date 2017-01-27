@@ -45,6 +45,7 @@ libbz2-dev \
 libcaca-dev \
 libcap-dev \
 libcdparanoia-dev \
+libclang-3.8-dev \
 libcups2-dev \
 libdbus-1-dev \
 libdc1394-22-dev \
@@ -240,10 +241,11 @@ RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/u
 RUN wget http://sourceforge.net/projects/pyqt/files/sip/sip-4.16.5/sip-4.16.5.tar.gz && tar -zxvf sip-4.16.5.tar.gz
 RUN cd sip-4.16.5 && python configure.py && make && make install
 RUN wget https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.3.2/PyQt-gpl-5.3.2.tar.gz && tar -zxvf PyQt-gpl-5.3.2.tar.gz
-RUN sudo ln -s /usr/include/python2.7 /usr/local/include/python2.7
+RUN sudo ln -s /usr/include/python2.7 /usr/local/include/python2.7 && ln -s /usr/include/python3.4 /usr/local/include/python3.4
 RUN sed -i "s#'webkitwidgets'#'webkitwidgets', 'printsupport'#g" PyQt-gpl-5.3.2/configure.py
 RUN cd PyQt-gpl-5.3.2 && python configure.py --confirm-license --destdir /opt/usr --sip-incdir ../sip-4.16.5/siplib && make && make install
-RUN rm -rfv python-qt5 && rm sip-4.16.5.tar.gz && rm -rfv sip-4.16.5
+RUN pip3 install pyqt5
+RUN rm -rfv PyQt-gpl-5.3.2 && rm  PyQt-gpl-5.3.2.tar.gz && rm sip-4.16.5.tar.gz && rm -rfv sip-4.16.5
 RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz
 RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1
 RUN git clone https://github.com/ayoy/qoauth
@@ -284,4 +286,3 @@ RUN git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins
 RUN rbenv install 2.3.1
 RUN echo 'eval "$(rbenv init -)"' >> /root/.bashrc && rbenv init -
 RUN rbenv local 2.3.1 && gem install bundler && gem install logger -v '1.2.8' && bundle install --binstubs && bundle show rspec
-RUN rspec
