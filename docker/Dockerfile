@@ -46,7 +46,6 @@ libcaca-dev \
 libcap-dev \
 libcdparanoia-dev \
 libclang-3.8-dev \
-libcups2-dev \
 libdbus-1-dev \
 libdc1394-22-dev \
 libdrm-dev \
@@ -225,13 +224,14 @@ RUN wget https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.4.3.tar.bz2
 RUN tar -jxvf libassuan-2.4.3.tar.bz2
 RUN cd libassuan-2.4.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm /libassuan-2.4.3.tar.bz2 && rm -rfv /libassuan-2.4.3
-RUN wget https://www.gnupg.org/ftp/gcrypt/npth/npth-1.3.tar.bz2
-RUN tar -jxvf npth-1.3.tar.bz2
+RUN wget https://www.gnupg.org/ftp/gcrypt/npth/npth-1.3.tar.bz2 &&  tar -jxvf npth-1.3.tar.bz2
 RUN cd npth-1.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm /npth-1.3.tar.bz2 && rm -rfv /npth-1.3
 RUN wget https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2 && tar -jxvf libgcrypt-1.7.5.tar.bz2
 RUN cd libgcrypt-1.7.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm /libgcrypt-1.7.5.tar.bz2 && rm -rfv /libgcrypt-1.7.5
+RUN wget ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-3.5.8.tar.xz && tar -xvf gnutls-3.5.8.tar.xz
+RUN cd gnutls-3.5.8 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gst-plugins-good-1.10.2.tar.xz && rm -rfv /gst-plugins-good-1.10.2
 RUN wget http://downloads.sourceforge.net/pcre/pcre-8.35.tar.bz2 && tar -jxvf pcre-8.35.tar.bz2
 RUN cd pcre-8.35 && ./configure --prefix=/opt/usr && make && make install && rm /pcre-8.35.tar.bz2 && rm -rfv /pcre-8.35
