@@ -88,7 +88,6 @@ libogg-dev \
 libopenal-dev \
 libopus-dev \
 libpci-dev \
-libpcre3-dev \
 libpng-dev \
 libpolkit-agent-1-dev \
 libpolkit-backend-1-dev \
@@ -161,6 +160,7 @@ ninja-build \
 pkg-config \
 publicsuffix \
 python-pip \
+python-clang-3.8 \
 python3-pip \
 python2.7 \
 python2.7-dev \
@@ -212,7 +212,29 @@ RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enab
 RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.10.2.tar.xz' && tar -xvf gst-plugins-base-1.10.2.tar.xz
 RUN cd gst-plugins-base-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gst-plugins-base-1.10.2.tar.xz && rm -rfv /gst-plugins-base-1.10.2
 RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.10.2.tar.xz' && tar -xvf gst-plugins-good-1.10.2.tar.xz
+#GPG stack for appimage signing
+RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
+RUN tar -jxvf libgpg-error-1.26.tar.bz2
+RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --enable-static &&  make -j 8 && make install
+RUN rm /libgpg-error-1.26.tar.bz2 && rm -rfv /libgpg-error-1.26
+RUN wget https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.3.5.tar.bz2
+RUN tar -jxvf libksba-1.3.5.tar.bz2
+RUN cd libksba-1.3.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm /libksba-1.3.5.tar.bz2 && rm -rfv /libksba-1.3.5
+RUN wget https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.4.3.tar.bz2
+RUN tar -jxvf libassuan-2.4.3.tar.bz2
+RUN cd libassuan-2.4.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm /libassuan-2.4.3.tar.bz2 && rm -rfv /libassuan-2.4.3
+RUN wget https://www.gnupg.org/ftp/gcrypt/npth/npth-1.3.tar.bz2
+RUN tar -jxvf npth-1.3.tar.bz2
+RUN cd npth-1.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm /npth-1.3.tar.bz2 && rm -rfv /npth-1.3
+RUN wget https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2 && tar -jxvf libgcrypt-1.7.5.tar.bz2
+RUN cd libgcrypt-1.7.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN rm /libgcrypt-1.7.5.tar.bz2 && rm -rfv /libgcrypt-1.7.5
 RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gst-plugins-good-1.10.2.tar.xz && rm -rfv /gst-plugins-good-1.10.2
+RUN wget http://downloads.sourceforge.net/pcre/pcre-8.35.tar.bz2 && tar -jxvf pcre-8.35.tar.bz2
+RUN cd pcre-8.35 && ./configure --prefix=/opt/usr && make && make install && rm /pcre-8.35.tar.bz2 && rm -rfv /pcre-8.35
 # # Build Qt5.7 and install to /opt/usr
 RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.7.1.tar.gz
 RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
@@ -250,29 +272,9 @@ RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -x
 RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1
 RUN git clone https://github.com/ayoy/qoauth
 RUN cd qoauth && qmake '"PREFIX = /opt/usr" "QT += widgets" "QT += webkitwidgets" "CONFIG += crypto" "DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x000000"' src/src.pro && make && make install && rm -rfv /qoauth
-#GPG stack for appimage signing
-RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
-RUN tar -jxvf libgpg-error-1.26.tar.bz2
-RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --enable-static &&  make -j 8 && make install
-RUN rm /libgpg-error-1.26.tar.bz2 && rm -rfv /libgpg-error-1.26
-RUN wget https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.3.5.tar.bz2
-RUN tar -jxvf libksba-1.3.5.tar.bz2
-RUN cd libksba-1.3.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
-RUN rm /libksba-1.3.5.tar.bz2 && rm -rfv /libksba-1.3.5
-RUN wget https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.4.3.tar.bz2
-RUN tar -jxvf libassuan-2.4.3.tar.bz2
-RUN cd libassuan-2.4.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
-RUN rm /libassuan-2.4.3.tar.bz2 && rm -rfv /libassuan-2.4.3
-RUN wget https://www.gnupg.org/ftp/gcrypt/npth/npth-1.3.tar.bz2
-RUN tar -jxvf npth-1.3.tar.bz2
-RUN cd npth-1.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
-RUN rm /npth-1.3.tar.bz2 && rm -rfv /npth-1.3
 RUN git clone git://git.gnupg.org/gpgme.git
 RUN cd gpgme && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm -rfv /gpgme
-RUN wget https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2 && tar -jxvf libgcrypt-1.7.5.tar.bz2
-RUN cd libgcrypt-1.7.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
-RUN rm /libgcrypt-1.7.5.tar.bz2 && rm -rfv /libgcrypt-1.7.5
 RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2 && tar -jxvf gnupg-2.1.17.tar.bz2
 RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
