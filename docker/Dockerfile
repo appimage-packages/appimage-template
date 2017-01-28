@@ -32,7 +32,6 @@ libacl1-dev \
 libappstream-dev \
 libasound2-dev \
 libaspell-dev \
-libassuan-dev \
 libatspi2.0-dev \
 libatspi2.0-dev \
 libattr1-dev \
