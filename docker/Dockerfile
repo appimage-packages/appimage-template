@@ -230,6 +230,8 @@ RUN rm /npth-1.3.tar.bz2 && rm -rfv /npth-1.3
 RUN wget https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2 && tar -jxvf libgcrypt-1.7.5.tar.bz2
 RUN cd libgcrypt-1.7.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm /libgcrypt-1.7.5.tar.bz2 && rm -rfv /libgcrypt-1.7.5
+RUN wget https://ftp.gnu.org/gnu/nettle/nettle-3.3.tar.gz && tar -zxvf nettle-3.3.tar.gz
+RUN cd nettle-3.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm nettle-3.3.tar.gz && rm -rfv nettle-3.3
 RUN wget ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-3.5.8.tar.xz && tar -xvf gnutls-3.5.8.tar.xz
 RUN cd gnutls-3.5.8 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm gnutls-3.5.8.tar.xz && rm -rfv gnutls-3.5.8
 RUN wget http://downloads.sourceforge.net/pcre/pcre-8.35.tar.bz2 && tar -jxvf pcre-8.35.tar.bz2
