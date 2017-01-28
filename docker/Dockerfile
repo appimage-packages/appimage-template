@@ -62,7 +62,6 @@ libfontconfig1-dev \
 libfreetype6-dev \
 libfuse-dev \
 libgbm-dev \
-libgcrypt11-dev \
 libgif-dev \
 libgl1-mesa-dev \
 libgles2-mesa-dev \
@@ -161,6 +160,8 @@ media-player-info \
 ninja-build \
 pkg-config \
 publicsuffix \
+python-pip \
+python3-pip \
 python2.7 \
 python2.7-dev \
 python3 \
@@ -244,7 +245,6 @@ RUN wget https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.3.2/PyQt-gp
 RUN sudo ln -s /usr/include/python2.7 /usr/local/include/python2.7 && ln -s /usr/include/python3.4 /usr/local/include/python3.4
 RUN sed -i "s#'webkitwidgets'#'webkitwidgets', 'printsupport'#g" PyQt-gpl-5.3.2/configure.py
 RUN cd PyQt-gpl-5.3.2 && python configure.py --confirm-license --destdir /opt/usr --sip-incdir ../sip-4.16.5/siplib && make && make install
-RUN pip3 install pyqt5
 RUN rm -rfv PyQt-gpl-5.3.2 && rm  PyQt-gpl-5.3.2.tar.gz && rm sip-4.16.5.tar.gz && rm -rfv sip-4.16.5
 RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz
 RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1
@@ -280,7 +280,7 @@ RUN echo 'eval "$(rbenv init -)"' >> /etc/profile
 ENV PATH /opt/usr/bin:/root/.rbenv/bin:/root/.rbenv/shims:$PATH
  # Install rbenv and ruby-build
  ADD ./Gemfile /Gemfile
- RUN echo 'gem: --no-rdoc --no-ri' >> /home/jenkins/.gemrc
+RUN echo 'gem: --no-rdoc --no-ri' >> /home/jenkins/.gemrc
 RUN git clone https://github.com/sstephenson/rbenv.git /root/.rbenv
 RUN git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build
 RUN rbenv install 2.3.1
