@@ -73,7 +73,7 @@ libharfbuzz-dev \
 hspell \
 libhunspell-dev \
 libicu-dev \
-libidn2-0-dev \
+libidn11-dev \
 libjack-dev \
 libjpeg-dev \
 libjsoncpp-dev \
@@ -237,6 +237,8 @@ RUN wget http://ftp.gnu.org/gnu/libtasn1/libtasn1-4.10.tar.gz && tar -zxvf libta
 RUN cd libtasn1-4.10 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /libtasn1-4.10.tar.gz && rm -rfv /libtasn1-4.10
 RUN wget https://ftp.gnu.org/gnu/nettle/nettle-3.3.tar.gz && tar -zxvf nettle-3.3.tar.gz
 RUN cd nettle-3.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /nettle-3.3.tar.gz && rm -rfv /nettle-3.3
+RUN wget http://p11-glue.freedesktop.org/releases/p11-kit-0.23.2.tar.gz && tar -zxvf p11-kit-0.23.2.tar.gz
+RUN cd p11-kit-0.23.2 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /p11-kit-0.23.2.tar.gz && rm -rfv /p11-kit-0.23.2
 RUN wget ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-3.5.8.tar.xz && tar -xvf gnutls-3.5.8.tar.xz
 RUN cd gnutls-3.5.8 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /gnutls-3.5.8.tar.xz && rm -rfv /gnutls-3.5.8
 RUN wget http://downloads.sourceforge.net/pcre/pcre-8.35.tar.bz2 && tar -jxvf pcre-8.35.tar.bz2
