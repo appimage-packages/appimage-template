@@ -73,6 +73,7 @@ libharfbuzz-dev \
 hspell \
 libhunspell-dev \
 libicu-dev \
+libidn2-0-dev \
 libjack-dev \
 libjpeg-dev \
 libjsoncpp-dev \
@@ -85,6 +86,7 @@ libnss3-dev \
 libogg-dev \
 libopenal-dev \
 libopus-dev \
+libp11-kit-dev  \
 libpci-dev \
 libpng-dev \
 libpolkit-agent-1-dev \
@@ -108,6 +110,7 @@ libtag1-dev \
 libtheora-dev \
 libts-dev \
 libudev-dev \
+libunbound-dev \
 libunistring-dev \
 libvisual-0.4-dev \
 libvoikko-dev \
