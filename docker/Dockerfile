@@ -273,11 +273,13 @@ RUN wget https://poppler.freedesktop.org/poppler-0.51.0.tar.xz && tar -xvf poppl
 RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install && rm /poppler-0.51.0.tar.xz && rm -rfv /poppler-0.51.0
 RUN wget http://sourceforge.net/projects/pyqt/files/sip/sip-4.16.5/sip-4.16.5.tar.gz && tar -zxvf sip-4.16.5.tar.gz
-RUN cd sip-4.16.5 && python configure.py && make && make install
+RUN cd sip-4.16.5 && python configure.py --destdir /opt/usr && make && make install
+RUN cd sip-4.16.5 && python3 configure.py --destdir /opt/usr && make && make install
 RUN wget https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.3.2/PyQt-gpl-5.3.2.tar.gz && tar -zxvf PyQt-gpl-5.3.2.tar.gz
 RUN sudo ln -s /usr/include/python2.7 /usr/local/include/python2.7 && ln -s /usr/include/python3.4 /usr/local/include/python3.4
 RUN sed -i "s#'webkitwidgets'#'webkitwidgets', 'printsupport'#g" PyQt-gpl-5.3.2/configure.py
-RUN cd PyQt-gpl-5.3.2 && python configure.py --confirm-license --destdir /opt/usr --sip-incdir ../sip-4.16.5/siplib && make && make install
+RUN cd PyQt-gpl-5.3.2 && python configure.py --confirm-license --destdir /opt/usr --sip-incdir /usr/include/python2.7/ && make && make install
+RUN cd /PyQt-gpl-5.3.2 && python3 configure.py --confirm-license --destdir /opt/usr --sip-incdir /usr/include/python3.4/ && make && make install
 RUN rm -rfv PyQt-gpl-5.3.2 && rm  PyQt-gpl-5.3.2.tar.gz && rm sip-4.16.5.tar.gz && rm -rfv sip-4.16.5
 RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz
 RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1
