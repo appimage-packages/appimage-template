@@ -62,6 +62,7 @@ class CI
         '/in' => {},
         '/app' => {},
         '/appimage' => {},
+        '/root/.gnupg' => {},
         '/lib/modules' => {},
         '/tmp' => {}
       },
@@ -70,6 +71,7 @@ class CI
           Dir.pwd + ":/in",
           Dir.pwd + "/app:/app",
           Dir.pwd + "/appimage:/appimage"
+          '/home/jenkins/.gnupg:/root/.gnupg'
         ],
         'UsernsMode' => 'host',
         'Privileged' => true,
