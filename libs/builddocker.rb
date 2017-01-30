@@ -70,7 +70,7 @@ class CI
         'Binds' => [
           Dir.pwd + ":/in",
           Dir.pwd + "/app:/app",
-          Dir.pwd + "/appimage:/appimage"
+          Dir.pwd + "/appimage:/appimage",
           '/home/jenkins/.gnupg:/root/.gnupg'
         ],
         'UsernsMode' => 'host',
