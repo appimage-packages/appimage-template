@@ -41,7 +41,6 @@ cp /opt/usr/share/icons/hicolor/48x48/apps/*<%= name %>* .
 
 #All the plugins do not seem to be getting in. Manual copy.
 mkdir -p ./plugins; cp -rfv /opt/usr/lib/qt5/plugins/phonon4qt5_backend $_
-cp -rfv /opt/usr/plugins/<%= name %> ./plugins || true
 #mkdir -p ./usr/lib/qml/
 mkdir -p ./usr/{share,bin,lib}
 mkdir ./etc
@@ -93,9 +92,7 @@ rm -rf ./usr/share/doc/ECM || true
 rm -rf ./usr/share/doc/libdbusmenu-qt5-doc || true
 rm -rf ./usr/share/gtk-doc || true
 rm -rf ./usr/share/wallpapers || true
-rm -rf ./lib/libgcrypt*  || true
 #Huge.. see if we can function without it
-rm ./lib/libQt5WebEngineCore.so.5
 find . -name '*.a' -exec rm {} \;
 get_desktopintegration <%= name %>
 cd /app/src
@@ -138,7 +135,6 @@ DATE=$(date +"%Y%m%d")
 
 APPIMAGEFILENAME="<%= name %>-git$DATE-$ARCH.AppImage"
 
-
-./appimagetool-x86_64.AppImage -v -u "zsync|$APPIMAGEFILENAME" /<%= name %>.AppDir /appimage/$APPIMAGEFILENAME
-zsyncmake -o /appimage/$APPIMAGEFILENAME.zsync /appimage/$APPIMAGEFILENAME
+./appimagetool-x86_64.AppImage -v -s -u "zsync|$APPIMAGEFILENAME" /<%= name %>.AppDir /appimage/$APPIMAGEFILENAME
+zsyncmake -o /appimage/<%= name %>_latestversion.zsync /appimage/$APPIMAGEFILENAME
 ls /appimage/
