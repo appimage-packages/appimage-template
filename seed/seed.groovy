@@ -18,11 +18,7 @@ apps.each { name, config ->
         github("appimage-packages/${name}", "${branch}")
     })
     }
-      orphanedItemStrategy {
-          discardOldItems {
-              numToKeep(5)
-          }
-      }
+      logRotator(int daysToKeep = -1, int numToKeep = 5, int artifactDaysToKeep = -1, int artifactNumToKeep = -1)
   }
   }
 
