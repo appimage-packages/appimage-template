@@ -164,11 +164,8 @@ pkg-config \
 publicsuffix \
 python-pip \
 python-clang-3.8 \
-python3-pip \
 python2.7 \
 python2.7-dev \
-python3 \
-python3-dev \
 python-setuptools \
 re2c \
 ruby \
@@ -209,6 +206,9 @@ RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz && tar -xzvf g
 RUN cd gettext-0.19.3 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gettext-0.19.3.tar.gz && rm -rfv /gettext-0.19.3
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install && rm -rfv /CMake
+#Python3 too old
+RUN wget https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tar.xz && tar -xvf Python-3.5.3.tar.xz
+RUN cd Python-3.5.3 && ./configure --prefix=/opt/usr &&  make -j 8 && make install && rm /Python-3.5.3.tar.xz && rm -rfv /Python-3.5.3
 #Build newer gstreamer for sound stack
 RUN wget 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.10.2.tar.xz' && tar -xvf gstreamer-1.10.2.tar.xz
 RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gstreamer-1.10.2.tar.xz && rm -rfv /gstreamer-1.10.2
@@ -273,13 +273,11 @@ RUN wget https://poppler.freedesktop.org/poppler-0.51.0.tar.xz && tar -xvf poppl
 RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install && rm /poppler-0.51.0.tar.xz && rm -rfv /poppler-0.51.0
 RUN wget http://sourceforge.net/projects/pyqt/files/sip/sip-4.16.5/sip-4.16.5.tar.gz && tar -zxvf sip-4.16.5.tar.gz
-RUN cd sip-4.16.5 && python configure.py --destdir /opt/usr && make && make install
 RUN cd sip-4.16.5 && python3 configure.py --destdir /opt/usr && make && make install
 RUN wget https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.3.2/PyQt-gpl-5.3.2.tar.gz && tar -zxvf PyQt-gpl-5.3.2.tar.gz
-RUN sudo ln -s /usr/include/python2.7 /usr/local/include/python2.7 && ln -s /usr/include/python3.4 /usr/local/include/python3.4
+RUN ln -s /opt/usr/include/python3.4 /usr/local/include/python3.5
 RUN sed -i "s#'webkitwidgets'#'webkitwidgets', 'printsupport'#g" PyQt-gpl-5.3.2/configure.py
-RUN cd PyQt-gpl-5.3.2 && python configure.py --confirm-license --destdir /opt/usr --sip-incdir /usr/include/python2.7/ && make && make install
-RUN cd /PyQt-gpl-5.3.2 && python3 configure.py --confirm-license --destdir /opt/usr --sip-incdir /usr/include/python3.4/ && make && make install
+RUN cd /PyQt-gpl-5.3.2 && python3 configure.py --confirm-license --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5/ && make && make install
 RUN rm -rfv PyQt-gpl-5.3.2 && rm  PyQt-gpl-5.3.2.tar.gz && rm sip-4.16.5.tar.gz && rm -rfv sip-4.16.5
 RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz
 RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1

@@ -11,17 +11,20 @@ import com.google.common.io.ByteStreams
 def apps = new Yaml().load(new FileReader(new File("${WORKSPACE}/data/applications.yaml")))
 
 apps.each { name, config ->
-  multibranchPipelineJob("${name}-appimage") {
-    branchSources {
-        git {
-            remote(config.repo)
-            credentialsId('ScarlettGatelyClark')
-        }
-    }
-    orphanedItemStrategy {
-        discardOldItems {
-            numToKeep(2)
-        }
-    }
-}
+  config.branch.each { branch ->
+    pipelineJob("${name}-${branch}-appimage") {
+      branchSources {
+          git {
+              remote(config.repo)
+              credentialsId('ScarlettGatelyClark')
+          }
+      }
+      orphanedItemStrategy {
+          discardOldItems {
+              numToKeep(5)
+          }
+      }
+  }
+  }
+
 }

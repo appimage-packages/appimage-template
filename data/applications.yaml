@@ -1,34 +1,51 @@
 kate:
   repo: https://github.com/appimage-packages/kate
+  branch: [master]
 blinken:
   repo: https://github.com/appimage-packages/blinken
+  branch: [master]
 kmymoney:
   repo: https://github.com/appimage-packages/kmymoney
+  branch: [master]
 skanlite:
   repo: https://github.com/appimage-packages/skanlite-packaging
+  branch: [master]
 artikulate:
   repo: https://github.com/appimage-packages/artikulate
+  branch: [master]
 kstars:
   repo: https://github.com/appimage-packages/kstars
+  branch: [master]
 okular:
   repo: https://github.com/appimage-packages/okular
+  branch: [master]
 ark:
   repo: https://github.com/appimage-packages/ark
+  branch: [master]
 marble:
   repo: https://github.com/appimage-packages/marble
+  branch: [master]
 plasmazilla:
   repo: https://github.com/appimage-packages/plasmazilla
+  branch: [master]
 kmail:
   repo: https://github.com/appimage-packages/kmail
+  branch: [master]
 kexi:
   repo: https://github.com/appimage-packages/kexi
+  branch: [master]
 choqok:
   repo: https://github.com/appimage-packages/choqok
+  branch: [master]
 akregator:
   repo: https://github.com/appimage-packages/akregator
+  branch: [master]
 calligra:
   repo: https://github.com/appimage-packages/calligra
+  branch: [master]
 kcalc:
   repo: https://github.com/appimage-packages/kcalc
+  branch: [master]
 blogilo:
   repo: https://github.com/appimage-packages/blogilo
+  branch: [master]
