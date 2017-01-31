@@ -17,6 +17,11 @@ apps.each { name, config ->
         github("appimage-packages/${name}", "${branch}")
     }
      logRotator(daysToKeep = -1, numToKeep = 5, artifactDaysToKeep = -1, artifactNumToKeep = -1)
+     definition {
+        cps {
+            script(readFileFromWorkspace('Jenkinsfile'))
+        }
+    }
   }
   }
 
