@@ -13,12 +13,11 @@ def apps = new Yaml().load(new FileReader(new File("${WORKSPACE}/data/applicatio
 apps.each { name, config ->
   config.branch.each { branch ->
     pipelineJob("${name}-${branch}-appimage") {
-      branchSources {
-          git {
-              remote(config.repo)
-              credentialsId('ScarlettGatelyClark')
-          }
-      }
+      scm {
+        github(scm {
+        github("appimage-packages/${name}", "${branch}")
+    })
+    }
       orphanedItemStrategy {
           discardOldItems {
               numToKeep(5)
