@@ -13,13 +13,12 @@ def apps = new Yaml().load(new FileReader(new File("${WORKSPACE}/data/applicatio
 apps.each { name, config ->
   config.branch.each { branch ->
     pipelineJob("${name}-${branch}-appimage") {
-      scm {
-        github("appimage-packages/${name}", "${branch}")
-    }
      logRotator(daysToKeep = -1, numToKeep = 5, artifactDaysToKeep = -1, artifactNumToKeep = -1)
      definition {
-        cps {
-            script(readFileFromWorkspace('Jenkinsfile'))
+        cpsScm {
+            scm {
+                git("https://github.com/appimage-packages/${name}", "${branch}")
+            }
         }
     }
   }
