@@ -17,7 +17,7 @@ apps.each { name, config ->
      definition {
         cpsScm {
             scm {
-                git("https://github.com/appimage-packages/${name}", "${branch}")
+                github("appimage-packages/${name}", "${branch}")
             }
         }
     }
