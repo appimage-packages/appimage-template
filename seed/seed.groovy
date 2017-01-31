@@ -15,7 +15,7 @@ apps.each { name, config ->
     pipelineJob("${name}-${branch}-appimage") {
      logRotator(daysToKeep = -1, numToKeep = 5, artifactDaysToKeep = -1, artifactNumToKeep = -1)
      properties {
-        githubProjectUrl("https://github.comappimage-packages/${name}", "${branch}")
+        githubProjectUrl("https://github.com/appimage-packages/${name}")
     }
      definition {
         cpsScm {
