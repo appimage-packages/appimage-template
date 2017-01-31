@@ -18,7 +18,7 @@ apps.each { name, config ->
         github("appimage-packages/${name}", "${branch}")
     })
     }
-      logRotator(int daysToKeep = -1, int numToKeep = 5, int artifactDaysToKeep = -1, int artifactNumToKeep = -1)
+      logRotator(daysToKeep = -1, numToKeep = 5, artifactDaysToKeep = -1, artifactNumToKeep = -1)
   }
   }
 
