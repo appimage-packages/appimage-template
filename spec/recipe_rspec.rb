@@ -28,10 +28,11 @@ deps = metadata['dependencies']
 puts metadata
 
 describe Recipe do
-  app = Recipe.new(name: metadata['name'])
+  app = Recipe.new(name: metadata['name'], binary: metadata['binary'])
   describe "#initialize" do
     it "Sets the application name" do
       expect(app.name).to eq metadata['name']
+      expect(app.binary).to eq metadata['binary']
     end
   end
 

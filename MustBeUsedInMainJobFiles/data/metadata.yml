@@ -1,4 +1,5 @@
 name: changeme
+binary: changeme
 packages: ''
   #app specifc
 frameworks:

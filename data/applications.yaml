@@ -52,3 +52,6 @@ blogilo:
 bomber:
   repo: https://github.com/appimage-packages/bomber
   branch: [master]
+bovo:
+  repo: https://github.com/appimage-packages/bovo
+  branch: [master]

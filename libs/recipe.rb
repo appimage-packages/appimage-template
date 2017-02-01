@@ -38,11 +38,12 @@ class Recipe
   attr_accessor :version
   attr_accessor :app_dir
   attr_accessor :configure_options
-
+  attr_accessor :binary
 
   def initialize(args = {})
     Dir.chdir('/')
     self.name = args[:name]
+    self.binary = args[:binary]
     self.arch = `arch`
     self.install_path = '/app/usr'
   end
