@@ -200,7 +200,7 @@ ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconf
 ENV CXXFLAGS -std=c++11
 #Misc deps too old on trusty
 RUN wget http://ftp.gnome.org/pub/gnome/sources/glib/2.46/glib-2.46.2.tar.xz && tar -xvf glib-2.46.2.tar.xz
-RUN cd glib-2.46.2 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install rm /glib-2.46.2.tar.xz && rm -rfv /glib-2.46.2
+RUN cd glib-2.46.2 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /glib-2.46.2.tar.xz && rm -rfv /glib-2.46.2
 RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2 && tar -jxvf util-macros-1.19.0.tar.bz2
 RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install && rm /util-macros-1.19.0.tar.bz2 && rm -rfv /util-macros-1.19.0
 RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2 && tar -jxvf m4-1.4.18.tar.bz2
