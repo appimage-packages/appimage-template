@@ -289,6 +289,8 @@ RUN rm -rfv /gpgme
 RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2 && tar -jxvf gnupg-2.1.17.tar.bz2
 RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
+RUN git clone https://github.com/ximion/appstream
+RUN cd appstream &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT=ON && make && make install && rm -rfv /appstream
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile
 ENV PATH /opt/usr/bin:/root/.rbenv/bin:/root/.rbenv/shims:$PATH
  # Install rbenv and ruby-build
