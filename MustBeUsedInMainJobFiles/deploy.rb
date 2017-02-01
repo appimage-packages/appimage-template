@@ -20,7 +20,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative '/in/appimage-template/libs/builddocker.rb'
+require_relative 'appimage-template/libs/builddocker.rb'
 require 'fileutils'
 require 'pty'
 

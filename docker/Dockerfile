@@ -277,7 +277,7 @@ RUN cd sip-4.16.5 && python3 configure.py --destdir /opt/usr && make && make ins
 RUN wget https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.3.2/PyQt-gpl-5.3.2.tar.gz && tar -zxvf PyQt-gpl-5.3.2.tar.gz
 RUN ln -s /opt/usr/include/python3.5 /usr/local/include/python3.5
 RUN sed -i "s#'webkitwidgets'#'webkitwidgets', 'printsupport'#g" PyQt-gpl-5.3.2/configure.py
-RUN cd /PyQt-gpl-5.3.2 && python3 configure.py --confirm-license --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5/ && make && make install
+#RUN cd /PyQt-gpl-5.3.2 && python3 configure.py --confirm-license --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5/ && make && make install
 RUN rm -rfv PyQt-gpl-5.3.2 && rm  PyQt-gpl-5.3.2.tar.gz && rm sip-4.16.5.tar.gz && rm -rfv sip-4.16.5
 RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz
 RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1
