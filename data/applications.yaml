@@ -49,3 +49,6 @@ kcalc:
 blogilo:
   repo: https://github.com/appimage-packages/blogilo
   branch: [master]
+bomber:
+  repo: https://github.com/appimage-packages/bomber
+  branch: [master]

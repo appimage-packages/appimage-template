@@ -1,8 +1,13 @@
 # changeme
-[![Build Status](http://aci.pangea.pub/job/changeme-appimage/job/master/badge/icon)](http://aci.pangea.pub/job/changeme-appimage/job/master/)
+Master branch:
+[![Build Status](http://aci.pangea.pub/job/changeme-master-appimage/badge/icon)](http://aci.pangea.pub/job/changeme-master-appimage/)
 
 AppImage for KDE changeme
 
-Job description
+changeme
 
-Job homepage url
+https://www.kde.org/applications/utilities/changeme/
+
+S3 Download:
+master:
+https://s3-eu-central-1.amazonaws.com/ds9-apps/index.html#!/changeme-master-appimage%2F
