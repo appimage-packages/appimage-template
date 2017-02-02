@@ -55,3 +55,6 @@ bomber:
 bovo:
   repo: https://github.com/appimage-packages/bovo
   branch: [master]
+cantor:
+  repo: https://github.com/appimage-packages/cantor
+  branch: [master]
