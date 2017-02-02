@@ -107,6 +107,7 @@ libsphinxbase-dev \
 libsqlite3-dev \
 libsrtp0-dev \
 libssl-dev \
+libstemmer-dev \
 libsystemd-journal-dev \
 libtag1-dev \
 libtheora-dev \
@@ -159,6 +160,7 @@ libxss-dev \
 libxtst-dev \
 libxv-dev \
 libutempter-dev \
+libyaml-dev \
 media-player-info \
 ninja-build \
 pkg-config \
