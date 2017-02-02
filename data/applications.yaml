@@ -58,3 +58,6 @@ bovo:
 cantor:
   repo: https://github.com/appimage-packages/cantor
   branch: [master]
+cervisia:
+  repo: https://github.com/appimage-packages/cervisia
+  branch: [master]
