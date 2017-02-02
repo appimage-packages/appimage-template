@@ -24,6 +24,7 @@ freetds-dev \
 fuse \
 gdb \
 git \
+gobject-introspection \
 gperf \
 graphviz \
 gyp \
