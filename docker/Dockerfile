@@ -181,7 +181,7 @@ software-properties-common \
 sphinxsearch \
 texinfo \
 unixodbc-dev \
-valac
+valac \
 wget \
 xmlto \
 xsltproc \

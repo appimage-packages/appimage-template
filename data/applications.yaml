@@ -67,3 +67,6 @@ kde-connect:
 k3b:
   repo: https://github.com/appimage-packages/k3b
   branch: [master]
+dolphin:
+  repo: https://github.com/appimage-packages/dolphin
+  branch: [master]
