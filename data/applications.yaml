@@ -64,3 +64,6 @@ cervisia:
 kde-connect:
   repo: https://github.com/appimage-packages/kde-connect
   branch: [master]
+k3b:
+  repo: https://github.com/appimage-packages/k3b
+  branch: [master]
