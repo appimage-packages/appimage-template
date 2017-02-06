@@ -1,0 +1,454 @@
+Sending build context to Docker daemon 19.97 kB
+Step 1 : FROM ubuntu:14.04
+ ---> 0ccb13bf1954
+Step 2 : RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> aa05f8c142e9
+Step 3 : RUN echo "deb-src http://ca.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> 4e6751f86657
+Step 4 : RUN echo "deb http://ca.archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> a02dacffcd83
+Step 5 : RUN echo "deb-src http://ca.archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> 8f797142e676
+Step 6 : RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> 9099030bf274
+Step 7 : RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
+ ---> Using cache
+ ---> 5fd76836101c
+Step 8 : RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+ ---> Using cache
+ ---> 7cead70abfb8
+Step 9 : RUN ln -s -f /bin/true /usr/bin/chfn
+ ---> Using cache
+ ---> 95cbdc494714
+Step 10 : RUN apt-get update && apt-get -y upgrade && apt-get -y install autogen automake autotools-dev bison build-essential bzr docbook-xml docbook-xsl doxygen firebird-dev flex freetds-dev fuse gdb git gobject-introspection gperf graphviz gtk-doc-tools gyp hspell itstool libaa1-dev libacl1-dev libasound2-dev libaspell-dev libatspi2.0-dev libatspi2.0-dev libattr1-dev libavc1394-dev libavcodec-dev libavformat-dev libavutil-dev libboost-all-dev libbz2-dev libcaca-dev libcap-dev libcdparanoia-dev libclang-3.8-dev libdbus-1-dev libdc1394-22-dev libdrm-dev libdv4-dev libegl1-mesa-dev libepoxy-dev libevent-dev libexiv2-dev libfam-dev libffi-dev libflac++-dev libflac-dev libfontconfig1-dev libfreetype6-dev libfuse-dev libgbm-dev libgif-dev libgirepository1.0-dev libgl1-mesa-dev libgles2-mesa-dev libglu-dev libglu1-mesa-dev libgmp-dev libgtk-3-dev libgtk2.0-dev libharfbuzz-dev libhunspell-dev libicu-dev libidn11-dev libjack-dev libjpeg-dev libjsoncpp-dev libmagickcore-dev libmagickwand-dev libmtdev-dev libmysqlclient-dev libncurses5-dev libnss3-dev libogg-dev libopenal-dev libopus-dev libp11-kit-dev  libpci-dev libpng-dev libpolkit-agent-1-dev libpolkit-backend-1-dev libpolkit-gobject-1-dev libpq-dev libproxy-dev libpulse-dev libraw1394-dev libreadline-dev libshout3-dev libsnappy-dev libsndfile1-dev libsoup2.4-dev libspeex-dev libsphinxbase-dev libsqlite3-dev libsrtp0-dev libssl-dev libstemmer-dev libsystemd-journal-dev libtag1-dev libtheora-dev libts-dev libudev-dev libunbound-dev libunistring-dev libutempter-dev libvisual-0.4-dev libvoikko-dev libvorbis-dev libvorbisidec-dev libvpx-dev libwavpack-dev libwayland-dev libwayland-egl1-mesa libwayland-server0 libwayland0 libwebp-dev libx11-dev libx11-xcb-dev libxcb-composite0-dev libxcb-damage0-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-shape0-dev libxcb-shm0-dev libxcb-sync-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xtest0-dev libxcb1-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libxkbfile-dev libxml2-dev libxrandr-dev libxrender-dev libxslt1-dev libxss-dev libxtst-dev libxv-dev libyaml-dev media-player-info ninja-build pkg-config publican publicsuffix python-clang-3.8 python-pip python-setuptools python2.7 python2.7-dev re2c ruby software-properties-common sphinxsearch texinfo unixodbc-dev valac wget xmlto xsltproc yasm zlib1g-dev zsync
+ ---> Using cache
+ ---> c4cc7094823d
+Step 11 : RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
+ ---> Using cache
+ ---> cd2845af684f
+Step 12 : RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install g++-4.9
+ ---> Using cache
+ ---> 2718735679cb
+Step 13 : RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
+ ---> Using cache
+ ---> d7f855c1aaeb
+Step 14 : RUN groupadd -g 1000 jenkins
+ ---> Using cache
+ ---> 0f1521b05c7b
+Step 15 : RUN useradd -m -u 1000 -g 1000 -d /home/jenkins jenkins
+ ---> Using cache
+ ---> 00e93b6c1fc4
+Step 16 : RUN mkdir -p /{appimage,app}
+ ---> Using cache
+ ---> 81ac74448baf
+Step 17 : RUN chown jenkins.jenkins /appimage
+ ---> Using cache
+ ---> a42c763772d4
+Step 18 : RUN chown jenkins.jenkins /app
+ ---> Using cache
+ ---> 01f531bd0b4b
+Step 19 : RUN echo 'jenkins:1234' | chpasswd #changeme
+ ---> Using cache
+ ---> b825442b6705
+Step 20 : RUN adduser jenkins sudo
+ ---> Using cache
+ ---> ff9bbbfbedd2
+Step 21 : RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+ ---> Using cache
+ ---> 85c5ab4c544b
+Step 22 : RUN modprobe fuse
+ ---> Using cache
+ ---> 7e991f855e2f
+Step 23 : RUN usermod -a -G fuse jenkins
+ ---> Using cache
+ ---> 9de59549c0dc
+Step 24 : RUN chgrp fuse /dev/fuse
+ ---> Using cache
+ ---> 38c2f8c80006
+Step 25 : RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
+ ---> Using cache
+ ---> 9ce395d92f54
+Step 26 : ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib64
+ ---> Using cache
+ ---> 6741b3be5edc
+Step 27 : ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
+ ---> Using cache
+ ---> 076461467dd0
+Step 28 : ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
+ ---> Using cache
+ ---> 3254687bcc4e
+Step 29 : ENV CXXFLAGS -std=c++11
+ ---> Using cache
+ ---> 933d119d555d
+Step 30 : RUN wget http://ftp.gnome.org/pub/gnome/sources/glib/2.46/glib-2.46.2.tar.xz && tar -xvf glib-2.46.2.tar.xz
+ ---> Using cache
+ ---> 6b60622fbb9c
+Step 31 : RUN cd glib-2.46.2 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /glib-2.46.2.tar.xz && rm -rfv /glib-2.46.2
+ ---> Using cache
+ ---> ff81d9ea8e28
+Step 32 : RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2 && tar -jxvf util-macros-1.19.0.tar.bz2
+ ---> Using cache
+ ---> 8b9636c4d4d8
+Step 33 : RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install && rm /util-macros-1.19.0.tar.bz2 && rm -rfv /util-macros-1.19.0
+ ---> Using cache
+ ---> d93744ce9a40
+Step 34 : RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2 && tar -jxvf m4-1.4.18.tar.bz2
+ ---> Using cache
+ ---> 8c5c0cff67f3
+Step 35 : RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /m4-1.4.18.tar.bz2 && rm -rfv /m4-1.4.18
+ ---> Using cache
+ ---> f67a660d589d
+Step 36 : RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz && tar -xzvf gettext-0.19.3.tar.gz
+ ---> Using cache
+ ---> 3faff26e96e9
+Step 37 : RUN cd gettext-0.19.3 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gettext-0.19.3.tar.gz && rm -rfv /gettext-0.19.3
+ ---> Using cache
+ ---> f986f9903f57
+Step 38 : RUN git clone https://github.com/Kitware/CMake
+ ---> Using cache
+ ---> 7ec479fb6d05
+Step 39 : RUN cd CMake && ./configure --prefix=/opt/usr && make && make install && rm -rfv /CMake
+ ---> Using cache
+ ---> 515e707d95ef
+Step 40 : RUN wget https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tar.xz && tar -xvf Python-3.5.3.tar.xz
+ ---> Using cache
+ ---> 1946a998f97f
+Step 41 : RUN cd Python-3.5.3 && ./configure --prefix=/opt/usr --enable-shared &&  make -j 8 && make install && rm /Python-3.5.3.tar.xz && rm -rfv /Python-3.5.3
+ ---> Using cache
+ ---> 4d1f9d9ea9a9
+Step 42 : RUN wget 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.10.2.tar.xz' && tar -xvf gstreamer-1.10.2.tar.xz
+ ---> Using cache
+ ---> 0bbc73f9285c
+Step 43 : RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gstreamer-1.10.2.tar.xz && rm -rfv /gstreamer-1.10.2
+ ---> Using cache
+ ---> 16985fc391b5
+Step 44 : RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.10.2.tar.xz' && tar -xvf gst-plugins-base-1.10.2.tar.xz
+ ---> Using cache
+ ---> d7f3338ab377
+Step 45 : RUN cd gst-plugins-base-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gst-plugins-base-1.10.2.tar.xz && rm -rfv /gst-plugins-base-1.10.2
+ ---> Using cache
+ ---> 057eb2098e95
+Step 46 : RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.10.2.tar.xz' && tar -xvf gst-plugins-good-1.10.2.tar.xz
+ ---> Using cache
+ ---> 9468862353da
+Step 47 : RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gst-plugins-good-1.10.2.tar.xz && rm -rfv /gst-plugins-good-1.10.2
+ ---> Using cache
+ ---> 7d5e9bd080aa
+Step 48 : RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
+ ---> Using cache
+ ---> 193af6cfec2d
+Step 49 : RUN tar -jxvf libgpg-error-1.26.tar.bz2
+ ---> Using cache
+ ---> 72ded6335716
+Step 50 : RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --enable-static &&  make -j 8 && make install
+ ---> Using cache
+ ---> 9576ec54f6ef
+Step 51 : RUN rm /libgpg-error-1.26.tar.bz2 && rm -rfv /libgpg-error-1.26
+ ---> Using cache
+ ---> e6f539322cf7
+Step 52 : RUN wget https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.3.5.tar.bz2
+ ---> Using cache
+ ---> 1dedb5320532
+Step 53 : RUN tar -jxvf libksba-1.3.5.tar.bz2
+ ---> Using cache
+ ---> 5c0fa2d0339c
+Step 54 : RUN cd libksba-1.3.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+ ---> Using cache
+ ---> fb38d62e256a
+Step 55 : RUN rm /libksba-1.3.5.tar.bz2 && rm -rfv /libksba-1.3.5
+ ---> Using cache
+ ---> bfc323e8b605
+Step 56 : RUN wget https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.4.3.tar.bz2
+ ---> Using cache
+ ---> 2794daadb82f
+Step 57 : RUN tar -jxvf libassuan-2.4.3.tar.bz2
+ ---> Using cache
+ ---> 18f4b52ca786
+Step 58 : RUN cd libassuan-2.4.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+ ---> Using cache
+ ---> fa21fe1f0469
+Step 59 : RUN rm /libassuan-2.4.3.tar.bz2 && rm -rfv /libassuan-2.4.3
+ ---> Using cache
+ ---> 33f3f9b86182
+Step 60 : RUN wget https://www.gnupg.org/ftp/gcrypt/npth/npth-1.3.tar.bz2 &&  tar -jxvf npth-1.3.tar.bz2
+ ---> Using cache
+ ---> 39d089bb19ab
+Step 61 : RUN cd npth-1.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+ ---> Using cache
+ ---> 70de0956a4a8
+Step 62 : RUN rm /npth-1.3.tar.bz2 && rm -rfv /npth-1.3
+ ---> Using cache
+ ---> 9f3508d75861
+Step 63 : RUN wget https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.7.5.tar.bz2 && tar -jxvf libgcrypt-1.7.5.tar.bz2
+ ---> Using cache
+ ---> b97dd3f43a93
+Step 64 : RUN cd libgcrypt-1.7.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /libgcrypt-1.7.5.tar.bz2 && rm -rfv /libgcrypt-1.7.5
+ ---> Using cache
+ ---> 8a459d7035dd
+Step 65 : RUN wget http://ftp.gnu.org/gnu/libtasn1/libtasn1-4.10.tar.gz && tar -zxvf libtasn1-4.10.tar.gz
+ ---> Using cache
+ ---> ea6ad8b60608
+Step 66 : RUN cd libtasn1-4.10 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /libtasn1-4.10.tar.gz && rm -rfv /libtasn1-4.10
+ ---> Using cache
+ ---> 237b51b86e9e
+Step 67 : RUN wget https://ftp.gnu.org/gnu/nettle/nettle-3.3.tar.gz && tar -zxvf nettle-3.3.tar.gz
+ ---> Using cache
+ ---> 09214a696454
+Step 68 : RUN cd nettle-3.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /nettle-3.3.tar.gz && rm -rfv /nettle-3.3
+ ---> Using cache
+ ---> 681276df2791
+Step 69 : RUN wget http://p11-glue.freedesktop.org/releases/p11-kit-0.23.2.tar.gz && tar -zxvf p11-kit-0.23.2.tar.gz
+ ---> Using cache
+ ---> cd07f55f1e4a
+Step 70 : RUN cd p11-kit-0.23.2 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /p11-kit-0.23.2.tar.gz && rm -rfv /p11-kit-0.23.2
+ ---> Using cache
+ ---> b3600b13713a
+Step 71 : RUN wget ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-3.5.8.tar.xz && tar -xvf gnutls-3.5.8.tar.xz
+ ---> Using cache
+ ---> 7745ec67c0ad
+Step 72 : RUN cd gnutls-3.5.8 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --with-included-libtasn1 &&  make -j 8 && make install && rm /gnutls-3.5.8.tar.xz && rm -rfv /gnutls-3.5.8
+ ---> Using cache
+ ---> c5a694e8c15f
+Step 73 : RUN wget http://downloads.sourceforge.net/pcre/pcre-8.35.tar.bz2 && tar -jxvf pcre-8.35.tar.bz2
+ ---> Using cache
+ ---> d7cc5fb25025
+Step 74 : RUN cd pcre-8.35 && ./configure --prefix=/opt/usr && make && make install && rm /pcre-8.35.tar.bz2 && rm -rfv /pcre-8.35
+ ---> Using cache
+ ---> cc7fabd4eab8
+Step 75 : RUN wget http://www.cups.org/software/1.7.5/cups-1.7.5-source.tar.bz2 && tar -jxvf cups-1.7.5-source.tar.bz2
+ ---> Using cache
+ ---> bb7ca0674891
+Step 76 : RUN cd cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-scripts && ./configure --prefix=/opt/usr &&  make -j 8 && make install && rm -rfv /cups-1.7.5 && rm /cups-1.7.5-source.tar.bz2
+ ---> Using cache
+ ---> 948802eebc0d
+Step 77 : RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.7.1.tar.gz
+ ---> Using cache
+ ---> 9a564e32a767
+Step 78 : RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+ ---> Using cache
+ ---> c19bd4f5d723
+Step 79 : RUN rm /qt-everywhere-opensource-src-5.7.1.tar.gz && rm -rfv /qt-everywhere-opensource-src-5.7.1
+ ---> Using cache
+ ---> 65a3ea2fbc7c
+Step 80 : RUN wget http://download.qt.io/community_releases/5.7/5.7.1/qtwebkit-opensource-src-5.7.1.tar.xz && tar -xvf qtwebkit-opensource-src-5.7.1.tar.xz
+ ---> Using cache
+ ---> a2f4692195e8
+Step 81 : RUN cd qtwebkit-opensource-src-5.7.1 && Tools/Scripts/build-webkit --qt --qmakearg="PREFIX+=/opt/usr" && qmake PREFIX=/opt/usr WebKit.pro && make && make install
+ ---> Using cache
+ ---> 18325359307d
+Step 82 : RUN rm /qtwebkit-opensource-src-5.7.1.tar.xz && rm -rfv /qtwebkit-opensource-src-5.7.1
+ ---> Using cache
+ ---> cbcd8d91308b
+Step 83 : RUN git clone http://code.qt.io/qt/qtstyleplugins.git
+ ---> Using cache
+ ---> d4e2dd2f5912
+Step 84 : RUN cd qtstyleplugins && qmake PREFIX=/opt/usr . && make && make install && rm -rfv /qtstyleplugins
+ ---> Using cache
+ ---> 39b816073586
+Step 85 : RUN git clone https://code.qt.io/cgit/qt/qtquick1.git
+ ---> Using cache
+ ---> 602759171ea4
+Step 86 : RUN cd qtquick1 && qmake PREFIX=/opt/usr . && make && make install && rm -rfv /qtquick1
+ ---> Using cache
+ ---> 59acba50a172
+Step 87 : RUN git clone https://code.qt.io/qt/qtspeech.git
+ ---> Using cache
+ ---> 720476c19357
+Step 88 : RUN cd qtspeech && qmake PREFIX=/opt/usr . && make && make install && rm -rfv /qtspeech
+ ---> Using cache
+ ---> d6f3ab2dacb8
+Step 89 : RUN git clone https://github.com/flavio/qjson
+ ---> Using cache
+ ---> 62615ef92e08
+Step 90 : RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install && rm -rfv /qjson
+ ---> Using cache
+ ---> a827caab84c5
+Step 91 : RUN bzr branch lp:libdbusmenu-qt
+ ---> Using cache
+ ---> 2e407d965190
+Step 92 : RUN cd libdbusmenu-qt &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install && rm -rfv /libdbusmenu-qt
+ ---> Using cache
+ ---> 57892012a012
+Step 93 : RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz' && tar -xvf qt-gstreamer-1.2.0.tar.xz
+ ---> Using cache
+ ---> e6abc8a15621
+Step 94 : RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ -DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF && make && make install && rm /qt-gstreamer-1.2.0.tar.xz && rm -rfv /qt-gstreamer-1.2.0
+ ---> Using cache
+ ---> 47dc1039fb57
+Step 95 : RUN git clone https://github.com/steveire/grantlee
+ ---> Using cache
+ ---> 2acd2efe3e6d
+Step 96 : RUN cd grantlee && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm -rfv /grantlee
+ ---> Using cache
+ ---> 1d1f636bf69e
+Step 97 : RUN wget https://poppler.freedesktop.org/poppler-0.51.0.tar.xz && tar -xvf poppler-0.51.0.tar.xz
+ ---> Using cache
+ ---> 9a647ba9dcd7
+Step 98 : RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install && rm /poppler-0.51.0.tar.xz && rm -rfv /poppler-0.51.0
+ ---> Using cache
+ ---> 8ba22d41fbfb
+Step 99 : RUN wget http://sourceforge.net/projects/pyqt/files/sip/sip-4.16.5/sip-4.16.5.tar.gz && tar -zxvf sip-4.16.5.tar.gz
+ ---> Using cache
+ ---> 2463f68684da
+Step 100 : RUN cd sip-4.16.5 && python3 configure.py --destdir /opt/usr && make && make install
+ ---> Using cache
+ ---> 40754a79cf9e
+Step 101 : RUN wget https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.3.2/PyQt-gpl-5.3.2.tar.gz && tar -zxvf PyQt-gpl-5.3.2.tar.gz
+ ---> Using cache
+ ---> 8b2917103b03
+Step 102 : RUN ln -s /opt/usr/include/python3.5m /usr/local/include/python3.5
+ ---> Using cache
+ ---> d912fdcb7693
+Step 103 : RUN sed -i "s#'webkitwidgets'#'webkitwidgets', 'printsupport'#g" PyQt-gpl-5.3.2/configure.py
+ ---> Using cache
+ ---> fad2cc569afe
+Step 104 : RUN cd /PyQt-gpl-5.3.2 && python3 configure.py --confirm-license --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5m/ && make && make install
+ ---> Using cache
+ ---> 6f957f22f8f8
+Step 105 : RUN rm -rfv PyQt-gpl-5.3.2 && rm  PyQt-gpl-5.3.2.tar.gz && rm sip-4.16.5.tar.gz && rm -rfv sip-4.16.5
+ ---> Using cache
+ ---> 0ac186edafb6
+Step 106 : RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz
+ ---> Using cache
+ ---> 6d1cebc47885
+Step 107 : RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1
+ ---> Using cache
+ ---> 8645441699d4
+Step 108 : RUN git clone https://github.com/ayoy/qoauth
+ ---> Using cache
+ ---> 635651ab0ce5
+Step 109 : RUN cd qoauth && qmake '"PREFIX = /opt/usr" "QT += widgets" "QT += webkitwidgets" "CONFIG += crypto" "DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x000000"' src/src.pro && make && make install && rm -rfv /qoauth
+ ---> Using cache
+ ---> 6e09996cf7bb
+Step 110 : RUN git clone git://git.gnupg.org/gpgme.git
+ ---> Using cache
+ ---> bb0e44d956b9
+Step 111 : RUN cd gpgme && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+ ---> Using cache
+ ---> b34310981090
+Step 112 : RUN rm -rfv /gpgme
+ ---> Using cache
+ ---> 08694aaa03e5
+Step 113 : RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2 && tar -jxvf gnupg-2.1.17.tar.bz2
+ ---> Using cache
+ ---> fade6c2d9c8a
+Step 114 : RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
+ ---> Using cache
+ ---> 3d0d169207d4
+Step 115 : RUN git clone https://github.com/ximion/appstream
+ ---> Using cache
+ ---> 15121b0ffa2d
+Step 116 : RUN cd appstream && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT=ON ../ && make && make install && rm -rfv /appstream
+ ---> Running in 99162ce0c29e
+-- The C compiler identification is GNU 4.8.4
+-- The CXX compiler identification is GNU 4.8.4
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Compiling AppStream version 0.11.0
+-- Found Gettext: /opt/usr/bin/msgmerge (found version "0.19.3") 
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.26") 
+-- Checking for module 'glib-2.0>=2.46'
+--   Found glib-2.0, version 2.46.2
+-- Checking for module 'gio-2.0'
+--   Found gio-2.0, version 2.46.2
+-- Checking for module 'gobject-introspection-1.0'
+--   Found gobject-introspection-1.0, version 1.40.0
+-- Found LibXml2: /usr/lib/x86_64-linux-gnu/libxml2.so (found version "2.9.1") 
+-- Checking for module 'yaml-0.1'
+--   Found yaml-0.1, version 0.1.4
+[91mCMake Deprecation Warning at /opt/usr/share/cmake-3.7/Modules/GenerateExportHeader.cmake:385 (message):
+  The add_compiler_export_flags function is obsolete.  Use the
+  CXX_VISIBILITY_PRESET and VISIBILITY_INLINES_HIDDEN target properties
+  instead.
+Call Stack (most recent call first):
+  qt/CMakeLists.txt:6 (add_compiler_export_flags)
+
+
+[0m-- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY
+-- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY - Success
+-- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY
+-- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY - Success
+-- Performing Test COMPILER_HAS_DEPRECATED_ATTR
+-- Performing Test COMPILER_HAS_DEPRECATED_ATTR - Success
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /appstream/build
+[  1%] Generating as-resources.h
+[  2%] Generating as-resources.c
+Scanning dependencies of target appstream
+[  3%] Building C object src/CMakeFiles/appstream.dir/as-utils.c.o
+[  4%] Building C object src/CMakeFiles/appstream.dir/as-xmldata.c.o
+[  5%] Building C object src/CMakeFiles/appstream.dir/as-yamldata.c.o
+[  6%] Building C object src/CMakeFiles/appstream.dir/as-desktop-entry.c.o
+[  7%] Building C object src/CMakeFiles/appstream.dir/as-cache-file.c.o
+[  8%] Building C object src/CMakeFiles/appstream.dir/as-distro-extras.c.o
+[  9%] Building C object src/CMakeFiles/appstream.dir/as-stemmer.c.o
+[ 10%] Building C object src/CMakeFiles/appstream.dir/as-spdx.c.o
+[ 11%] Building C object src/CMakeFiles/appstream.dir/as-metadata.c.o
+[ 12%] Building C object src/CMakeFiles/appstream.dir/as-component.c.o
+[ 13%] Building C object src/CMakeFiles/appstream.dir/as-enums.c.o
+[ 14%] Building C object src/CMakeFiles/appstream.dir/as-provided.c.o
+[ 15%] Building C object src/CMakeFiles/appstream.dir/as-bundle.c.o
+[ 16%] Building C object src/CMakeFiles/appstream.dir/as-pool.c.o
+[ 17%] Building C object src/CMakeFiles/appstream.dir/as-category.c.o
+[ 18%] Building C object src/CMakeFiles/appstream.dir/as-distro-details.c.o
+[ 19%] Building C object src/CMakeFiles/appstream.dir/as-screenshot.c.o
+[ 20%] Building C object src/CMakeFiles/appstream.dir/as-image.c.o
+[ 21%] Building C object src/CMakeFiles/appstream.dir/as-release.c.o
+[ 22%] Building C object src/CMakeFiles/appstream.dir/as-checksum.c.o
+[ 23%] Building C object src/CMakeFiles/appstream.dir/as-validator.c.o
+[ 24%] Building C object src/CMakeFiles/appstream.dir/as-validator-issue.c.o
+[ 25%] Building C object src/CMakeFiles/appstream.dir/as-icon.c.o
+[ 26%] Building C object src/CMakeFiles/appstream.dir/as-translation.c.o
+[ 27%] Building C object src/CMakeFiles/appstream.dir/as-suggested.c.o
+[ 28%] Building C object src/CMakeFiles/appstream.dir/as-resources.c.o
+[ 29%] Linking C shared library libappstream.so
+[ 29%] Built target appstream
+Scanning dependencies of target gir-typelibs
+[ 30%] Generating AppStream-1.0.gir
+[91msrc/as-component.c:575: Warning: AppStream: unknown annotation: nullable
+[0m[91msrc/as-component.c:1101: Warning: AppStream: unknown annotation: nullable
+[0m[91msrc/as-component.c:1145: Warning: AppStream: unknown annotation: nullable
+[0m[91msrc/as-component.c:1183: Warning: AppStream: unknown annotation: nullable
+[0m[91msrc/as-component.c:1228: Warning: AppStream: unknown annotation: nullable
+[0m[91msrc/as-component.c:1273: Warning: AppStream: unknown annotation: nullable
+[0m[91msrc/as-component.c:1324: Warning: AppStream: unknown annotation: nullable
+[0m[91msrc/as-component.c:1579: Warning: AppStream: unknown annotation: nullable
+[0m[91msrc/as-component.c:1902: Warning: AppStream: unknown annotation: nullable
+[0m[91msrc/as-component.c:1924: Warning: AppStream: unknown annotation: nullable
+[0mg-ir-scanner: compile: cc -Wno-deprecated-declarations -pthread -I/opt/usr/include/glib-2.0 -I/opt/usr/lib/glib-2.0/include -I/opt/usr/include/gio-unix-2.0 -I/opt/usr/include/glib-2.0 -I/opt/usr/lib/glib-2.0/include -c -o /appstream/build/src/tmp-introspectTPLZrR/AppStream-1.0.o /appstream/build/src/tmp-introspectTPLZrR/AppStream-1.0.c
+g-ir-scanner: link: cc -o /appstream/build/src/tmp-introspectTPLZrR/AppStream-1.0 /appstream/build/src/tmp-introspectTPLZrR/AppStream-1.0.o -L. -Wl,-rpath=. -Wl,--no-as-needed -lappstream -Wl,--export-dynamic -pthread -L/opt/usr/lib -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0
+[91m<unknown>:: Warning: AppStream: Too many parameters in type specification 'GPtrArray(AsScreenshot)'
+[0m[ 31%] Generating AppStream-1.0.typelib
+[ 31%] Built target gir-typelibs
+Scanning dependencies of target gir-girs
+[ 32%] Built target gir-girs
+Scanning dependencies of target appstreamcli
+[ 33%] Building C object tools/CMakeFiles/appstreamcli.dir/appstream-cli.c.o
+[ 34%] Building C object tools/CMakeFiles/appstreamcli.dir/ascli-utils.c.o
+[ 35%] Building C object tools/CMakeFiles/appstreamcli.dir/ascli-actions-mdata.c.o
+[ 36%] Building C object tools/CMakeFiles/appstreamcli.dir/ascli-actions-validate.c.o
+[ 37%] Building C object tools/CMakeFiles/appstreamcli.dir/ascli-actions-pkgmgr.c.o
+[ 38%] Building C object tools/CMakeFiles/appstreamcli.dir/ascli-actions-misc.c.o
+[ 39%] Linking C executable appstreamcli
+[91m../src/libappstream.so.0.11.0: undefined reference to `g_strv_contains'
+collect2: error: ld returned 1 exit status
+[0m[91mmake[2]: *** [tools/appstreamcli] Error 1
+[0m[91mmake[1]: *** [tools/CMakeFiles/appstreamcli.dir/all] Error 2
+[0m[91mmake: *** [all] Error 2
+[0m

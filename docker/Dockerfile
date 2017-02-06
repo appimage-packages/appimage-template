@@ -24,7 +24,6 @@ freetds-dev \
 fuse \
 gdb \
 git \
-gobject-introspection \
 gperf \
 graphviz \
 gtk-doc-tools \
@@ -215,6 +214,8 @@ RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2 && tar -jxvf m4-1.4.18.tar.
 RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /m4-1.4.18.tar.bz2 && rm -rfv /m4-1.4.18
 RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz && tar -xzvf gettext-0.19.3.tar.gz
 RUN cd gettext-0.19.3 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gettext-0.19.3.tar.gz && rm -rfv /gettext-0.19.3
+RUN wget http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.46/gobject-introspection-1.50.0.tar.xz && tar -xvf gobject-introspection-1.46.0.tar.xz
+RUN cd gobject-introspection-1.50.0 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gobject-introspection-1.46.0.tar.xz && rm -rfv /gobject-introspection-1.46.0
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install && rm -rfv /CMake
 #Python3 too old

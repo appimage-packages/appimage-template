@@ -73,3 +73,6 @@ dolphin:
 kaffeine:
   repo: https://github.com/appimage-packages/kaffeine
   branch: [master]
+dragon:
+  repo: https://github.com/appimage-packages/dragon
+  branch: [master]
