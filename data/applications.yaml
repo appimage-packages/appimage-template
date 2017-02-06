@@ -70,3 +70,6 @@ k3b:
 dolphin:
   repo: https://github.com/appimage-packages/dolphin
   branch: [master]
+kaffeine:
+  repo: https://github.com/appimage-packages/kaffeine
+  branch: [master]
