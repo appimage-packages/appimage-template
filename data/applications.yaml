@@ -76,3 +76,6 @@ kaffeine:
 dragon:
   repo: https://github.com/appimage-packages/dragon
   branch: [master]
+kamoso:
+  repo: https://github.com/appimage-packages/kamoso
+  branch: [master]
