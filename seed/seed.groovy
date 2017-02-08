@@ -13,10 +13,6 @@ def apps = new Yaml().load(new FileReader(new File("${WORKSPACE}/data/applicatio
 apps.each { name, config ->
   config.branch.each { branch ->
     pipelineJob("${name}-${branch}-appimage") {
-     logRotator(daysToKeep = -1, numToKeep = 5, artifactDaysToKeep = -1, artifactNumToKeep = -1)
-     properties {
-        githubProjectUrl("https://github.com/appimage-packages/${name}")
-    }
      definition {
         cpsScm {
             scm {

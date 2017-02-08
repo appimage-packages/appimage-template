@@ -187,6 +187,7 @@ yasm \
 zlib1g-dev \
 zsync
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
+RUN add-apt-repository -y ppa:jonathonf/gtk3.18 && sudo apt-get update && sudo apt-get -y install libglib2.0-dev
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install g++-4.9
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
 RUN groupadd -g 1000 jenkins
@@ -206,16 +207,15 @@ ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 ENV CXXFLAGS -std=c++11
 #Misc deps too old on trusty
-RUN wget http://ftp.gnome.org/pub/gnome/sources/glib/2.46/glib-2.46.2.tar.xz && tar -xvf glib-2.46.2.tar.xz
-RUN cd glib-2.46.2 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /glib-2.46.2.tar.xz && rm -rfv /glib-2.46.2
 RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2 && tar -jxvf util-macros-1.19.0.tar.bz2
 RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install && rm /util-macros-1.19.0.tar.bz2 && rm -rfv /util-macros-1.19.0
 RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2 && tar -jxvf m4-1.4.18.tar.bz2
 RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /m4-1.4.18.tar.bz2 && rm -rfv /m4-1.4.18
 RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz && tar -xzvf gettext-0.19.3.tar.gz
 RUN cd gettext-0.19.3 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gettext-0.19.3.tar.gz && rm -rfv /gettext-0.19.3
-RUN wget http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.46/gobject-introspection-1.50.0.tar.xz && tar -xvf gobject-introspection-1.46.0.tar.xz
-RUN cd gobject-introspection-1.50.0 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gobject-introspection-1.46.0.tar.xz && rm -rfv /gobject-introspection-1.46.0
+RUN ln -s /usr/bin/python2.7-config /usr/bin/python-config
+RUN wget http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.46/gobject-introspection-1.46.0.tar.xz && tar -xvf gobject-introspection-1.46.0.tar.xz
+RUN cd gobject-introspection-1.46.0 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gobject-introspection-1.46.0.tar.xz && rm -rfv /gobject-introspection-1.46.0
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install && rm -rfv /CMake
 #Python3 too old
