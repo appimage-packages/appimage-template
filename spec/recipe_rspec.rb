@@ -99,11 +99,11 @@ describe Recipe do
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
             expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
             expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
-          # elsif framework == 'akonadi'
-          #   options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DBUILD_TESTING=OFF -DMYSQLD_EXECUTABLE:STRING="./usr/sbin/mysqld"'
-          #   expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
-          #   expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
-          #   expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
+          elsif framework == 'akonadi'
+            options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr  -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DBUILD_TESTING=OFF -DMYSQLD_EXECUTABLE:STRING=/usr/sbin/mysqld-akonadi"'
+            expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
+            expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wrong with source retrieval"
+            expect(sources.run_build(framework, 'cmake', options, path)).to be(0), " Expected 0 exit Status"
           else
             options = '-DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DKDE_INSTALL_SYSCONFDIR=/opt/etc -DBUILD_TESTING=OFF'
             expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
