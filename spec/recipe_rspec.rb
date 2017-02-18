@@ -129,10 +129,11 @@ describe Recipe do
               name =  dep.values[0]['depname']
               type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
               url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
+              branch = dep.values[0]['source'].values_at('branch').to_s.gsub(/\,|\[|\]|\"/, '')
               buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
               options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
               path = "/app/src/#{name}"
-              expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
+              expect(sources.get_source(name, type, url, branch)).to be(0), " Expected 0 exit Status"
               expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
               expect(sources.run_build(name, buildsystem, options, path)).to be(0), " Expected 0 exit Status"
             end
