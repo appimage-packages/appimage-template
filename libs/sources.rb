@@ -37,8 +37,10 @@ class Sources
       Dir.chdir('/app/src/')
       unless Dir.exist?("/app/src/#{name}")
         system( "git clone #{url}")
-        Dir.chdir("/app/src/#{name}")
-        system("git checkout #{branch}")
+        unless branch == 'master'
+          Dir.chdir("/app/src/#{name}")
+          system("git checkout #{branch}")
+        end
       end
     when 'xz'
       Dir.chdir('/app/src/')
