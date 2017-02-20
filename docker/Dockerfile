@@ -259,13 +259,13 @@ RUN wget http://downloads.sourceforge.net/pcre/pcre-8.35.tar.bz2 && tar -jxvf pc
 RUN cd pcre-8.35 && ./configure --prefix=/opt/usr && make && make install && rm /pcre-8.35.tar.bz2 && rm -rfv /pcre-8.35
 RUN wget http://www.cups.org/software/1.7.5/cups-1.7.5-source.tar.bz2 && tar -jxvf cups-1.7.5-source.tar.bz2
 RUN cd cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-scripts && ./configure --prefix=/opt/usr &&  make -j 8 && make install && rm -rfv /cups-1.7.5 && rm /cups-1.7.5-source.tar.bz2
-# # Build Qt5.7 and install to /opt/usr
-RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.7.1.tar.gz
-RUN cd qt-everywhere-opensource-src-5.7.1 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
-RUN rm /qt-everywhere-opensource-src-5.7.1.tar.gz && rm -rfv /qt-everywhere-opensource-src-5.7.1
-RUN wget http://download.qt.io/community_releases/5.7/5.7.1/qtwebkit-opensource-src-5.7.1.tar.xz && tar -xvf qtwebkit-opensource-src-5.7.1.tar.xz
-RUN cd qtwebkit-opensource-src-5.7.1 && Tools/Scripts/build-webkit --qt --qmakearg="PREFIX+=/opt/usr" && qmake PREFIX=/opt/usr WebKit.pro && make && make install
-RUN rm /qtwebkit-opensource-src-5.7.1.tar.xz && rm -rfv /qtwebkit-opensource-src-5.7.1
+# # Build Qt5.8 and install to /opt/usr
+RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.8/5.8.0/single/qt-everywhere-opensource-src-5.8.0.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.8.0.tar.gz
+RUN cd qt-everywhere-opensource-src-5.8.0 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+RUN rm /qt-everywhere-opensource-src-5.8.0.tar.gz && rm -rfv /qt-everywhere-opensource-src-5.8.0
+RUN wget http://download.qt.io/community_releases/5.8/5.8.0/qtwebkit-opensource-src-5.8.0.tar.xz && tar -xvf qtwebkit-opensource-src-5.8.0.tar.xz
+RUN cd qtwebkit-opensource-src-5.8.0 && Tools/Scripts/build-webkit --qt --qmakearg="PREFIX+=/opt/usr" && qmake PREFIX=/opt/usr WebKit.pro && make && make install
+RUN rm /qtwebkit-opensource-src-5.8.0.tar.xz && rm -rfv /qtwebkit-opensource-src-5.8.0
 # Various external Qt relelated modules addons
 RUN git clone http://code.qt.io/qt/qtstyleplugins.git
 RUN cd qtstyleplugins && qmake PREFIX=/opt/usr . && make && make install && rm -rfv /qtstyleplugins
@@ -281,7 +281,7 @@ RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.
 RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ \
 -DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF && make && make install && rm /qt-gstreamer-1.2.0.tar.xz && rm -rfv /qt-gstreamer-1.2.0
 RUN git clone https://github.com/steveire/grantlee
-RUN cd grantlee && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm -rfv /grantlee
+RUN cd grantlee && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr CMAKE_BUILD_TYPE=Release .. && cmake --build . && cmake --build . --target install && rm -rfv /grantlee
 RUN wget https://poppler.freedesktop.org/poppler-0.51.0.tar.xz && tar -xvf poppler-0.51.0.tar.xz
 RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install && rm /poppler-0.51.0.tar.xz && rm -rfv /poppler-0.51.0
