@@ -52,6 +52,7 @@ libdc1394-22-dev \
 libdrm-dev \
 libdv4-dev \
 libegl1-mesa-dev \
+libgl1-mesa-dev \
 libepoxy-dev \
 libevent-dev \
 libexiv2-dev \
@@ -164,6 +165,7 @@ libxtst-dev \
 libxv-dev \
 libyaml-dev \
 media-player-info \
+mesa-common-dev \
 ninja-build \
 pkg-config \
 publican \
@@ -263,8 +265,8 @@ RUN cd cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-scripts && 
 RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.8/5.8.0/single/qt-everywhere-opensource-src-5.8.0.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.8.0.tar.gz
 RUN cd qt-everywhere-opensource-src-5.8.0 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
 RUN rm /qt-everywhere-opensource-src-5.8.0.tar.gz && rm -rfv /qt-everywhere-opensource-src-5.8.0
-RUN wget http://download.qt.io/community_releases/5.8/5.8.0/qtwebkit-opensource-src-5.8.0.tar.xz && tar -xvf qtwebkit-opensource-src-5.8.0.tar.xz
-RUN cd qtwebkit-opensource-src-5.8.0 && Tools/Scripts/build-webkit --qt --qmakearg="PREFIX+=/opt/usr" && qmake PREFIX=/opt/usr WebKit.pro && make && make install
+RUN wget http://download.qt.io/community_releases/5.8/5.8.0-final/qtwebkit-opensource-src-5.8.0.tar.xz && tar -xvf qtwebkit-opensource-src-5.8.0.tar.xz
+RUN cd qtwebkit-opensource-src-5.8.0 && mkdir build && cd build && qmake PREFIX=/opt/usr ../WebKit.pro && make && make install
 RUN rm /qtwebkit-opensource-src-5.8.0.tar.xz && rm -rfv /qtwebkit-opensource-src-5.8.0
 # Various external Qt relelated modules addons
 RUN git clone http://code.qt.io/qt/qtstyleplugins.git
@@ -285,13 +287,12 @@ RUN cd grantlee && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=
 RUN wget https://poppler.freedesktop.org/poppler-0.51.0.tar.xz && tar -xvf poppler-0.51.0.tar.xz
 RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install && rm /poppler-0.51.0.tar.xz && rm -rfv /poppler-0.51.0
-RUN wget http://sourceforge.net/projects/pyqt/files/sip/sip-4.16.5/sip-4.16.5.tar.gz && tar -zxvf sip-4.16.5.tar.gz
-RUN cd sip-4.16.5 && python3 configure.py --destdir /opt/usr && make && make install
-RUN wget https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.3.2/PyQt-gpl-5.3.2.tar.gz && tar -zxvf PyQt-gpl-5.3.2.tar.gz
+RUN wget https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.1/sip-4.19.1.tar.gz && tar -zxvf sip-4.19.1.tar.gz
+RUN cd sip-4.19.1 && python3 configure.py --destdir /opt/usr && make && make install
+RUN wget https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.8/PyQt5_gpl-5.8.tar.gz && tar -zxvf PyQt5_gpl-5.8.tar.gz
 RUN ln -s /opt/usr/include/python3.5m /usr/local/include/python3.5
-RUN sed -i "s#'webkitwidgets'#'webkitwidgets', 'printsupport'#g" PyQt-gpl-5.3.2/configure.py
-RUN cd /PyQt-gpl-5.3.2 && python3 configure.py --confirm-license --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5m/ && make && make install
-RUN rm -rfv PyQt-gpl-5.3.2 && rm  PyQt-gpl-5.3.2.tar.gz && rm sip-4.16.5.tar.gz && rm -rfv sip-4.16.5
+#RUN cd /PyQt5_gpl-5.8 && python3 configure.py --confirm-license --no-tools --verbose --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5m/ && make && make install
+#RUN rm -rfv PyQt5_gpl-5.8 && rm PyQt5_gpl-5.8.tar.gz && rm sip-4.19.1.tar.gz && rm -rfv sip-4.19.1
 RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz
 RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1
 RUN git clone https://github.com/ayoy/qoauth
