@@ -79,3 +79,6 @@ dragon:
 kamoso:
   repo: https://github.com/appimage-packages/kamoso
   branch: [master]
+simon:
+  repo: https://github.com/appimage-packages/simon
+  branch: [master]
