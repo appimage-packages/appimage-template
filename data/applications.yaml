@@ -81,4 +81,4 @@ kamoso:
   branch: [master]
 simon:
   repo: https://github.com/appimage-packages/simon
-  branch: [kf5]
+  branch: [master]
