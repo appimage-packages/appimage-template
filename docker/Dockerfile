@@ -179,6 +179,7 @@ re2c \
 ruby \
 software-properties-common \
 sphinxsearch \
+subversion \
 texinfo \
 unixodbc-dev \
 valac \
@@ -190,7 +191,7 @@ zlib1g-dev \
 zsync
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
 RUN add-apt-repository -y ppa:jonathonf/gtk3.18 && sudo apt-get update && sudo apt-get -y install libglib2.0-dev
-RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7
+RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7 mysql-client-5.7
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install g++-4.9
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
 RUN groupadd -g 1000 jenkins
@@ -291,8 +292,8 @@ RUN wget https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.1/sip-4.19.1.t
 RUN cd sip-4.19.1 && python3 configure.py --destdir /opt/usr && make && make install
 RUN wget https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.8/PyQt5_gpl-5.8.tar.gz && tar -zxvf PyQt5_gpl-5.8.tar.gz
 RUN ln -s /opt/usr/include/python3.5m /usr/local/include/python3.5
-#RUN cd /PyQt5_gpl-5.8 && python3 configure.py --confirm-license --no-tools --verbose --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5m/ && make && make install
-#RUN rm -rfv PyQt5_gpl-5.8 && rm PyQt5_gpl-5.8.tar.gz && rm sip-4.19.1.tar.gz && rm -rfv sip-4.19.1
+RUN cd /PyQt5_gpl-5.8 && python3 configure.py --confirm-license --no-tools --verbose --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5m/ && make && make install
+RUN rm -rfv PyQt5_gpl-5.8 && rm PyQt5_gpl-5.8.tar.gz && rm sip-4.19.1.tar.gz && rm -rfv sip-4.19.1
 RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz
 RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1
 RUN git clone https://github.com/ayoy/qoauth
@@ -300,6 +301,7 @@ RUN cd qoauth && qmake '"PREFIX = /opt/usr" "QT += widgets" "QT += webkitwidgets
 RUN git clone git://git.gnupg.org/gpgme.git
 RUN cd gpgme && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm -rfv /gpgme
+RUN svn export svn://svn.code.sf.net/p/qwt/code/branches/qwt-6.1 cd qwt-6.1 && qmake '"PREFIX = /opt/usr" qwt.pro && make && make install && rm -rfv /qwt-6.1
 RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2 && tar -jxvf gnupg-2.1.17.tar.bz2
 RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
 RUN git clone https://github.com/ximion/appstream

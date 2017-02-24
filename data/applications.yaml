@@ -82,3 +82,6 @@ kamoso:
 simon:
   repo: https://github.com/appimage-packages/simon
   branch: [master]
+kdenlive:
+  repo: https://github.com/appimage-packages/kdenlive
+  branch: [master]
