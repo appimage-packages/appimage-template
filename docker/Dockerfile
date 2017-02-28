@@ -192,7 +192,8 @@ zsync
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
 RUN add-apt-repository -y ppa:jonathonf/gtk3.18 && sudo apt-get update && sudo apt-get -y install libglib2.0-dev
 RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7 mysql-client-5.7
-RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install g++-4.9
+RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install gcc-4.9 g++-4.9 && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
 RUN groupadd -g 1000 jenkins
 RUN useradd -m -u 1000 -g 1000 -d /home/jenkins jenkins
@@ -298,7 +299,7 @@ RUN cd qoauth && qmake '"PREFIX = /opt/usr" "QT += widgets" "QT += webkitwidgets
 RUN git clone git://git.gnupg.org/gpgme.git
 RUN cd gpgme && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
 RUN rm -rfv /gpgme
-RUN svn export svn://svn.code.sf.net/p/qwt/code/branches/qwt-6.1 cd qwt-6.1 && qmake '"PREFIX = /opt/usr" qwt.pro && make && make install && rm -rfv /qwt-6.1
+RUN svn export svn://svn.code.sf.net/p/qwt/code/branches/qwt-6.1 && cd qwt-6.1 && qmake "PREFIX = /opt/usr" qwt.pro && make && make install && rm -rfv /qwt-6.1
 RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2 && tar -jxvf gnupg-2.1.17.tar.bz2
 RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
 RUN git clone https://github.com/ximion/appstream

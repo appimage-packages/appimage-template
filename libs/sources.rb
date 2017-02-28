@@ -114,10 +114,10 @@ class Sources
       Dir.chdir("#{path}") do
         unless "#{autoreconf}" == true
           unless "#{insource}" == true
-            cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} && make -j 8 && make install"
+            cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install"
           end
           if "#{insource}" == true
-            cmd = "cd #{name} && ../configure --prefix=/opt/usr #{options} && make -j 8 && make install"
+            cmd = "cd #{name} && ../configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install"
           end
           p "Running " + cmd
           system(cmd)
@@ -126,10 +126,10 @@ class Sources
         if "#{autoreconf}" == true
           p "Running " + cmd
           unless "#{insource}" == true
-            cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} &&  make -j 8 && make install prefix=/opt/usr"
+            cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr"
           end
           if "#{insource}" == true
-            cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/opt/usr #{options} &&  make -j 8 && make install prefix=/opt/usr"
+            cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr"
           end
           system(cmd)
           system("rm -rfv  #{name}-builddir")
@@ -139,7 +139,7 @@ class Sources
     when 'cmake'
       Dir.chdir(path) do
         p "running cmake #{options}"
-        system("mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make -j 8 && make install")
+        system("mkdir #{name}-builddir  && cd #{name}-builddir  && cmake #{options} ../ && make VERBOSE=1 -j 8 && make install")
       end
       $?.exitstatus
     when 'custom'
@@ -159,14 +159,14 @@ class Sources
         p "running qmake #{options}"
         system('echo $PATH')
         system("#{options}")
-        system('make -j 8 && make install')
+        system('make VERBOSE=1 -j 8 && make install')
       end
       $?.exitstatus
     when 'bootstrap'
       Dir.chdir(path) do
         p "running ./bootstrap #{options}"
         system("./bootstrap #{options}")
-        system('make -j 8 && make install')
+        system('make VERBOSE=1 -j 8 && make install')
       end
       $?.exitstatus
     else
