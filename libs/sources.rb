@@ -76,6 +76,11 @@ class Sources
         system("wget #{url}")
         system("unzip #{name}.zip")
       end
+    when 'svn'
+      Dir.chdir('/app/src')
+      unless Dir.exist?("/app/src/#{name}")
+        system("svn export #{url}")
+      end
     when 'none'
       p "No sources configured"
     else
