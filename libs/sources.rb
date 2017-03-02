@@ -82,6 +82,8 @@ class Sources
         system("svn export #{url}")
       end
     when 'none'
+      Dir.chdir('/app/src')
+      unless Dir.exist?("/app/src/#{name}")
       p "No sources configured"
     else
       "You gave me #{type} -- I have no idea what to do with that."
