@@ -84,7 +84,9 @@ class Sources
     when 'none'
       Dir.chdir('/app/src')
       unless Dir.exist?("/app/src/#{name}")
-      p "No sources configured"
+        Dir.mkdir "#{name}"
+        p "No sources configured"
+      end
     else
       "You gave me #{type} -- I have no idea what to do with that."
     end
