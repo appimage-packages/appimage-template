@@ -148,13 +148,13 @@ class Sources
       end
       $?.exitstatus
     when 'custom'
-      unless "#{name}" == 'cpan' || "#{name}" == 'ffmpeg'
+      unless "#{name}" == 'cpan'
         Dir.chdir("/app/src/#{name}") do
           p "running #{options}"
           system("#{options}")
         end
       end
-      if "#{name}" == 'cpan' || "#{name}" == 'ffmpeg'
+      if "#{name}" == 'cpan'
         p "running #{options}"
         system("#{options}")
       end
