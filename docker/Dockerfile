@@ -290,8 +290,13 @@ RUN wget https://poppler.freedesktop.org/poppler-0.51.0.tar.xz && tar -xvf poppl
 RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/usr -sysconfdir=/opt/etc --disable-static --enable-build-type=release \
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install && rm /poppler-0.51.0.tar.xz && rm -rfv /poppler-0.51.0
 RUN wget https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.1/sip-4.19.1.tar.gz && tar -zxvf sip-4.19.1.tar.gz
-RUN cd sip-4.19.1 && python3 configure.py --destdir /opt/usr && make && make install
-RUN pip3 install pyqt5
+RUN cd sip-4.19.1 && python3 configure.py --destdir /opt/usr --incdir /opt/usr/include/python3.5 && make && make install
+RUN wget https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.8/PyQt5_gpl-5.8.tar.gz && tar -zxvf PyQt5_gpl-5.8.tar.gz
+RUN cd /PyQt5_gpl-5.8 && python3 configure.py --confirm-license --no-tools --verbose --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5/ \
+-q /opt/usr/bin/qmake -c -j LIBDIR_QT=/opt/usr/lib STRIP="" MOC=/usr/bin/moc \
+LIBS_OPENGL="" LIBS_X11="" LIBS_THREAD="" -m $(shell python3.5-config --configdir) \
+-d /opt/usr/lib/python3.5/dist-packages	--dbus /usr/include/dbus-1.0 --no-designer-plugin --no-qml-plugin && make && make install
+RUN rm -rfv PyQt5_gpl-5.8 && rm PyQt5_gpl-5.8.tar.gz && rm sip-4.19.1.tar.gz && rm -rfv sip-4.19.1
 RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz
 RUN cd qca-2.1.1 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr .. && cmake --build . && cmake --build . --target install && rm /qca-2.1.1.tar.xz && rm -rfv /qca-2.1.1
 RUN git clone https://github.com/ayoy/qoauth
