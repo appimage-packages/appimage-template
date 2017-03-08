@@ -85,3 +85,6 @@ simon:
 kdenlive:
   repo: https://github.com/appimage-packages/kdenlive
   branch: [master]
+ring:
+  repo: https://github.com/appimage-packages/ring
+  branch: [master]
