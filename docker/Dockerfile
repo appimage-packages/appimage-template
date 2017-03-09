@@ -21,6 +21,8 @@ doxygen \
 firebird-dev \
 flex \
 freetds-dev \
+freeglut3 \
+freeglut3-dev \
 fuse \
 gdb \
 git \
@@ -189,6 +191,7 @@ xsltproc \
 yasm \
 zlib1g-dev \
 zsync
+
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
 RUN add-apt-repository -y ppa:jonathonf/gtk3.18 && sudo apt-get update && sudo apt-get -y install libglib2.0-dev
 RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7
@@ -264,9 +267,10 @@ RUN cd pcre-8.35 && ./configure --prefix=/opt/usr && make && make install && rm 
 RUN wget http://www.cups.org/software/1.7.5/cups-1.7.5-source.tar.bz2 && tar -jxvf cups-1.7.5-source.tar.bz2
 RUN cd cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-scripts && ./configure --prefix=/opt/usr &&  make -j 8 && make install && rm -rfv /cups-1.7.5 && rm /cups-1.7.5-source.tar.bz2
 # # Build Qt5.8 and install to /opt/usr
-RUN wget http://download.qt.io/development_releases/qt/5.9/5.9.0-alpha/single/qt-everywhere-opensource-src-5.9.0-alpha.tar.xz && tar -xvf qt-everywhere-opensource-src-5.9.0-alpha.tar.xz
-RUN cd qt-everywhere-opensource-src-5.9.0-alpha && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl es2 -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
-RUN rm /qt-everywhere-opensource-src-5.9.0-alpha.tar.xz && rm -rfv /qt-everywhere-opensource-src-5.9.0-alpha
+ENV CXXFLAGS -std=c++11 -lpthread -lGL -lglut
+RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.8/5.8.0/single/qt-everywhere-opensource-src-5.8.0.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.8.0.tar.gz
+RUN cd qt-everywhere-opensource-src-5.8.0 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl desktop -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+RUN rm /qt-everywhere-opensource-src-5.8.0.tar.gz && rm -rfv /qt-everywhere-opensource-src-5.8.0
 RUN wget http://download.qt.io/community_releases/5.8/5.8.0-final/qtwebkit-opensource-src-5.8.0.tar.xz && tar -xvf qtwebkit-opensource-src-5.8.0.tar.xz
 RUN cd qtwebkit-opensource-src-5.8.0 && mkdir build && cd build && qmake PREFIX=/opt/usr ../WebKit.pro && make && make install
 RUN rm /qtwebkit-opensource-src-5.8.0.tar.xz && rm -rfv /qtwebkit-opensource-src-5.8.0
@@ -291,10 +295,11 @@ RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/u
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install && rm /poppler-0.51.0.tar.xz && rm -rfv /poppler-0.51.0
 RUN wget https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.1/sip-4.19.1.tar.gz && tar -zxvf sip-4.19.1.tar.gz
 RUN cd sip-4.19.1 && python3 configure.py --destdir /opt/usr --incdir /opt/usr/include/python3.5 && make && make install
+RUN pip3 install PyOpenGL PyOpenGL_accelerate
 RUN wget https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.8/PyQt5_gpl-5.8.tar.gz && tar -zxvf PyQt5_gpl-5.8.tar.gz
-RUN cd /PyQt5_gpl-5.8 && python3 configure.py --confirm-license --no-tools --verbose --destdir /opt/usr --sip-incdir /opt/usr/include/python3.5/ \
--q /opt/usr/bin/qmake -c -j LIBDIR_QT=/opt/usr/lib STRIP="" MOC=/usr/bin/moc \
-LIBS_OPENGL="" LIBS_X11="" LIBS_THREAD="" -m $(shell python3.5-config --configdir) \
+RUN cd /PyQt5_gpl-5.8 && python3 configure.py --confirm-license --verbose --destdir /opt/usr --sip /opt/usr/bin/sip --sip-incdir /opt/usr/include/python3.5/ \
+-q /opt/usr/bin/qmake -c -j 4 LIBDIR_QT=/opt/usr/lib STRIP="" MOC=/usr/bin/moc --qmake="/opt/usr/bin/qmake" \
+LIBS_OPENGL="" LIBS_X11="" LIBS_THREAD="" -m /opt/usr/lib/python3.5/config-3.5m \
 -d /opt/usr/lib/python3.5/dist-packages	--dbus /usr/include/dbus-1.0 --no-designer-plugin --no-qml-plugin && make && make install
 RUN rm -rfv PyQt5_gpl-5.8 && rm PyQt5_gpl-5.8.tar.gz && rm sip-4.19.1.tar.gz && rm -rfv sip-4.19.1
 RUN wget http://download.kde.org/stable/qca/2.1.1/src/qca-2.1.1.tar.xz && tar -xvf qca-2.1.1.tar.xz

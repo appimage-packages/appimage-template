@@ -153,7 +153,7 @@ class Sources
       $?.exitstatus
     when 'custom'
       unless "#{name}" == 'cpan'
-        Dir.chdir("/app/src/#{name}") do
+        Dir.chdir("#{path}") do
           p "running #{options}"
           system("#{options}")
         end
