@@ -260,8 +260,8 @@ RUN wget https://ftp.gnu.org/gnu/nettle/nettle-3.3.tar.gz && tar -zxvf nettle-3.
 RUN cd nettle-3.3 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /nettle-3.3.tar.gz && rm -rfv /nettle-3.3
 RUN wget http://p11-glue.freedesktop.org/releases/p11-kit-0.23.2.tar.gz && tar -zxvf p11-kit-0.23.2.tar.gz
 RUN cd p11-kit-0.23.2 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /p11-kit-0.23.2.tar.gz && rm -rfv /p11-kit-0.23.2
-RUN wget ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-3.5.8.tar.xz && tar -xvf gnutls-3.5.8.tar.xz
-RUN cd gnutls-3.5.8 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --with-included-libtasn1 &&  make -j 8 && make install && rm /gnutls-3.5.8.tar.xz && rm -rfv /gnutls-3.5.8
+RUN wget ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-3.5.10.tar.xz && tar -xvf gnutls-3.5.10.tar.xz
+RUN cd gnutls-3.5.10 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --with-included-libtasn1 &&  make -j 8 && make install && rm /gnutls-3.5.10.tar.xz && rm -rfv /gnutls-3.5.10
 RUN wget http://downloads.sourceforge.net/pcre/pcre-8.35.tar.bz2 && tar -jxvf pcre-8.35.tar.bz2
 RUN cd pcre-8.35 && ./configure --prefix=/opt/usr && make && make install && rm /pcre-8.35.tar.bz2 && rm -rfv /pcre-8.35
 RUN wget http://www.cups.org/software/1.7.5/cups-1.7.5-source.tar.bz2 && tar -jxvf cups-1.7.5-source.tar.bz2
@@ -269,7 +269,7 @@ RUN cd cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-scripts && 
 # # Build Qt5.8 and install to /opt/usr
 ENV CXXFLAGS -std=c++11 -lpthread -lGL -lglut
 RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.8/5.8.0/single/qt-everywhere-opensource-src-5.8.0.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.8.0.tar.gz
-RUN cd qt-everywhere-opensource-src-5.8.0 && ./configure -v -release -opensource -confirm-license -dbus -qt-xcb -feature-accessibility -opengl desktop -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+RUN cd qt-everywhere-opensource-src-5.8.0 && ./configure -v -release -opensource -confirm-license -shared -dbus-linked -openssl-linked -qt-xcb -feature-accessibility -opengl desktop -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
 RUN rm /qt-everywhere-opensource-src-5.8.0.tar.gz && rm -rfv /qt-everywhere-opensource-src-5.8.0
 RUN wget http://download.qt.io/community_releases/5.8/5.8.0-final/qtwebkit-opensource-src-5.8.0.tar.xz && tar -xvf qtwebkit-opensource-src-5.8.0.tar.xz
 RUN cd qtwebkit-opensource-src-5.8.0 && mkdir build && cd build && qmake PREFIX=/opt/usr ../WebKit.pro && make && make install
@@ -283,8 +283,8 @@ RUN git clone https://code.qt.io/qt/qtspeech.git
 RUN cd qtspeech && qmake PREFIX=/opt/usr . && make && make install && rm -rfv /qtspeech
 RUN git clone https://github.com/flavio/qjson
 RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install && rm -rfv /qjson
-RUN bzr branch lp:libdbusmenu-qt
-RUN cd libdbusmenu-qt &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install && rm -rfv /libdbusmenu-qt
+#RUN bzr branch lp:libdbusmenu-qt && cd libdbusmenu-qt && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DCMAKE_INSTALL_LIBDIR=/opt/lib  \
+#-DCMAKE_BUILD_TYPE=Release  -DWITH_DOC=OFF -DUSE_QT5=true -DCMAKE_INCLUDE_CURRENT_DIR=ON -Wno-dev .. && make && make install && rm -rfv /libdbusmenu-qt
 RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz' && tar -xvf qt-gstreamer-1.2.0.tar.xz
 RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ \
 -DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF && make && make install && rm /qt-gstreamer-1.2.0.tar.xz && rm -rfv /qt-gstreamer-1.2.0
