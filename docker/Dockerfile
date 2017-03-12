@@ -195,7 +195,7 @@ zsync
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
 RUN add-apt-repository -y ppa:jonathonf/gtk3.18 && sudo apt-get update && sudo apt-get -y install libglib2.0-dev
 RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7
-RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install gcc-4.9 g++-4.9 && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
+RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y pt-get install gcc-5 g++-5 && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
 RUN groupadd -g 1000 jenkins
@@ -228,7 +228,7 @@ RUN cd gobject-introspection-1.46.0 && ./configure --prefix=/opt/usr --disable-s
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install && rm -rfv /CMake
 RUN wget http://dbus.freedesktop.org/releases/dbus/dbus-1.10.16.tar.gz && tar zxf dbus-1.10.16.tar.gz && cd dbus-1.10.16 && autoreconf --force --install && mkdir builddir && \
-cd builddir && ../configure --prefix=/opt/usr --disable-static && make -j 8 && make install && rm dbus-1.10.16.tar.gz && rm -rfv dbus-1.10.16
+cd builddir && ../configure --prefix=/opt/usr --disable-static && make -j 8 && make install && rm /dbus-1.10.16.tar.gz && rm -rfv /dbus-1.10.16
 #Python3 too old
 RUN wget https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tar.xz && tar -xvf Python-3.5.3.tar.xz
 RUN cd Python-3.5.3 && ./configure --prefix=/opt/usr --enable-shared &&  make -j 8 && make install && rm /Python-3.5.3.tar.xz && rm -rfv /Python-3.5.3
