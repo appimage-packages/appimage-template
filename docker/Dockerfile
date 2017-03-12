@@ -49,7 +49,6 @@ libcaca-dev \
 libcap-dev \
 libcdparanoia-dev \
 libclang-3.8-dev \
-libdbus-1-dev \
 libdc1394-22-dev \
 libdrm-dev \
 libdv4-dev \
@@ -215,6 +214,7 @@ ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib
 ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 ENV CXXFLAGS -std=c++11
+
 #Misc deps too old on trusty
 RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2 && tar -jxvf util-macros-1.19.0.tar.bz2
 RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install && rm /util-macros-1.19.0.tar.bz2 && rm -rfv /util-macros-1.19.0
@@ -227,6 +227,8 @@ RUN wget http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.46/gobje
 RUN cd gobject-introspection-1.46.0 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gobject-introspection-1.46.0.tar.xz && rm -rfv /gobject-introspection-1.46.0
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install && rm -rfv /CMake
+RUN wget http://dbus.freedesktop.org/releases/dbus/dbus-1.10.16.tar.gz && tar zxf dbus-1.10.16.tar.gz && cd dbus-1.10.16 && autoreconf --force --install && mkdir builddir && \
+cd builddir && ../configure --prefix=/opt/usr --disable-static && make -j 8 && make install && rm dbus-1.10.16.tar.gz && rm -rfv dbus-1.10.16
 #Python3 too old
 RUN wget https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tar.xz && tar -xvf Python-3.5.3.tar.xz
 RUN cd Python-3.5.3 && ./configure --prefix=/opt/usr --enable-shared &&  make -j 8 && make install && rm /Python-3.5.3.tar.xz && rm -rfv /Python-3.5.3
@@ -271,7 +273,7 @@ RUN cd cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-scripts && 
 # # Build Qt5.8 and install to /opt/usr
 ENV CXXFLAGS -std=c++11 -lpthread -lGL -lglut
 RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.8/5.8.0/single/qt-everywhere-opensource-src-5.8.0.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.8.0.tar.gz
-RUN cd qt-everywhere-opensource-src-5.8.0 && ./configure -v -release -opensource -confirm-license -shared -dbus -openssl -qt-xcb -feature-accessibility -opengl desktop -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+RUN cd qt-everywhere-opensource-src-5.8.0 && ./configure -v -release -opensource -confirm-license -dbus -openssl -qt-xcb -feature-accessibility -opengl desktop -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
 RUN rm /qt-everywhere-opensource-src-5.8.0.tar.gz && rm -rfv /qt-everywhere-opensource-src-5.8.0
 RUN wget http://download.qt.io/community_releases/5.8/5.8.0-final/qtwebkit-opensource-src-5.8.0.tar.xz && tar -xvf qtwebkit-opensource-src-5.8.0.tar.xz
 RUN cd qtwebkit-opensource-src-5.8.0 && mkdir build && cd build && qmake PREFIX=/opt/usr ../WebKit.pro && make && make install
@@ -285,8 +287,8 @@ RUN git clone https://code.qt.io/qt/qtspeech.git
 RUN cd qtspeech && qmake PREFIX=/opt/usr . && make && make install && rm -rfv /qtspeech
 RUN git clone https://github.com/flavio/qjson
 RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install && rm -rfv /qjson
-#RUN bzr branch lp:libdbusmenu-qt && cd libdbusmenu-qt && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DCMAKE_INSTALL_LIBDIR=/opt/lib  \
-#-DCMAKE_BUILD_TYPE=Release  -DWITH_DOC=OFF -DUSE_QT5=true -DCMAKE_INCLUDE_CURRENT_DIR=ON -Wno-dev .. && make && make install && rm -rfv /libdbusmenu-qt
+RUN bzr branch lp:libdbusmenu-qt && cd libdbusmenu-qt && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DCMAKE_INSTALL_LIBDIR=/opt/lib  \
+-DCMAKE_BUILD_TYPE=Release  -DWITH_DOC=OFF -DUSE_QT5=true -DCMAKE_INCLUDE_CURRENT_DIR=ON -Wno-dev .. && make && make install && rm -rfv /libdbusmenu-qt
 RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz' && tar -xvf qt-gstreamer-1.2.0.tar.xz
 RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ \
 -DQTGSTREAMER_STATIC=OFF -DQTGSTREAMER_EXAMPLES=OFF && make && make install && rm /qt-gstreamer-1.2.0.tar.xz && rm -rfv /qt-gstreamer-1.2.0
