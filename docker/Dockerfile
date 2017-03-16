@@ -49,6 +49,7 @@ libcaca-dev \
 libcap-dev \
 libcdparanoia-dev \
 libclang-3.8-dev \
+libdbus-1-dev \
 libdc1394-22-dev \
 libdrm-dev \
 libdv4-dev \
@@ -194,8 +195,8 @@ zsync
 
 RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
 RUN add-apt-repository -y ppa:jonathonf/gtk3.18 && sudo apt-get update && sudo apt-get -y install libglib2.0-dev
-RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7
-RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install gcc-5 g++-5 #&& update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
+RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7 mysql-client-5.7
+#RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install gcc-4.9 g++-4.9 #&& update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
 RUN groupadd -g 1000 jenkins
@@ -227,12 +228,10 @@ RUN wget http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.46/gobje
 RUN cd gobject-introspection-1.46.0 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gobject-introspection-1.46.0.tar.xz && rm -rfv /gobject-introspection-1.46.0
 RUN git clone https://github.com/Kitware/CMake
 RUN cd CMake && ./configure --prefix=/opt/usr && make && make install && rm -rfv /CMake
-RUN wget http://dbus.freedesktop.org/releases/dbus/dbus-1.10.16.tar.gz && tar zxf dbus-1.10.16.tar.gz && cd dbus-1.10.16 && autoreconf --force --install && mkdir builddir && \
-cd builddir && ../configure --prefix=/opt/usr --disable-static && make -j 8 && make install && rm /dbus-1.10.16.tar.gz && rm -rfv /dbus-1.10.16
 #Python3 too old
 RUN wget https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tar.xz && tar -xvf Python-3.5.3.tar.xz
 RUN cd Python-3.5.3 && ./configure --prefix=/opt/usr --enable-shared &&  make -j 8 && make install && rm /Python-3.5.3.tar.xz && rm -rfv /Python-3.5.3
-RUN pip3 install Sphinx clang
+RUN pip3 install Sphinx clang PyOpenGL PyOpenGL_accelerate
 #Build newer gstreamer for sound stack
 RUN wget 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.10.2.tar.xz' && tar -xvf gstreamer-1.10.2.tar.xz
 RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gstreamer-1.10.2.tar.xz && rm -rfv /gstreamer-1.10.2
@@ -299,7 +298,6 @@ RUN cd poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/opt/u
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install && rm /poppler-0.51.0.tar.xz && rm -rfv /poppler-0.51.0
 RUN wget https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.1/sip-4.19.1.tar.gz && tar -zxvf sip-4.19.1.tar.gz
 RUN cd sip-4.19.1 && python3 configure.py --destdir /opt/usr --incdir /opt/usr/include/python3.5 && make && make install
-RUN pip3 install PyOpenGL PyOpenGL_accelerate
 RUN wget https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.8/PyQt5_gpl-5.8.tar.gz && tar -zxvf PyQt5_gpl-5.8.tar.gz
 RUN cd /PyQt5_gpl-5.8 && python3 configure.py --confirm-license --verbose --destdir /opt/usr --sip /opt/usr/bin/sip --sip-incdir /opt/usr/include/python3.5/ \
 -q /opt/usr/bin/qmake -c -j 4 LIBDIR_QT=/opt/usr/lib STRIP="" MOC=/usr/bin/moc --qmake="/opt/usr/bin/qmake" \
