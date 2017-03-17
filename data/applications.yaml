@@ -91,3 +91,6 @@ ring:
 ring-kde:
   repo: https://github.com/appimage-packages/ring-kde
   branch: [master]
+ring-gnome:
+  repo: https://github.com/appimage-packages/ring-gnome
+  branch: [master]
