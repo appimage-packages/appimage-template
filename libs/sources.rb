@@ -145,6 +145,32 @@ class Sources
         end
       end
       $?.exitstatus
+    when 'autogen'
+        Dir.chdir("#{path}") do
+          unless "#{autoreconf}" == true
+            unless "#{insource}" == true
+              cmd = "mkdir #{name}-builddir && cd #{name}-builddir && ../autogen && ../configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install"
+            end
+            if "#{insource}" == true
+              cmd = "cd #{name} && ./autogen && ./configure --prefix=/opt/usr #{options} && make VERBOSE=1 -j 8 && make install"
+            end
+            p "Running " + cmd
+            system(cmd)
+            system("rm -rfv  #{name}-builddir")
+          end
+          if "#{autoreconf}" == true
+            p "Running " + cmd
+            unless "#{insource}" == true
+              cmd = "autoreconf --force --install && mkdir #{name}-builddir && cd #{name}-builddir && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr"
+            end
+            if "#{insource}" == true
+              cmd = "autoreconf --force --install && cd #{name} && ../configure --prefix=/opt/usr #{options} &&  make VERBOSE=1 -j 8 && make install prefix=/opt/usr"
+            end
+            system(cmd)
+            system("rm -rfv  #{name}-builddir")
+          end
+        end
+        $?.exitstatus
     when 'cmake'
       Dir.chdir(path) do
         p "running cmake #{options}"
