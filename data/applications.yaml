@@ -31,7 +31,7 @@ plasmazilla:
 kmail:
   repo: https://github.com/appimage-packages/kmail
   branch: [master]
-changeme:
+kexi:
   repo: https://github.com/appimage-packages/kexi
   branch: [master]
 choqok:
@@ -85,11 +85,11 @@ simon:
 kdenlive:
   repo: https://github.com/appimage-packages/kdenlive
   branch: [master]
-ring:
-  repo: https://github.com/appimage-packages/ring
+ring-kde-minimal:
+  repo: https://github.com/appimage-packages/ring-kde-minimal
   branch: [master]
-ring-kde:
-  repo: https://github.com/appimage-packages/ring-kde
+rring-kde-full:
+  repo: https://github.com/appimage-packages/ring-kde-full
   branch: [master]
 ring-gnome:
   repo: https://github.com/appimage-packages/ring-gnome
