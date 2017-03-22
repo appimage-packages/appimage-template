@@ -1,206 +1,61 @@
 FROM ubuntu:14.04
-RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb-src http://ca.archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb http://ca.archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb-src http://ca.archive.ubuntu.com/ubuntu/ trusty-updates main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
+
+#link to bash
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN ln -s -f /bin/true /usr/bin/chfn
-RUN apt-get update && apt-get -y upgrade && apt-get -y install \
+RUN apt-get update && apt-get -y upgrade && apt-get -y build-dep qtbase5-dev
+RUN apt-get -y install \
  # QT + addons and KF5 stack deps
-autogen \
-automake \
-autotools-dev \
-bison \
-build-essential \
-bzr \
-docbook-xml \
-docbook-xsl \
-doxygen \
-firebird-dev \
-flex \
-freetds-dev \
-freeglut3 \
-freeglut3-dev \
-fuse \
-gdb \
-git \
-gperf \
-graphviz \
-gtk-doc-tools \
-gyp \
-hspell \
-itstool \
-libaa1-dev \
-libacl1-dev \
-libasound2-dev \
-libaspell-dev \
-libatspi2.0-dev \
-libatspi2.0-dev \
-libattr1-dev \
-libavc1394-dev \
-libavcodec-dev \
-libavformat-dev \
-libavutil-dev \
-libboost-all-dev \
-libbz2-dev \
-libcaca-dev \
-libcap-dev \
-libcdparanoia-dev \
-libclang-3.8-dev \
-libdbus-1-dev \
-libdc1394-22-dev \
-libdrm-dev \
-libdv4-dev \
-libegl1-mesa-dev \
-libgl1-mesa-dev \
-libepoxy-dev \
-libevent-dev \
-libexiv2-dev \
-libfam-dev \
-libffi-dev \
-libflac++-dev \
-libflac-dev \
-libfontconfig1-dev \
-libfreetype6-dev \
-libfuse-dev \
-libgbm-dev \
-libgif-dev \
-libgirepository1.0-dev \
-libgl1-mesa-dev \
-libgles2-mesa-dev \
-libglu-dev \
-libglu1-mesa-dev \
-libgmp-dev \
-libgtk-3-dev \
-libgtk2.0-dev \
-libharfbuzz-dev \
-libhunspell-dev \
-libicu-dev \
-libidn11-dev \
-libjack-dev \
-libjpeg-dev \
-libjsoncpp-dev \
-llvm-3.8-dev \
-libmagickcore-dev \
-libmagickwand-dev \
-libmtdev-dev \
-libmysqlclient-dev \
-libncurses5-dev \
-libnss3-dev \
-libogg-dev \
-libopenal-dev \
-libopus-dev \
-libp11-kit-dev  \
-libpci-dev \
-libpng-dev \
-libpolkit-agent-1-dev \
-libpolkit-backend-1-dev \
-libpolkit-gobject-1-dev \
-libpq-dev \
-libproxy-dev \
-libpulse-dev \
-libraw1394-dev \
-libreadline-dev \
-libshout3-dev \
-libsnappy-dev \
-libsndfile1-dev \
-libsoup2.4-dev \
-libspeechd-dev \
-libspeex-dev \
-libsphinxbase-dev \
-libsqlite3-dev \
-libsrtp0-dev \
-libssl-dev \
-libstemmer-dev \
-libsystemd-journal-dev \
-libtag1-dev \
-libtheora-dev \
-libts-dev \
-libudev-dev \
-libunbound-dev \
-libunistring-dev \
-libutempter-dev \
-libvisual-0.4-dev \
-libvoikko-dev \
-libvorbis-dev \
-libvorbisidec-dev \
-libvpx-dev \
-libwavpack-dev \
-libwayland-dev \
-libwayland-egl1-mesa \
-libwayland-server0 \
-libwayland0 \
-libwebp-dev \
-libx11-dev \
-libx11-xcb-dev \
-libxcb-composite0-dev \
-libxcb-damage0-dev \
-libxcb-icccm4-dev \
-libxcb-image0-dev \
-libxcb-keysyms1-dev \
-libxcb-randr0-dev \
-libxcb-render-util0-dev \
-libxcb-render0-dev \
-libxcb-shape0-dev \
-libxcb-shm0-dev \
-libxcb-sync-dev \
-libxcb-sync-dev \
-libxcb-xfixes0-dev \
-libxcb-xinerama0-dev \
-libxcb-xkb-dev \
-libxcb-xtest0-dev \
-libxcb1-dev \
-libxcomposite-dev \
-libxcursor-dev \
-libxdamage-dev \
-libxext-dev \
-libxi-dev \
-libxkbcommon-dev \
-libxkbcommon-x11-dev \
-libxkbfile-dev \
-libxml2-dev \
-libxrandr-dev \
-libxrender-dev \
-libxslt1-dev \
-libxss-dev \
-libxtst-dev \
-libxv-dev \
-libyaml-dev \
-media-player-info \
-mesa-common-dev \
-ninja-build \
-pkg-config \
-publican \
-publicsuffix \
-python-clang-3.8 \
-python-pip \
-python-setuptools \
-python2.7 \
-python2.7-dev \
-re2c \
-ruby \
-software-properties-common \
-speech-dispatcher-festival \
-sphinxsearch \
-subversion \
-texinfo \
-unixodbc-dev \
-valac \
-wget \
-xmlto \
-xsltproc \
-yasm \
-zlib1g-dev \
-zsync
+ autogen \
+ automake \
+ autotools-dev \
+ build-essential \
+ flex \
+ bzr \
+ fuse \
+ git \
+ perl \
+ ml-lex \
+ bison \
+ gperf \
+ libicu-dev \
+ libxslt-dev \
+ ruby \
+ libssl-dev \
+ libxcursor-dev \
+ libxcomposite-dev \
+ libxdamage-dev \
+ libxrandr-dev \
+ libdbus-1-dev \
+ libfontconfig1-dev \
+ libcap-dev \
+ libxtst-dev \
+ libpulse-dev \
+ libbz2-dev \
+ libgcrypt11-dev \
+ libdrm-dev \
+ libcups2-dev \
+ libatkmm-1.6-dev \
+ pkg-config \
+ libasound2-dev \
+ freeglut3-dev \
+ software-properties-common \
+ wget
 
-RUN sudo add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev
+
+RUN add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev && add-apt-repository -y -r ppa:wayland.admin/daily-builds
 RUN add-apt-repository -y ppa:jonathonf/gtk3.18 && sudo apt-get update && sudo apt-get -y install libglib2.0-dev && add-apt-repository -y -r ppa:jonathonf/gtk3.18
-RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7 mysql-client-5.7
-RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install gcc-4.9 g++-4.9 #&& update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
-
+RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7 mysql-client-5.7 && add-apt-repository -y -r ppa:jonathonf/mysql
+RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install gcc-4.9 g++-4.9 && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
+# Rebuild kernel, needed for fuse.
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-59
+# Create jenkins user
 RUN groupadd -g 1000 jenkins
 RUN useradd -m -u 1000 -g 1000 -d /home/jenkins jenkins
 RUN mkdir -p /{appimage,app}
@@ -213,34 +68,36 @@ RUN modprobe fuse
 RUN usermod -a -G fuse jenkins
 RUN chgrp fuse /dev/fuse
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
+
+#Set ENV
 ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib64
 ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 ENV CXXFLAGS -std=c++11
 
-#Misc deps too old on trusty
-RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2 && tar -jxvf util-macros-1.19.0.tar.bz2
-RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr && make install && rm /util-macros-1.19.0.tar.bz2 && rm -rfv /util-macros-1.19.0
-RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2 && tar -jxvf m4-1.4.18.tar.bz2
-RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /m4-1.4.18.tar.bz2 && rm -rfv /m4-1.4.18
-RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz && tar -xzvf gettext-0.19.3.tar.gz
-RUN cd gettext-0.19.3 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gettext-0.19.3.tar.gz && rm -rfv /gettext-0.19.3
-RUN ln -s /usr/bin/python2.7-config /usr/bin/python-config
-RUN wget http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.46/gobject-introspection-1.46.0.tar.xz && tar -xvf gobject-introspection-1.46.0.tar.xz
-RUN cd gobject-introspection-1.46.0 && ./configure --prefix=/opt/usr --disable-static &&  make -j 8 && make install && rm /gobject-introspection-1.46.0.tar.xz && rm -rfv /gobject-introspection-1.46.0
-RUN git clone https://github.com/Kitware/CMake
-RUN cd CMake && ./configure --prefix=/opt/usr && make && make install && rm -rfv /CMake
-#Python3 too old
+#Misc build time deps too old on trusty
 RUN wget https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tar.xz && tar -xvf Python-3.5.3.tar.xz
-RUN cd Python-3.5.3 && ./configure --prefix=/opt/usr --enable-shared &&  make -j 8 && make install && rm /Python-3.5.3.tar.xz && rm -rfv /Python-3.5.3
+RUN cd Python-3.5.3 && ./configure --prefix=/opt/usr --enable-shared --enable-static &&  make -j 8 && make install && rm /Python-3.5.3.tar.xz && rm -rfv /Python-3.5.3
 RUN pip3 install Sphinx clang PyOpenGL PyOpenGL_accelerate
+RUN wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2 && tar -jxvf util-macros-1.19.0.tar.bz2
+RUN cd util-macros-1.19.0 && ./configure --prefix /opt/usr --enable-shared --enable-static && make install && rm /util-macros-1.19.0.tar.bz2 && rm -rfv /util-macros-1.19.0
+RUN wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2 && tar -jxvf m4-1.4.18.tar.bz2
+RUN cd m4-1.4.18  && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --enable-shared --enable-static &&  make -j 8 && make install && rm /m4-1.4.18.tar.bz2 && rm -rfv /m4-1.4.18
+RUN wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz && tar -xzvf gettext-0.19.3.tar.gz
+RUN cd gettext-0.19.3 && ./configure --prefix=/opt/usr --enable-shared --enable-static &&  make -j 8 && make install && rm /gettext-0.19.3.tar.gz && rm -rfv /gettext-0.19.3
+RUN wget http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.46/gobject-introspection-1.46.0.tar.xz && tar -xvf gobject-introspection-1.46.0.tar.xz
+RUN cd gobject-introspection-1.46.0 && ./configure --prefix=/opt/usr --enable-shared --enable-static &&  make -j 8 && make install && rm /gobject-introspection-1.46.0.tar.xz && rm -rfv /gobject-introspection-1.46.0
+RUN git clone https://github.com/Kitware/CMake
+RUN cd CMake && ./configure --prefix=/opt/usr --enable-shared --enable-static && make && make install && rm -rfv /CMake
+
 #Build newer gstreamer for sound stack
 RUN wget 'https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.10.2.tar.xz' && tar -xvf gstreamer-1.10.2.tar.xz
-RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gstreamer-1.10.2.tar.xz && rm -rfv /gstreamer-1.10.2
+RUN cd gstreamer-1.10.2 && ./configure --prefix=/opt/usr --enable-static --enable-shared --enable-gst-debug && make && make install && rm /gstreamer-1.10.2.tar.xz && rm -rfv /gstreamer-1.10.2
 RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.10.2.tar.xz' && tar -xvf gst-plugins-base-1.10.2.tar.xz
-RUN cd gst-plugins-base-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gst-plugins-base-1.10.2.tar.xz && rm -rfv /gst-plugins-base-1.10.2
+RUN cd gst-plugins-base-1.10.2 && ./configure --prefix=/opt/usr --enable-static --enable-shared --enable-gst-debug && make && make install && rm /gst-plugins-base-1.10.2.tar.xz && rm -rfv /gst-plugins-base-1.10.2
 RUN wget 'https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.10.2.tar.xz' && tar -xvf gst-plugins-good-1.10.2.tar.xz
-RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --disable-static --enable-shared --enable-gst-debug && make && make install && rm /gst-plugins-good-1.10.2.tar.xz && rm -rfv /gst-plugins-good-1.10.2
+RUN cd gst-plugins-good-1.10.2 && ./configure --prefix=/opt/usr --enable-static --enable-shared --enable-gst-debug && make && make install && rm /gst-plugins-good-1.10.2.tar.xz && rm -rfv /gst-plugins-good-1.10.2
+
 #GPG stack for appimage signing
 RUN wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2
 RUN tar -jxvf libgpg-error-1.26.tar.bz2
@@ -248,7 +105,7 @@ RUN cd libgpg-error-1.26 && autoreconf --force --install && mkdir builddir && cd
 RUN rm /libgpg-error-1.26.tar.bz2 && rm -rfv /libgpg-error-1.26
 RUN wget https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.3.5.tar.bz2
 RUN tar -jxvf libksba-1.3.5.tar.bz2
-RUN cd libksba-1.3.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install
+RUN cd libksba-1.3.5 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --enable-static &&  make -j 8 && make install
 RUN rm /libksba-1.3.5.tar.bz2 && rm -rfv /libksba-1.3.5
 RUN wget https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.4.3.tar.bz2
 RUN tar -jxvf libassuan-2.4.3.tar.bz2
@@ -271,14 +128,12 @@ RUN wget http://downloads.sourceforge.net/pcre/pcre-8.35.tar.bz2 && tar -jxvf pc
 RUN cd pcre-8.35 && ./configure --prefix=/opt/usr && make && make install && rm /pcre-8.35.tar.bz2 && rm -rfv /pcre-8.35
 RUN wget http://www.cups.org/software/1.7.5/cups-1.7.5-source.tar.bz2 && tar -jxvf cups-1.7.5-source.tar.bz2
 RUN cd cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-scripts && ./configure --prefix=/opt/usr &&  make -j 8 && make install && rm -rfv /cups-1.7.5 && rm /cups-1.7.5-source.tar.bz2
-# # Build Qt5.8 and install to /opt/usr
-ENV CXXFLAGS -std=c++11 -lpthread -lGL -lglut
-RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.8/5.8.0/single/qt-everywhere-opensource-src-5.8.0.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.8.0.tar.gz
-RUN cd qt-everywhere-opensource-src-5.8.0 && ./configure -v -release -opensource -confirm-license -dbus -openssl -rpath -qt-xcb -feature-accessibility -opengl desktop -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
-RUN rm /qt-everywhere-opensource-src-5.8.0.tar.gz && rm -rfv /qt-everywhere-opensource-src-5.8.0
-RUN wget http://download.qt.io/community_releases/5.8/5.8.0-final/qtwebkit-opensource-src-5.8.0.tar.xz && tar -xvf qtwebkit-opensource-src-5.8.0.tar.xz
-RUN cd qtwebkit-opensource-src-5.8.0 && mkdir build && cd build && qmake PREFIX=/opt/usr ../WebKit.pro && make && make install
-RUN rm /qtwebkit-opensource-src-5.8.0.tar.xz && rm -rfv /qtwebkit-opensource-src-5.8.0
+
+# # Build Qt5 from git and install to /opt/usr ( developer buid )
+RUN git clone git://code.qt.io/qt/qt5.git && cd qt5 && git checkout 5.9 && perl init-repository
+RUN ./configure -v -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix /opt/usr && make && make install
+RUN rm /qt5
+
 # Various external Qt relelated modules addons
 RUN git clone http://code.qt.io/qt/qtstyleplugins.git
 RUN cd qtstyleplugins && qmake PREFIX=/opt/usr . && make && make install && rm -rfv /qtstyleplugins
@@ -288,7 +143,7 @@ RUN git clone https://code.qt.io/qt/qtspeech.git
 RUN cd qtspeech && qmake PREFIX=/opt/usr . && make && make install && rm -rfv /qtspeech
 RUN git clone https://github.com/flavio/qjson
 RUN cd qjson &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr && make && make install && rm -rfv /qjson
-RUN wget https://launchpad.net/libdbusmenu-qt/trunk/0.9.2/+download/libdbusmenu-qt-0.9.2.tar.bz2 && tar -jxvf libdbusmenu-qt-0.9.2.tar.bz2 && cd libdbusmenu-qt-0.9.2 && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DCMAKE_INSTALL_LIBDIR=/opt/lib  \
+RUN bzr branch lp:libdbusmenu-qt && cd libdbusmenu-qt && mkdir build && cd build && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DCMAKE_INSTALL_LIBDIR=/opt/lib  \
 -DCMAKE_BUILD_TYPE=Release  -DWITH_DOC=OFF -DUSE_QT5=true -DCMAKE_INCLUDE_CURRENT_DIR=ON -Wno-dev .. && make && make install && rm -rfv /libdbusmenu-qt
 RUN wget 'https://gstreamer.freedesktop.org/src/qt-gstreamer/qt-gstreamer-1.2.0.tar.xz' && tar -xvf qt-gstreamer-1.2.0.tar.xz
 RUN cd qt-gstreamer-1.2.0 &&  cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT_VERSION=5 -DCMAKE_REQUIRED_INCLUDES=/opt/usr/include/gstreamer-1.0/ \
@@ -316,6 +171,8 @@ RUN rm -rfv /gpgme
 RUN svn export svn://svn.code.sf.net/p/qwt/code/branches/qwt-6.1 && cd qwt-6.1 && qmake "PREFIX = /opt/usr" qwt.pro && make && make install && rm -rfv /qwt-6.1
 RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2 && tar -jxvf gnupg-2.1.17.tar.bz2
 RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
+
+#Appstream support for appimagetool
 RUN git clone https://github.com/ximion/appstream
 RUN cd appstream && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=/opt/usr -DQT=ON ../ && make && make install && rm -rfv /appstream
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile
