@@ -4,9 +4,9 @@ Master branch:
 
 AppImage for KDE changeme
 
-changeme
+changeme is a geography learning tool, which allows you to learn about the political divisions of some countries (divisions, capitals of those divisions and their associated flags if there are some).
 
-https://www.kde.org/applications/utilities/changeme/
+https://edu.kde.org/changeme/
 
 S3 Download:
 master:

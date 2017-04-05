@@ -17,8 +17,22 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-export PATH=/opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
-export WORKSPACE=`pwd`
-echo $WORKSPACE
+export PATH=/opt/usr/bin:/root/.rbenv/bin:/root/.rbenv/shims:$PATH
 
-cd /in/ && rspec appimage-template/spec/recipe_rspec.rb --fail-fast
+# move me to jenkisnfile
+rm -rfv /app.Dir/*
+
+cd ~
+
+rbenv local 2.3.1
+bundle install
+
+wget https://github.com/probonopd/linuxdeployqt/releases/download/1/linuxdeployqt-1-x86_64.AppImage
+chmod a+x linuxdeployqt-1-x86_64.AppImage
+
+
+rspec /in/tooling/aci/spec/setup_project_rspec.rb --fail-fast
+rspec /in/tooling/aci/spec/dependencies_rspec.rb --fail-fast
+rspec /in/tooling/aci/spec/project_rspec.rb --fail-fast
+rspec /in/tooling/aci/spec/recipe_rspec.rb --fail-fast
+rspec /in/tooling/aci/spec/create_appimage_rspec.rb --fail-fast
