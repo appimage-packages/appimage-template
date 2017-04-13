@@ -15,7 +15,7 @@ frameworks:
   - kiconthemes
   - kcrash
   - kxmlgui
-kde_deps: ''
+deps_on_kf5: ''
 type: git
 url: http://anongit.kde.org/changeme
 buildsystem: cmake

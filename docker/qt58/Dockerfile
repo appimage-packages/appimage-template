@@ -14,14 +14,11 @@ RUN ln -s -f /bin/true /usr/bin/chfn
 RUN apt-get update && apt-get -y upgrade && apt-get -y build-dep libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev python3-dev
 RUN apt-get -y --force-yes install \
 '^libxcb.*-dev' \
-bison \
 bzr \
-chrpath \
 clang-3.8 \
 festival \
 festival-dev \
 firebird-dev \
-flex \
 freeglut3-dev \
 freetds-dev \
 fuse \
@@ -46,6 +43,7 @@ libgbm-dev \
 libgl1-mesa-dev \
 libgles2-mesa-dev \
 libglew-dev \
+libglew1.5-dev \
 libglib2.0-dev \
 libglm-dev \
 libglu1-mesa-dev \
@@ -69,26 +67,22 @@ libudev-dev \
 libunistring-dev \
 libunwind8-dev \
 libvorbis-dev \
-libwebp-dev \
 libx11-xcb-dev \
-libxcomposite-dev \
 libxext-dev \
 libxi-dev \
 libxi-dev \
 libxkbcommon-dev \
 libxkbcommon-x11-dev \
-libxml2-dev \
+libxrender-dev \
 libxrender-dev \
 libxslt-dev \
-libxslt1-dev \
 lldb-3.8 \
-llvm-3.8 \
 llvm-3.8-dev \
-mesa-common-dev \
+llvm-3.8 \
 ml-lex \
-pkg-config \
 publicsuffix \
 python-dev \
+ruby \
 software-properties-common \
 subversion \
 texinfo \
@@ -99,7 +93,6 @@ x11proto-present-dev \
 yasm \
 zlib1g-dev \
 zsync
-
 # # Rebuild kernel, needed for fuse.
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-72
 
@@ -120,6 +113,7 @@ RUN add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update 
  libwayland-server0 libwayland0 && add-apt-repository -y -r ppa:wayland.admin/daily-builds
 RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7 mysql-client-5.7 && add-apt-repository -y -r ppa:jonathonf/mysql
 RUN add-apt-repository -y ppa:george-edison55/cmake-3.x  && sudo apt-get update && apt-get -y install cmake
+RUN add-apt-repository -y ppa:jonathonf/gtk3.18 && sudo apt-get update && sudo apt-get -y install libglib2.0-dev && add-apt-repository -y -r ppa:jonathonf/gtk3.18
 
 # Set up for GCC options ( try gcc6 )
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update && apt-get -y install gcc-4.9 g++-4.9 gcc-5 g++-5 gcc-6 g++-6 && \
@@ -207,9 +201,8 @@ ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/gstreamer-1.0:/opt/usr/lib/x86_64-
 ENV PATH /opt/usr/bin:/root/.rbenv/bin:/root/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 ENV CXXFLAGS -std=c++11 -fPIC
-ENV CPATH /opt/usr/include/gstreamer-1.0:/opt/usr/include:/opt/usr/include/python3.5$CPATH
+ENV CPATH /opt/usr/include/gstreamer-1.0:/opt/usr/include:$CPATH
 ENV SOURCES /source
-ENV QMAKE_CFLAGS_ISYSTEM ''
 
 #GPG stack for gpgme
 RUN cd $SOURCES && wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2 && tar -jxvf libgpg-error-1.26.tar.bz2 && \
@@ -285,11 +278,12 @@ cd $SOURCES/gst-plugins-good-1.10.4 && ./configure --prefix=/opt/usr --enable-sh
 
 # # Build Qt5 from git and install to /opt/usr ( developer buid )
 RUN sudo apt-get -y remove 'qt.*'
-ADD qt5.sh $SOURCES/
-RUN cd $SOURCES && /bin/bash -x qt5.sh
-RUN git clone http://code.qt.io/qt/qtwebkit.git && cd qtwebkit && git checkout 5.9 && \
-rbenv local 2.3.1 && echo "CONFIG -= precompile_header" >> .qmake.conf && echo "QMAKE_CFLAGS_ISYSTEM=''" >> .qmake.conf && qmake "PREFIX = /opt/usr" WebKit.pro && \
-make && make install && rm -rfv /source/qtwebkit
+RUN wget http://qt.mirrors.tds.net/qt/archive/qt/5.8/5.8.0/single/qt-everywhere-opensource-src-5.8.0.tar.gz && tar -zxvf qt-everywhere-opensource-src-5.8.0.tar.gz
+RUN cd qt-everywhere-opensource-src-5.8.0 && ./configure -v -release -opensource -confirm-license -dbus -openssl -rpath -qt-xcb -feature-accessibility -opengl desktop -system-sqlite -nomake examples -nomake tests -prefix /opt/usr && make && make install
+RUN rm /qt-everywhere-opensource-src-5.8.0.tar.gz && rm -rfv /qt-everywhere-opensource-src-5.8.0
+RUN wget http://download.qt.io/community_releases/5.8/5.8.0-final/qtwebkit-opensource-src-5.8.0.tar.xz && tar -xvf qtwebkit-opensource-src-5.8.0.tar.xz
+RUN cd qtwebkit-opensource-src-5.8.0 && mkdir build && cd build && qmake PREFIX=/opt/usr ../WebKit.pro && make && make install
+RUN rm /qtwebkit-opensource-src-5.8.0.tar.xz && rm -rfv /qtwebkit-opensource-src-5.8.0
 
 # # Various external Qt relelated modules addons
 RUN cd $SOURCES && git clone git://code.qt.io/qt/qtdeclarative.git && cd $SOURCES/qtdeclarative && git checkout 5.9 && \
@@ -328,3 +322,5 @@ cd $SOURCES/poppler-0.51.0 && mkdir build && cd build && ../configure --prefix=/
 --enable-cmyk --enable-xpdf-headers --enable-poppler-qt5 && make && make install && rm $SOURCES/poppler-0.51.0.tar.xz && rm -rfv $SOURCES/poppler-0.51.0
 RUN wget https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.1.17.tar.bz2 && tar -jxvf gnupg-2.1.17.tar.bz2
 RUN cd gnupg-2.1.17 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && rm /gnupg-2.1.17.tar.bz2 && rm -rfv /gnupg-2.1.17
+# RUN git clone http://code.qt.io/qt/qtwebkit.git && cd qtwebkit && git checkout 5.9 && \
+# mkdir build && cd build && qmake ' "CONFIG += shared" ' ../WebKit.pro && make && make install && rm -rfv /source/qtwebkit

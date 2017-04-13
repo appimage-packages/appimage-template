@@ -51,35 +51,20 @@ class CI
   Docker.options[:read_timeout] = 2 * 60 * 60 # 2 hours
   Docker.options[:write_timeout] = 2 * 60 * 60 # 2 hours
 
-  def create_container(name, home='/home/jenkins/workspace')
+  def create_container
     init_logging
-    workspace = system('pwd')
-    p workspace
     @c = Docker::Container.create(
-      'Image' => 'sgclark/trusty-qt580',
+      'Image' => 'sgclark/neon-packaging',
       'Cmd' => @cmd,
       'Volumes' => {
-        '/in' => {},
-        '/app' => {},
-        '/appimage' => {},
-        '/root/.gnupg' => {},
-        '/lib/modules' => {},
-        '/tmp' => {}
+        '/in' => {}
       },
       'HostConfig' => {
         'Binds' => [
-          Dir.pwd + ":/in",
-          Dir.pwd + "/app:/app",
-          Dir.pwd + "/appimage:/appimage",
-          '/root/.gnupg:/root/.gnupg'
+          Dir.pwd + ':/in'
         ],
         'UsernsMode' => 'host',
-        'Privileged' => true,
-        'Devices' => [
-          'PathOnHost' => '/dev/fuse',
-          'PathInContainer' => '/dev/fuse',
-          'CgroupPermissions' => 'mrw'
-        ]
+        'Privileged' => true
       }
     )
     @log.info 'creating debug thread'
