@@ -129,8 +129,8 @@ update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 30 && \
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 10 && \
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 20 && \
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 30 && \
-update-alternatives --set gcc "/usr/bin/gcc-6" && \
-update-alternatives --set g++ "/usr/bin/g++-6" && \
+update-alternatives --set gcc "/usr/bin/gcc-5" && \
+update-alternatives --set g++ "/usr/bin/g++-5" && \
 update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 40 && \
 update-alternatives --set cc /usr/bin/gcc && \
 update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 40 && \
@@ -174,14 +174,14 @@ RUN cd $SOURCES && /bin/bash -x Xlibs.sh
 #New dbus
 RUN sudo apt-get -y remove 'libdbus-1-dev'
 RUN cd $SOURCES && wget http://dbus.freedesktop.org/releases/dbus/dbus-1.10.16.tar.gz && tar -xvf dbus-1.10.16.tar.gz
-RUN cd $SOURCES/dbus-1.10.16 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/usr &&  make -j 8 && make install && \
+RUN cd $SOURCES/dbus-1.10.16 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && \
 rm $SOURCES/dbus-1.10.16.tar.gz && rm -rfv $SOURCES/dbus-1.10.16
 RUN cd $SOURCES && wget http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.108.tar.gz && tar -xvf dbus-glib-0.108.tar.gz
-RUN cd $SOURCES/dbus-glib-0.108 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/usr &&  make -j 8 && make install && \
+RUN cd $SOURCES/dbus-glib-0.108 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && \
 rm $SOURCES/dbus-glib-0.108.tar.gz && rm -rfv $SOURCES/dbus-glib-0.108
 #New pulseaudio
 RUN cd $SOURCES && wget http://freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz && tar -xvf pulseaudio-10.0.tar.xz
-RUN cd $SOURCES/pulseaudio-10.0 && mkdir builddir && cd builddir && ../configure --prefix=/usr &&  make -j 8 && make install && \
+RUN cd $SOURCES/pulseaudio-10.0 && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && \
 rm $SOURCES/pulseaudio-10.0.tar.xz && rm -rfv $SOURCES/pulseaudio-10.0
 
 # Create jenkins user
@@ -209,7 +209,6 @@ ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconf
 ENV CXXFLAGS -std=c++11 -fPIC
 ENV CPATH /opt/usr/include/gstreamer-1.0:/opt/usr/include:/opt/usr/include/python3.5$CPATH
 ENV SOURCES /source
-ENV QMAKE_CFLAGS_ISYSTEM ''
 
 #GPG stack for gpgme
 RUN cd $SOURCES && wget https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.26.tar.bz2 && tar -jxvf libgpg-error-1.26.tar.bz2 && \
@@ -288,7 +287,7 @@ RUN sudo apt-get -y remove 'qt.*'
 ADD qt5.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x qt5.sh
 RUN git clone http://code.qt.io/qt/qtwebkit.git && cd qtwebkit && git checkout 5.9 && \
-rbenv local 2.3.1 && echo "CONFIG -= precompile_header" >> .qmake.conf && echo "QMAKE_CFLAGS_ISYSTEM=''" >> .qmake.conf && qmake "PREFIX = /opt/usr" WebKit.pro && \
+rbenv local 2.3.1 && echo "CONFIG -= precompile_header" >> .qmake.conf && qmake "PREFIX = /opt/usr" WebKit.pro && \
 make && make install && rm -rfv /source/qtwebkit
 
 # # Various external Qt relelated modules addons
