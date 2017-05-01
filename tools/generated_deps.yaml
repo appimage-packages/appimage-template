@@ -1,31 +1,31 @@
----
-- kauth
-- kconfig
-- kcompletion
-- kitemviews
-- kattica
-- kdbusaddons
-- kwidgetsaddons
-- kkio
-- kio
-- kplasma
-- kxmlgui
-- kpackage
-- kconfigwidgets
-- kjobwidgets
-- knotifications
-- kcoreaddons
-- kkirigami2
-- kirigami2
-- kcrash
-- knewstuff
-- kcodecs
-- knewstuffcore
-- ksolid
-- ki18n
-- kdeclarative
-- karchive
-- extra-cmake-modules
-- kservice
-- kbookmarks
-- kitemmodels
+--- !ruby/object:Set
+hash:
+  extra-cmake-modules: true
+  kguiaddons: true
+  kconfigwidgets: true
+  kdoctools: true
+  attica: true
+  kcompletion: true
+  kiconthemes: true
+  kbookmarks: true
+  kjobwidgets: true
+  solid: true
+  kio: true
+  kitemviews: true
+  sonnet: true
+  ktextwidgets: true
+  kglobalaccel: true
+  kwindowsystem: true
+  kxmlgui: true
+  kconfig: true
+  karchive: true
+  ki18n: true
+  kcrash: true
+  kcodecs: true
+  kwidgetsaddons: true
+  kcoreaddons: true
+  polkit-qt-1: true
+  kauth: true
+  kdbusaddons: true
+  kservice: true
+  knewstuff: true

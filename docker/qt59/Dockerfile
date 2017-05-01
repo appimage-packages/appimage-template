@@ -7,10 +7,14 @@ RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restric
 RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main" >> /etc/apt/sources.list
 RUN echo "deb-src http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.8 main" >> /etc/apt/sources.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list
+
 
 #link to bash
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN ln -s -f /bin/true /usr/bin/chfn
+RUN apt-get update && apt-get -y install wget
+RUN wget -q -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update && apt-get -y upgrade && apt-get -y build-dep libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev python3-dev
 RUN apt-get -y --force-yes install \
 '^libxcb.*-dev' \
@@ -37,12 +41,11 @@ libatspi2.0-dev \
 libboost-all-dev \
 libcap-dev \
 libclang-3.8-dev \
-libcups2-dev \
-libdbus-1-dev \
 libdouble-conversion-dev \
 libfontconfig1-dev \
 libfreetype6-dev \
 libgbm-dev \
+libgit2-dev \
 libgl1-mesa-dev \
 libgles2-mesa-dev \
 libglew-dev \
@@ -74,12 +77,10 @@ libx11-xcb-dev \
 libxcomposite-dev \
 libxext-dev \
 libxi-dev \
-libxi-dev \
 libxkbcommon-dev \
 libxkbcommon-x11-dev \
 libxml2-dev \
 libxrender-dev \
-libxslt-dev \
 libxslt1-dev \
 lldb-3.8 \
 llvm-3.8 \
@@ -87,6 +88,9 @@ llvm-3.8-dev \
 mesa-common-dev \
 ml-lex \
 pkg-config \
+postgresql-9.4 \
+postgresql-contrib-9.4 \
+postgresql-server-dev-9.4 \
 publicsuffix \
 python-dev \
 software-properties-common \
@@ -129,8 +133,8 @@ update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 30 && \
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 10 && \
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 20 && \
 update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 30 && \
-update-alternatives --set gcc "/usr/bin/gcc-6" && \
-update-alternatives --set g++ "/usr/bin/g++-6" && \
+update-alternatives --set gcc "/usr/bin/gcc-5" && \
+update-alternatives --set g++ "/usr/bin/g++-5" && \
 update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 40 && \
 update-alternatives --set cc /usr/bin/gcc && \
 update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 40 && \
@@ -144,44 +148,47 @@ ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/gstreamer-1.0:/opt/usr/lib/x86_64-
 ENV PATH /opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 ENV CXXFLAGS -std=c++11
-ENV CPATH /opt/usr/include/gstreamer-1.0:/opt/usr/include:$CPATH
+ENV CPATH /opt/usr/include/gstreamer-1.0:/opt/usr/include:/opt/usr/include/dbus-1.0:$CPATH
 ENV SOURCES /
+ENV ACLOCAL_PATH = /opt/usr/share/aclocal:/usr/share/aclocal
 
 #Newer toolchain
 RUN cd $SOURCES && wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2 && tar -jxvf util-macros-1.19.0.tar.bz2 && \
-cd $SOURCES/util-macros-1.19.0 && ./configure --prefix /usr && make install && rm $SOURCES/util-macros-1.19.0.tar.bz2 && rm -rfv $SOURCES/util-macros-1.19.0
+cd $SOURCES/util-macros-1.19.0 && ./configure --prefix /opt/usr && make install && rm $SOURCES/util-macros-1.19.0.tar.bz2 && rm -rfv $SOURCES/util-macros-1.19.0
 RUN cd $SOURCES && wget http://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.bz2 && tar -jxvf m4-1.4.18.tar.bz2 && \
-cd $SOURCES/m4-1.4.18  && mkdir builddir && cd builddir && ../configure --prefix=/usr --enable-shared &&  make -j 8 && make install \
+cd $SOURCES/m4-1.4.18  && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr --enable-shared &&  make -j 8 && make install \
 && rm $SOURCES/m4-1.4.18.tar.bz2 && rm -rfv $SOURCES/m4-1.4.18
 RUN cd $SOURCES && wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz && tar -xvf autoconf-2.69.tar.xz && \
-cd $SOURCES/autoconf-2.69 && mkdir builddir && cd builddir && ../configure --prefix=/usr &&  make -j 8 && make install && \
+cd $SOURCES/autoconf-2.69 && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && \
 rm $SOURCES/autoconf-2.69.tar.xz && rm -rfv $SOURCES/autoconf-2.69
 RUN cd $SOURCES && wget https://ftp.gnu.org/gnu/automake/automake-1.15.tar.xz && tar -xvf automake-1.15.tar.xz && \
-cd $SOURCES/automake-1.15 && mkdir builddir && cd builddir && ../configure --prefix=/usr &&  make -j 8 && make install && \
+cd $SOURCES/automake-1.15 && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && \
 rm $SOURCES/automake-1.15.tar.xz && rm -rfv $SOURCES/automake-1.15
 RUN cd $SOURCES && wget https://ftp.gnu.org/gnu/autogen/rel5.18.12/autogen-5.18.12.tar.xz && tar -xvf autogen-5.18.12.tar.xz && \
-cd $SOURCES/autogen-5.18.12 && mkdir builddir && cd builddir && ../configure --prefix=/usr &&  make -j 8 && make install && \
+cd $SOURCES/autogen-5.18.12 && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && \
 rm $SOURCES/autogen-5.18.12.tar.xz && rm -rfv $SOURCES/autogen-5.18.12
 RUN cd $SOURCES && wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.3.tar.gz && tar -xzvf gettext-0.19.3.tar.gz && \
-cd $SOURCES/gettext-0.19.3 && ./configure --prefix=/usr &&  make -j 8 && make install && rm $SOURCES/gettext-0.19.3.tar.gz && rm -rfv $SOURCES/gettext-0.19.3
+cd $SOURCES/gettext-0.19.3 && ./configure --prefix=/opt/usr &&  make -j 8 && make install && rm $SOURCES/gettext-0.19.3.tar.gz && rm -rfv $SOURCES/gettext-0.19.3
+#New dbus
+RUN sudo apt-get -y remove 'libdbus-1-dev'
+RUN cd $SOURCES && wget http://dbus.freedesktop.org/releases/dbus/dbus-1.10.16.tar.gz && tar -xvf dbus-1.10.16.tar.gz
+RUN cd $SOURCES/dbus-1.10.16 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 4 && make install && \
+rm $SOURCES/dbus-1.10.16.tar.gz && rm -rfv $SOURCES/dbus-1.10.16
+RUN cd $SOURCES && wget http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.108.tar.gz && tar -xvf dbus-glib-0.108.tar.gz
+RUN cd $SOURCES/dbus-glib-0.108 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && \
+rm $SOURCES/dbus-glib-0.108.tar.gz && rm -rfv $SOURCES/dbus-glib-0.108
+# New cups
 RUN cd $SOURCES && wget http://www.cups.org/software/1.7.5/cups-1.7.5-source.tar.bz2 && tar -jxvf cups-1.7.5-source.tar.bz2 && \
-cd $SOURCES/cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-scripts && ./configure --prefix=/usr &&  make -j 8 && make install && \
+cd $SOURCES/cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-scripts && ./configure --prefix=/opt/usr &&  make -j 8 && make install && \
 rm -rfv $SOURCES/cups-1.7.5 && rm $SOURCES/cups-1.7.5-source.tar.bz2
 
 # Newer xlibs
 ADD Xlibs.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x Xlibs.sh
-#New dbus
-RUN sudo apt-get -y remove 'libdbus-1-dev'
-RUN cd $SOURCES && wget http://dbus.freedesktop.org/releases/dbus/dbus-1.10.16.tar.gz && tar -xvf dbus-1.10.16.tar.gz
-RUN cd $SOURCES/dbus-1.10.16 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/usr &&  make -j 8 && make install && \
-rm $SOURCES/dbus-1.10.16.tar.gz && rm -rfv $SOURCES/dbus-1.10.16
-RUN cd $SOURCES && wget http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.108.tar.gz && tar -xvf dbus-glib-0.108.tar.gz
-RUN cd $SOURCES/dbus-glib-0.108 && autoreconf --force --install && mkdir builddir && cd builddir && ../configure --prefix=/usr &&  make -j 8 && make install && \
-rm $SOURCES/dbus-glib-0.108.tar.gz && rm -rfv $SOURCES/dbus-glib-0.108
+
 #New pulseaudio
 RUN cd $SOURCES && wget http://freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz && tar -xvf pulseaudio-10.0.tar.xz
-RUN cd $SOURCES/pulseaudio-10.0 && mkdir builddir && cd builddir && ../configure --prefix=/usr &&  make -j 8 && make install && \
+RUN cd $SOURCES/pulseaudio-10.0 && mkdir builddir && cd builddir && ../configure --prefix=/opt/usr &&  make -j 8 && make install && \
 rm $SOURCES/pulseaudio-10.0.tar.xz && rm -rfv $SOURCES/pulseaudio-10.0
 
 # Create jenkins user
@@ -207,7 +214,7 @@ ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/gstreamer-1.0:/opt/usr/lib/x86_64-
 ENV PATH /opt/usr/bin:/root/.rbenv/bin:/root/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 ENV CXXFLAGS -std=c++11 -fPIC
-ENV CPATH /opt/usr/include/gstreamer-1.0:/opt/usr/include:/opt/usr/include/python3.5$CPATH
+ENV CPATH /opt/usr/include/gstreamer-1.0:/opt/usr/include:/opt/usr/include/python3.5:$CPATH
 ENV SOURCES /source
 ENV QMAKE_CFLAGS_ISYSTEM ''
 

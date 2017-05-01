@@ -19,15 +19,16 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require 'fileutils'
-require "yaml"
+require 'yaml'
 require 'fileutils'
 require 'yaml'
 require 'set'
 
-@name = 'plasma-discover'
-@url = 'http://anongit.kde.org/discover'
+@name = 'artikulate'
+@url = 'http://anongit.kde.org/' + @name
 @base_dir = Dir.pwd + '/'
 @kf5 = []
+KF5 = YAML.load_file(File.join(__dir__, 'kf5.yaml'))
 
 def clone_project
   system('git clone ' + @url)
@@ -40,15 +41,16 @@ end
 
 def run_cmakedependencies
   all = []
+  all_deps = []
   # Run the cmake-dependencies.py tool from kde-dev-tools
   FileUtils.cp('/in/cmake-dependencies.py', @base_dir + @name)
-  Dir.chdir(@base_dir + 'discover') do
+  Dir.chdir(@base_dir + @name) do
     `cmake -DCMAKE_INSTALL_PREFIX:PATH=/app/usr/ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_TESTING=FALSE`
     system('pwd')
     system('ls -l')
     system("make -j8")
     all = `python3 /in/cmake-dependencies.py | grep '\"project\": '`.sub('\\', '').split(',')
-    all_deps = []
+
     all.each do |dep|
       parts = dep.sub('{', '').sub('}', '').split(',')
       parts.each do |project|
@@ -60,59 +62,90 @@ def run_cmakedependencies
         end
       end
     end
-    deps = all_deps
-    deps
   end
+  all_deps
+end
+
+def sub_chars(all_deps)
+  kf5_base = []
+  oddballs = %w(ksolid,kthreadweaver,ksonnet,kattica,kplasma)
+  all_deps.each do |dep|
+    dep = 'extra-cmake-modules' if dep == 'ecm'
+    dep = 'phonon' if dep == 'phonon4qt5experimental' || dep == 'phonon4qt5'
+    if dep =~ /kf5/
+      dep = dep.sub('kf5', 'k')
+    end
+    if dep =~ /qt5/
+      next
+    end
+    dep = dep.sub('knewstuffcore', 'knewstuff')
+    dep = dep.sub('kk', 'k') if dep =~ /kk/
+    dep = dep.sub('k', '') if oddballs.include? dep
+    kf5_base.push dep
+  end
+  kf5_base
 end
 
 def extract_kf5
-  oddballs = []
   kf5_base = []
+  others = []
   all_deps = run_cmakedependencies
-  all_deps.each do |dep|
-    dep = 'extra-cmake-modules' if dep == 'ecm'
-    dep = 'phonon' if (dep == 'phonon4qt5experimental') || (dep == 'phonon4qt5')
-    if dep =~ /kf5/
-      oddballs = %w(ksolid,kthreadweaver,ksonnet,kattica)
-      dep = dep.sub('kf5', 'k')
-    end
-    dep = dep.sub('kk', 'k') if dep =~ /kk/
-    oddballs.each do |oddball|
-      dep = dep.sub('k', '') if dep == oddball
-    end
-    kf5_base.push dep
-  end
+  kf5_base = sub_chars(all_deps)
   kf5_base.each do |f|
-    if (f =~ /qt5/) || (f =~ /kf5/) || (f =~ /ecm/) || (f =~ /kk/) || (f == 'packagehandlestandardargs' )
-      kf5_base.delete f
+    p f
+    if f =~ /qt5/
+      kf5_base.delete(f)
+    end
+    kf5_base.delete 'k'
+    kf5_base.delete 'kf5'
+    kf5_base.delete 'packagehandlestandardargs'
+    kf5_base.delete 'packagemessage'
+    kf5 = KF5[f]
+    p kf5
+    if kf5.nil?
+      kf5_base.delete(f)
+      others.push f
     end
   end
-  @kf5 = kf5_base.uniq!
+  p others
+  p kf5_base
+  kf5_base
 end
 
-KF5 = YAML.load_file(File.join(__dir__, 'kf5.yaml'))
+def extract_others
+  kf5_base = []
+  others = []
+  all_deps = run_cmakedependencies
+  kf5_base = sub_chars(all_deps)
+  kf5_base.each do |f|
+    kf5 = KF5[f]
+    if kf5.nil?
+      kf5_base.delete(f)
+      others.push f
+    end
+  end
+  p others
+  others
+end
 
 def self.generatekf5_buildorder(frameworks)
   buildorder = Set.new
+
   # get list of frameworks required in CMakeLists.txt
   list = get_kf5deps(frameworks)
-  p list
   # Take that list and repeat for deps of those.
   deps_ofdeps = get_kf5deps(list)
-  p deps_ofdeps
   # Merge deps of deps into buildorder set.
   buildorder.merge(deps_ofdeps) if deps_ofdeps
   # Merge list and their deps into buildorder set if it is not nil.
   buildorder.merge(list) if list
   # return buildorder.
-  p buildorder
   buildorder
 end
 
 def self.get_kf5deps(frameworks)
   list = Set.new
   frameworks.each do |f|
-    p f
     current = KF5[f]
     deps = current['kf5_deps']
     list.merge(deps) if deps
@@ -124,8 +157,10 @@ end
 
 clone_project
 install_packages
-extract_kf5
+@kf5 = extract_kf5
 orderedkf5 = generatekf5_buildorder(@kf5)
+others = extract_others
 system('rm -rfv ' + @name)
 File.open('/in/generated_deps.yaml', 'w') { |f| f.write orderedkf5.to_yaml }
 p orderedkf5.to_yaml
+p others

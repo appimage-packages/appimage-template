@@ -46,15 +46,15 @@ do
   pushd $packagedir
   case $packagedir in
     libXfont-[0-9]* )
-      ./configure  --prefix=/usr \
+      ./configure  --prefix=/opt/usr \
        --disable-devel-docs
     ;;
     libXt-[0-9]* )
-      ./configure  --prefix=/usr \
+      ./configure  --prefix=/opt/usr \
       --with-appdefaultdir=/etc/X11/app-defaults
     ;;
     * )
-      ./configure  --prefix=/usr
+      ./configure  --prefix=/opt/usr
     ;;
   esac
   make -j8
