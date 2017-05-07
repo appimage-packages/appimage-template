@@ -16,7 +16,7 @@ RUN ln -s -f /bin/true /usr/bin/chfn
 RUN apt-get update && apt-get -y install wget
 RUN wget -q -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update && apt-get -y upgrade && apt-get -y build-dep libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev python3-dev
-RUN apt-get -y --force-yes install \
+RUN apt-get update && apt-get -y --force-yes install \
 '^libxcb.*-dev' \
 bison \
 bzr \
@@ -72,6 +72,10 @@ libudev-dev \
 libunistring-dev \
 libunwind8-dev \
 libvorbis-dev \
+libwayland-client0 \
+libwayland-dev \
+libwayland-egl1-mesa \
+libwayland-server0 \
 libwebp-dev \
 libx11-xcb-dev \
 libxcomposite-dev \
