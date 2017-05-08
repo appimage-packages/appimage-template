@@ -119,8 +119,8 @@ RUN apt-get -y build-dep pam \
 
 #Oddballs from ppas
 RUN add-apt-repository -y ppa:wayland.admin/daily-builds && sudo apt-get update && sudo apt-get -y install libinput-dev  libwayland-dev \
- libwayland-server0 libwayland0 && add-apt-repository -y -r ppa:wayland.admin/daily-builds
-RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7 mysql-client-5.7 && add-apt-repository -y -r ppa:jonathonf/mysql
+libwayland-server0 libwayland0 && add-apt-repository -y -r ppa:wayland.admin/daily-builds
+#RUN add-apt-repository -y ppa:jonathonf/mysql && sudo apt-get update && apt-get -y install mysql-server-core-5.7 mysql-client-5.7 && add-apt-repository -y -r ppa:jonathonf/mysql
 RUN add-apt-repository -y ppa:george-edison55/cmake-3.x  && sudo apt-get update && apt-get -y install cmake
 
 # Set up for GCC options ( try gcc6 )
