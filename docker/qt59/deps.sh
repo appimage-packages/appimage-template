@@ -148,12 +148,7 @@ cd $SOURCES/gst-plugins-good-1.10.4 && ./configure --prefix=/opt/usr --enable-sh
 #   rm -rf $packagedir
 # done
 
-if wget ftp://ftp.videolan.org/pub/x264/snapshots/last_x264.tar.bz2; then
-	mkdir x264 && 	tar xjvf last_x264.tar.bz2 -C x264 --strip-components 1
-
-else
-	error_exit "$LINENO: An error has occurred.. Aborting."
-fi
+git clone http://git.videolan.org/git/x264.git
 if cd x264; then
 	  ./configure --enable-static --enable-shared --prefix=/opt/usr
 	  make -j4 && make install
