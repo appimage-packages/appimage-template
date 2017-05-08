@@ -8,5 +8,4 @@ libqrencode-dev libxtables10 libatm1 libdmtx-dev
 # KF5
 RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/kf5-kdelibs/kf5.sh
 RUN chown -R root:root kf5.sh
-ADD kf5.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x kf5.sh
