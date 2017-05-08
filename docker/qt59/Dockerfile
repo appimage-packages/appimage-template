@@ -185,7 +185,7 @@ RUN git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 RUN git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 RUN rbenv install 2.4.1
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc && rbenv init -
-RUN cd ~ && rbenv local 2.3.1 && gem install bundler && bundle install --binstubs && bundle show rspec
+RUN cd ~ && rbenv local 2.4.1 && gem install bundler && bundle install --binstubs && bundle show rspec
 
 RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/deps.sh
 RUN chown -R root:root deps.sh
