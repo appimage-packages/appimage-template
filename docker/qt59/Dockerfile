@@ -198,9 +198,6 @@ rm $SOURCES/pulseaudio-10.0.tar.xz && rm -rfv $SOURCES/pulseaudio-10.0
 # Create jenkins user
 RUN groupadd -g 1000 jenkins
 RUN useradd -m -u 1000 -g 1000 -d /home/jenkins jenkins
-RUN modprobe fuse
-RUN usermod -a -G fuse jenkins
-RUN chgrp fuse /dev/fuse
 RUN mkdir -p /{appimages,app.Dir,source}
 RUN chown jenkins.jenkins /appimages && chown jenkins.jenkins /app.Dir &&  chown jenkins.jenkins /source &&  chown jenkins.jenkins /opt
 RUN echo 'jenkins:1234' | chpasswd #changeme

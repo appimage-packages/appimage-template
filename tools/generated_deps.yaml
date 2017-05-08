@@ -1,11 +1,8 @@
 --- !ruby/object:Set
 hash:
   extra-cmake-modules: true
-  kguiaddons: true
-  kconfigwidgets: true
-  kdoctools: true
   attica: true
-  kcompletion: true
+  karchive: true
   kiconthemes: true
   kbookmarks: true
   kjobwidgets: true
@@ -14,18 +11,21 @@ hash:
   kitemviews: true
   sonnet: true
   ktextwidgets: true
-  kglobalaccel: true
-  kwindowsystem: true
-  kxmlgui: true
-  kconfig: true
-  karchive: true
-  ki18n: true
-  kcrash: true
+  kcompletion: true
+  kguiaddons: true
+  kconfigwidgets: true
   kcodecs: true
-  kwidgetsaddons: true
-  kcoreaddons: true
+  kconfig: true
+  knewstuff: true
+  kdoctools: true
+  kwindowsystem: true
+  kcrash: true
   polkit-qt-1: true
   kauth: true
+  ki18n: true
+  kwidgetsaddons: true
   kdbusaddons: true
+  kglobalaccel: true
+  kxmlgui: true
   kservice: true
-  knewstuff: true
+  kcoreaddons: true

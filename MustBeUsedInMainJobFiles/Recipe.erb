@@ -25,12 +25,10 @@ wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./func
 rm -f functions.sh
 
 cd /app.Dir
-#Move binary/desktop/icon into AppDir
-mv /app.Dir/usr/bin/<%= binary %> .
-mv /app.Dir/usr/share/applications/org.kde.<%= binary %>.desktop <%= binary %>.desktop
-cp /app.Dir/usr/share/icons/hicolor/48x48/apps/*<%= name %>* .
-
-mkdir ./etc; cp /etc/mime.types $_
+if [ ! -d "/etc" ]; then
+  mkdir ./etc
+fi
+cp /etc/mime.types ./etc/
 
 cp -rfv /usr/share/mime ./usr/share/
 update-mime-database ./usr/share/mime
@@ -53,21 +51,31 @@ cp -rfv /opt/usr/lib/qt5/plugins/phonon4qt5_backend  ./plugins/
 cp /opt/usr/bin/gst* ./usr/bin/
 rm -rfv /opt/usr/lib/gstreamer-1.0/include
 cp /opt/usr/lib/gstreamer-1.0/* ./lib/
-cp /usr/lib/x86_64-linux-gnu/pulseaudio/*.so* ./lib/
+cp /opt/usr/lib/pulseaudio/*.so* ./lib/
 mv /opt/usr/libexec/gstreamer-1.0/* ./usr/bin || true
 
 rsync -aruxv --progress /opt/usr/resources/ ./usr/bin/
 rsync -aruxv --progress /opt/usr/translations/ ./usr/bin/
-
-mkdir ./lib
+mv /app.Dir/lib/* /opt/usr/lib/ || true
+mv /app.Dir/usr/lib/x86_64-linux-gnu/* /opt/usr/lib/ || true
 mv /opt/usr/libexec/Qt* ./usr/bin/ || true
 
+cd /
+wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+chmod +x linuxdeployqt-continuous-x86_64.AppImage
+./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
+mkdir appimagetool ; cd appimagetool
+../squashfs-root/usr/bin/appimagetool --appimage-extract
+cp -Rf squashfs-root/usr/bin/ ../squashfs-root/usr/
+cd ..
+rm -rf appimagetool/squashfs-root/{linuxdeployqt.svg,linuxdeployqt.desktop,AppRun,.DirIcon}
+mv squashfs-root/ linuxdeployqt
+# Call it with linuxdeployqt/usr/bin/linuxdeployqt ...
 unset LD_LIBRARY_PATH
-~/./linuxdeployqt-1-x86_64.AppImage <%= name %> -verbose=3 -bundle-non-qt-libs -qmldir=/opt/usr/qml
+linuxdeployqt/usr/bin/linuxdeployqt /app.Dir/usr/share/applications/org.kde.<%= binary %>.desktop -verbose=3 -bundle-non-qt-libs -qmldir=/opt/usr/qml
 
-patch_usr
 glibc_needed
-delete_blacklisted
+cd /app.Dir
 #Cleanup
 # We don't bundle the developer stuff
 rm -rf ./usr/include || true
@@ -99,11 +107,11 @@ rm -rf ./usr/share/gnupg || true
 rm -rf ./usr/share/gobject-introspection-1.0 || true
 rm -rf ./usr/share/util-macros || true
 find . -name '*.a' -exec rm {} \;
-strip -g $(find . -type f -exec) || true
+find . -type f -executable -exec strip {} \;
 find . -type f -exec file {} \; | grep "not stripped"
 #Add back libkrb5
 cp /usr/lib/x86_64-linux-gnu/libkrb5* ./lib/
-get_desktopintegration <%= name %>
+
 cd /source/
 rm -rfv appimage-exec-wrapper || true
 git clone git://anongit.kde.org/scratch/brauch/appimage-exec-wrapper
@@ -138,8 +146,7 @@ export QT_STYLE_OVERRIDE=
 
 EOF
 chmod +x AppRun
-mv <%= binary %> ./usr/bin/
-cp <%= binary %>.desktop ./usr/share/applications/
+
 cd ~
 
 

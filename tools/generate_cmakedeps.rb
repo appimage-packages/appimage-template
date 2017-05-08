@@ -24,7 +24,7 @@ require 'fileutils'
 require 'yaml'
 require 'set'
 
-@name = 'artikulate'
+@name = 'changeme'
 @url = 'http://anongit.kde.org/' + @name
 @base_dir = Dir.pwd + '/'
 @kf5 = []
@@ -130,7 +130,6 @@ end
 
 def self.generatekf5_buildorder(frameworks)
   buildorder = Set.new
-
   # get list of frameworks required in CMakeLists.txt
   list = get_kf5deps(frameworks)
   # Take that list and repeat for deps of those.
