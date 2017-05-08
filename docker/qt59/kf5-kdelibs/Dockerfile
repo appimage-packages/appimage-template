@@ -6,5 +6,7 @@ libx11-xcb-dev libcap-dev libxcb1-dev libxcb-keysyms1-dev libxcb-xtest0-dev libe
 libaspell-dev libhunspell-dev hspell libvoikko-dev bzip2 liblzma-dev media-player-info libavahi-common-dev libgamin-dev \
 libqrencode-dev libxtables10 libatm1 libdmtx-dev
 # KF5
+RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/kf5-kdelibs/kf5.sh
+RUN chown -R root:root kf5.sh
 ADD kf5.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x kf5.sh
