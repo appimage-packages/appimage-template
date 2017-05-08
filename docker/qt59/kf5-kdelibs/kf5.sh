@@ -1,12 +1,9 @@
 #!/bin/bash
 
-for package in extra-cmake-modules attica kconfig kwidgetsaddons karchive kcompletion kcoreaddons kcodecs kauth kwindowsystem kcrash \
-ki18n kdoctools kdbusaddons kglobalaccel kguiaddons kidletime kimageformats kitemmodels kjs kplotting syntax-highlighting \
-kconfigwidgets kitemviews kiconthemes sonnet kwayland prison threadweaver kcrash kdnssd kpty \
-kservice ktextwidgets kxmlgui kbookmarks solid kjobwidgets kio kinit kded phonon phonon-gstreamer knotifications kparts \
-kactivities kdesignerplugin kunitconversion kpackage kdeclarative kcmutils kdesu kwallet kdewebkit kemoticons kjsembed kmediaplayer \
-kde4libsupport knewstuff knotifications knotifyconfig kross ktexteditor framework-integration kapidox \
-khtml plasma-framework krunner
+for package in libkdegames kirigmi libbluedevil libkpeople libqapt libqgit2 networkmanager-qt purpose \
+libgravatar libkcddb libkcompactdisc libkdcraw libkdepim libkeduvocdocument libkexiv2 libkface libkgapi libkgeomap libkipi \
+libkleo libmahjongg libkomparediff2 libksane akonadi-calendar akonadi-calendar-tools akonadi-contacts akonadi-import-wizard \
+akonadi-mime akonadi-notes akonadi-search akonadiconsole akonadi pimcommon libksieve
 do
   git clone http://anongit.kde.org/$package
   cd $package
@@ -60,5 +57,3 @@ do
   cd ../..
   rm -rf $package
 done
-
-find . -type f -executable -exec strip {} \;
