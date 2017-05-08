@@ -3,18 +3,8 @@ binary: changeme
 packages:
   - zsync
   #app specifc
-build_kf5: true
-frameworks:
-  - extra-cmake-modules
-  - kwidgetsaddons
-  - kcoreaddons
-  - ki18n
-  - kdoctools
-  - kconfigwidgets
-  - kitemviews
-  - kiconthemes
-  - kcrash
-  - kxmlgui
+build_kf5: false
+frameworks: false
 deps_on_kf5: false
 type: git
 url: http://anongit.kde.org/changeme
