@@ -92,9 +92,9 @@ llvm-3.8-dev \
 mesa-common-dev \
 ml-lex \
 pkg-config \
-postgresql-9.4 \
-postgresql-contrib-9.4 \
-postgresql-server-dev-9.4 \
+postgresql \
+postgresql-contrib \
+postgresql-server-dev \
 publicsuffix \
 python-dev \
 software-properties-common \
