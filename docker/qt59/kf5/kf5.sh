@@ -61,4 +61,4 @@ do
   rm -rf $package
 done
 
-find . -type f -executable -exec strip {} \;
+find . -type f -executable -exec strip {} \; || true
