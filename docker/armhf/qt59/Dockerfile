@@ -209,6 +209,7 @@ ENV LD_LIBRARY_PATH /opt/usr/lib:/opt/usr/lib/gstreamer-1.0:/opt/usr/lib/x86_64-
 ENV PATH /opt/usr/bin:/root/.rbenv/bin:/root/.rbenv/shims:$PATH
 ENV PKG_CONFIG_PATH /opt/usr/lib/pkgconfig:/opt/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 ENV CXXFLAGS -std=c++11 -fPIC
+ENV CFLAGS -libgcrypt
 ENV CPATH /opt/usr/include/gstreamer-1.0:/opt/usr/include:/opt/usr/include/python3.5:$CPATH
 ENV SOURCES /source
 ENV QMAKE_CFLAGS_ISYSTEM ''
