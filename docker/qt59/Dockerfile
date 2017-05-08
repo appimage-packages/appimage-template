@@ -28,7 +28,6 @@ firebird-dev \
 flex \
 freeglut3-dev \
 freetds-dev \
-fuse \
 gdb \
 git \
 gperf \
@@ -107,9 +106,6 @@ x11proto-present-dev \
 yasm \
 zlib1g-dev \
 zsync
-
-# # Rebuild kernel, needed for fuse.
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install --reinstall linux-image-4.4.0-72
 
 ## Rebuild pam to allow su
 # Rebuild pam with --disable-audit flag
