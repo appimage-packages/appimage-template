@@ -10,8 +10,8 @@ kmymoney:
 skanlite:
   repo: https://github.com/appimage-packages/skanlite-packaging
   branch: [master]
-artikulate:
-  repo: https://github.com/appimage-packages/artikulate
+changeme:
+  repo: https://github.com/appimage-packages/changeme
   branch: [master]
 kstars:
   repo: https://github.com/appimage-packages/kstars
