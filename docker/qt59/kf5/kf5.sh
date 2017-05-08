@@ -1,4 +1,8 @@
 #!/bin/bash
+git clone https://github.com/libgit2/libgit2
+cd libgit2 && mkdir build && cd builld && \
+cmake .. -DCMAKE_INSTALL_PREFIX=/opt/usr
+cmake --build . --target install
 
 for package in extra-cmake-modules attica kconfig kwidgetsaddons karchive kcompletion kcoreaddons kcodecs kauth kwindowsystem kcrash \
 ki18n kdoctools kdbusaddons kglobalaccel kguiaddons kidletime kimageformats kitemmodels kjs kplotting syntax-highlighting \
