@@ -178,16 +178,16 @@ ENV QMAKE_CFLAGS_ISYSTEM ''
 ENV PYTHONPATH /opt/usr/lib/python3.5/site-packages:$PYTHONPATH
 
  # Install rbenv and ruby-build
-ADD ./Gemfile /Gemfile
+RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/Gemfile
+RUN chown -R root:root Gemfile
 RUN echo 'gem: --no-rdoc --no-ri' >> ~/.gemrc
 RUN git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 RUN git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-RUN rbenv install 2.3.1
+RUN rbenv install 2.4.1
 RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc && rbenv init -
-ADD Gemfile /home/jenkins/
 RUN cd ~ && rbenv local 2.3.1 && gem install bundler && bundle install --binstubs && bundle show rspec
 
-RUN https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/deps.sh
+RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/deps.sh
 RUN chown -R root:root deps.sh
 ADD deps.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x deps.sh
