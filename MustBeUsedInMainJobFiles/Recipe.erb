@@ -166,15 +166,9 @@ EOF
 chmod +x AppRun
 
 cd ~
-git clone https://github.com/KDE/changeme-data
-mv changeme-data/* /app.Dir/usr/share/changeme/
-mv /app.Dir/usr/share/changeme/skeletons .
-mv /app.Dir/usr/share/changeme/courses .
 
 #Appstream support for appimagetool
 rm -rfv /source/*
-
-
 
 #Re set LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/opt/usr/lib:/opt/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/lib64:/lib
