@@ -53,7 +53,10 @@ fi
 cp -rfv /opt/usr/lib/qt5/plugins/phonon4qt5_backend  ./plugins/
 cp /opt/usr/bin/gst* ./usr/bin/
 rm -rfv /opt/usr/lib/gstreamer-1.0/include
-mv /opt/usr/lib/gstreamer-1.0 ./lib/
+if [ ! -d "./usr/lib" ]; then
+  mkdir ./usr/lib
+fi
+mv /opt/usr/lib/gstreamer-1.0/* ./usr/lib/
 cp /opt/usr/lib/pulseaudio/*.so* ./lib/
 mv /opt/usr/libexec/gstreamer-1.0/* ./usr/bin/ || true
 
@@ -138,7 +141,7 @@ cp -v exec.so /app.Dir//exec_wrapper.so
 rm -rfv  /app/src/appimage-exec-wrapper
 
 cd /app.Dir/
-cp /app.Dir/usr/share/icons/hicolor/scalable/apps/<%= binary %>.svg .
+cp /app.Dir/usr/share/icons/hicolor/48x48/apps/<%= binary %>.png .
 
 rm AppRun
 #Create AppRun
