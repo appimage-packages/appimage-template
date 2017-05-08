@@ -6,7 +6,7 @@ kconfigwidgets kitemviews kiconthemes sonnet kwayland prison threadweaver kcrash
 kservice ktextwidgets kxmlgui kbookmarks solid kjobwidgets phonon phonon-gstreamer knotifications kwallet kio kinit kded kparts \
 kactivities kdesignerplugin kunitconversion kpackage kdeclarative kcmutils kdesu  kdewebkit kemoticons kjsembed kmediaplayer \
 kde4libsupport knewstuff knotifications knotifyconfig kross ktexteditor framework-integration kapidox \
-khtml plasma-framework krunner
+khtml plasma-framework kdecoration krunner
 do
   git clone http://anongit.kde.org/$package
   cd $package
