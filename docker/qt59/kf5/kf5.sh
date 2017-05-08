@@ -3,8 +3,8 @@
 for package in extra-cmake-modules attica kconfig kwidgetsaddons karchive kcompletion kcoreaddons kcodecs kauth kwindowsystem kcrash \
 ki18n kdoctools kdbusaddons kglobalaccel kguiaddons kidletime kimageformats kitemmodels kjs kplotting syntax-highlighting \
 kconfigwidgets kitemviews kiconthemes sonnet kwayland prison threadweaver kcrash kdnssd kpty \
-kservice ktextwidgets kxmlgui kbookmarks solid kjobwidgets kio kinit kded phonon phonon-gstreamer knotifications kparts \
-kactivities kdesignerplugin kunitconversion kpackage kdeclarative kcmutils kdesu kwallet kdewebkit kemoticons kjsembed kmediaplayer \
+kservice ktextwidgets kxmlgui kbookmarks solid kjobwidgets phonon phonon-gstreamer knotifications kwallet kio kinit kded kparts \
+kactivities kdesignerplugin kunitconversion kpackage kdeclarative kcmutils kdesu  kdewebkit kemoticons kjsembed kmediaplayer \
 kde4libsupport knewstuff knotifications knotifyconfig kross ktexteditor framework-integration kapidox \
 khtml plasma-framework krunner
 do

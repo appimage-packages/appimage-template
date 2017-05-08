@@ -183,7 +183,8 @@ cd $SOURCES/cups-1.7.5 && aclocal -I config-scripts && autoconf -I config-script
 rm -rfv $SOURCES/cups-1.7.5 && rm $SOURCES/cups-1.7.5-source.tar.bz2
 
 # Newer xlibs
-RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/Xlibs.sh && chown root:root Xlibs.sh
+RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/Xlibs.sh
+RUN chown -R root:root Xlibs.sh
 ADD Xlibs.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x Xlibs.sh
 
@@ -270,15 +271,18 @@ RUN pip3 install Sphinx clang PyOpenGL PyOpenGL_accelerate
 ENV PYTHONPATH /opt/usr/lib/python3.5/site-packages:$PYTHONPATH
 
 #FFMPEG deps
-RUN https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/x264.sh && chown root:root x264.sh
+RUN https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/x264.sh
+RUN chown -R root:root x264.sh
 ADD x264.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x x264.sh
-RUN https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/x265.sh && chown root:root x265.sh
+RUN https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/x265.sh
+RUN chown -R root:root x265.sh
 ADD x265.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x x265.sh
 
 #FFMPEG non existant in trusty
 RUN https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/ffmpeg.sh && chown root:root ffmpeg.sh
+RUN chown -R root:root ffmpeg.sh
 ADD ffmpeg.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x ffmpeg.sh
 
@@ -294,6 +298,7 @@ cd $SOURCES/gst-plugins-good-1.10.4 && ./configure --prefix=/opt/usr --enable-sh
 # # Build Qt5 from git and install to /opt/usr ( developer buid )
 RUN sudo apt-get -y remove 'qt.*'
 RUN https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/qt5.sh && chown root:root qt5.sh
+RUN chown -R root:root qt5.sh
 ADD qt5.sh $SOURCES/
 RUN cd $SOURCES && /bin/bash -x qt5.sh
 RUN git clone http://code.qt.io/qt/qtwebkit.git && cd qtwebkit && git checkout 5.9 && \
