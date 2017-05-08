@@ -89,11 +89,9 @@ lldb-3.8 \
 llvm-3.8 \
 llvm-3.8-dev \
 mesa-common-dev \
-ml-lex \
 pkg-config \
 postgresql \
 postgresql-contrib \
-postgresql-server-dev \
 publicsuffix \
 python-dev \
 software-properties-common \
