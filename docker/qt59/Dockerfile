@@ -189,14 +189,14 @@ RUN cd ~ && rbenv local 2.4.1 && gem install bundler && bundle install --binstub
 
 RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/deps.sh
 RUN chown -R root:root deps.sh
-RUN cd $SOURCES && /bin/bash -x deps.sh
+RUN /bin/bash -x deps.sh && rm deps.sh
 
 # # Build Qt5 from git and install to /opt/usr ( developer buid )
 RUN sudo apt-get -y remove 'qt.*'
 RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/qt5.sh && chown root:root qt5.sh
 RUN chown -R root:root qt5.sh
-RUN cd $SOURCES && /bin/bash -x qt5.sh
+RUN /bin/bash -x qt5.sh && rm qt5.sh
 RUN wget https://raw.githubusercontent.com/appimage-packages/appimage-template/master/docker/qt59/qt5deps.sh && chown root:root qt5deps.sh
 RUN chown -R root:root qt5deps.sh
-RUN cd $SOURCES && /bin/bash -x qt5deps.sh
+RUN  /bin/bash -x qt5deps.sh && rm qt5deps.sh
 RUN find . -type f -executable -exec strip {} \;
