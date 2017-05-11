@@ -56,7 +56,7 @@ class CI
     workspace = system('pwd')
     p workspace
     @c = Docker::Container.create(
-      'Image' => 'sgclark/trusty-qt580',
+      'Image' => 'sgclark/trusty-qt59',
       'Cmd' => @cmd,
       'Volumes' => {
         '/in' => {},
